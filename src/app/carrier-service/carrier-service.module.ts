@@ -8,7 +8,6 @@ import { Carrier } from './carrier-service.entity';
 import { CarrierRepository } from './carrier-service.repository';
 import { AuthModule } from '../common/auth/auth.module';
 import { SoapModule } from '../soap/soap.module';
-import { SoapService } from '../soap/soap.service';
 
 @Module({
     imports: [  

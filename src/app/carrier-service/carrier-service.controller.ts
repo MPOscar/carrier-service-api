@@ -28,7 +28,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping';
-const forwardingAddress = 'http://cdf3f40c.ngrok.io/api/v1';
+const forwardingAddress = 'http://b9488535.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -37,7 +37,7 @@ export class CarrierController {
     constructor(
         private readonly carrierService: CarrierService,
         private readonly httpService: HttpService,
-        private readonly soapService: SoapService
+        private readonly soapService: SoapService,
     ) { }
 
     @Post()
@@ -73,35 +73,28 @@ export class CarrierController {
 
                 const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
                 const apiRequestHeader = {
-                    "X-Shopify-Access-Token": accessToken
+                    "X-Shopify-Access-Token": accessToken,
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 }
                 const data = {
                     "carrier_service": {
-                        "name": "Endertech Carrier Demo",
-                        "callback_url": "http:\/\/91be4b05.ngrok.io/api/v1/carrier-service",
+                        "name": "Correos Chile",
+                        "callback_url": forwardingAddress + "/carrier-service",
                         "service_discovery": true
                     }
                 }
-                request.post(apiRequestUrl, { json: data })
+                return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
                     .then((accessTokenResponce) => {
-                        const accessToken = accessTokenResponce.access_token;
-
-                        const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
-                        const apiRequestHeader = {
-                            "X-Shopify-Access-Token": accessToken
-                        }
-                        const data = {
-                            "carrier_service": {
-                                "name": "Endertech Carrier Demo",
-                                "callback_url": "http:\/\/91be4b05.ngrok.io/api/v1/carrier-service",
-                                "service_discovery": true
-                            }
-                        }
-
-                        return accessToken;
+                        console.log(data);
                     })
-
-                return accessToken;
+                /*this.httpService.post(apiRequestUrl, {}, { headers:  apiRequestHeader })
+                    .pipe(
+                        map(response => {
+                            console.log(response.data);
+                            return accessToken
+                        })
+                    );*/
             })
 
         /* return this.httpService.post(accessTokenRequestUrl, accessTokenPayload)
@@ -209,5 +202,4 @@ export class CarrierController {
     async getREgions(@Query() query: any, @Response() response: express.Response) {
        this.soapService.getRegions();
     }
-
 }

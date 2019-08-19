@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as Joi from 'joi';
-import { join } from 'path';
 
 export interface EnvConfig {
     [key: string]: string;
