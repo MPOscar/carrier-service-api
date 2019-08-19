@@ -46,6 +46,7 @@
     "request-promise": "^4.2.4",
     "rimraf": "2.6.3",
     "rxjs": "6.4.0",
+    "soap": "^0.29.0",
     "typeorm": "^0.2.15"
   },
   "devDependencies": {

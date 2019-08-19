@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as Joi from 'joi';
+import { join } from 'path';
 
 export interface EnvConfig {
     [key: string]: string;
@@ -27,6 +28,8 @@ export class ConfigService {
             JWT_EXPIRES_IN: Joi.number().default(3600),
             SHOPIFY_API_KEY: Joi.string(),
             SHOPIFY_API_SECRET_KEY: Joi.string(),
+            SOAP_USER: Joi.string(),
+            SOAP_PASSWORD: Joi.string(),
 
             DATABASE_HOST: Joi.string(),
             DATABASE_PORT: Joi.number().default(5432),

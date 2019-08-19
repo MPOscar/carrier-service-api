@@ -20,6 +20,7 @@ import * as express from 'express';
 //
 
 import { ConfigService } from '../common/config/config.service';
+import { SoapService } from '../soap/soap.service';
 const configService = new ConfigService();
 const request = require('request-promise');
 const nonce = require('nonce')();
@@ -36,6 +37,7 @@ export class CarrierController {
     constructor(
         private readonly carrierService: CarrierService,
         private readonly httpService: HttpService,
+        private readonly soapService: SoapService
     ) { }
 
     @Post()
@@ -202,4 +204,10 @@ export class CarrierController {
             updatedAt: carrier.updatedAt,
         };
     }
+
+    @Get('regions')
+    async getREgions(@Query() query: any, @Response() response: express.Response) {
+       this.soapService.getRegions();
+    }
+
 }
