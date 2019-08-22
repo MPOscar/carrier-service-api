@@ -10,12 +10,12 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { User } from '../user/user.entity';
 //
-import { Carrier } from './carrier-service.entity';
-import { CarrierService } from './carrier-service.service';
-import { CreateCarrierDto } from './dto/create-carrier-service.dto';
-import { FilterCarrierDto } from './dto/filter-carrier-service.dto';
-import { UpdateCarrierDto } from './dto/update-carrier-service.dto';
-import { ICarrier } from './interfaces/carrier-service.interface';
+import { Order } from './order.entity';
+import { OrderService } from './order.service';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { FilterOrderDto } from './dto/filter-carrier-service.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
+import { IOrder } from './interfaces/order.interface';
 import * as express from 'express';
 //
 
@@ -26,24 +26,31 @@ const nonce = require('nonce')();
 
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
-const scopes = 'write_shipping, read_orders';
-const forwardingAddress = 'https://8d9e5dab.ngrok.io/api/v1';
+const scopes = 'write_shipping, read_order';
+const forwardingAddress = 'http://8d9e5dab.ngrok.io/api/v1';
 
-@Controller('carrier-service')
+@Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
-export class CarrierController {
+export class OrderController {
 
     constructor(
-        private readonly carrierService: CarrierService,
+        private readonly carrierService: OrderService,
         private readonly httpService: HttpService,
     ) { }
 
-    @Post()
+    @Post("order-create")
     @UsePipes(new ValidationPipe())
-    async create(@Body() createCarrierDto: any) {
-        console.log(createCarrierDto)
-        console.log(createCarrierDto.rate.items)
-       
+    async create(@Body() createOrderDto: any) {
+        console.log(createOrderDto)
+        console.log(createOrderDto.items)
+        //return this.carrierService.getQuotes();
+        /*return this.carrierService.create(createOrderDto)
+            .then((carrier: Order) => {
+                return this.getIOrder(carrier);
+            })
+            .catch((error: ErrorResult) => {
+                return ErrorManager.manageErrorResult(error);
+            });*/
         return {
             rates: [{
                 'service_name': 'Endertech Overnight',
@@ -78,17 +85,15 @@ export class CarrierController {
         }
 
         return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-            .then((response) => {
-                const accessToken = response.access_token;
+            .then((accessTokenResponce) => {
+                const accessToken = accessTokenResponce.access_token;
 
                 const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
-
                 const apiRequestHeader = {
                     "X-Shopify-Access-Token": accessToken,
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 }
-
                 const data = {
                     "carrier_service": {
                         "name": "Correos Chile",
@@ -96,46 +101,48 @@ export class CarrierController {
                         "service_discovery": true
                     }
                 }
-
-                const apiRequestUrlWebhook = 'https://' + shop + '/admin/webhooks';
-
-                const apiRequestHeaderWebhook = {
-                    "X-Shopify-Access-Token": accessToken,
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "X-Shopify-Topic": "orders/create",
-                    "X-Shopify-Hmac-Sha256": "XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=",
-                    "X-Shopify-Shop-Domain": shop,
-                    "X-Shopify-API-Version": "2019-04"
-                }
-
-                const dataWebhook = {
-                    "webhook": {
-                        "topic": "orders/create",
-                        "address": forwardingAddress + "/webhook/orders-create",
-                        "format": "json"
-                    }
-                }
-
-                console.log(accessToken);
-
                 return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
-                    .then((response) => {
-                        console.log(response);
-                        return request.post(apiRequestUrlWebhook, { json: dataWebhook, headers: apiRequestHeaderWebhook })
-                            .then((response) => {
-                                console.log(response);
-                            })
-                    });               
+                    .then((accessTokenResponce) => {
+                        console.log(accessTokenResponce);
+                        console.log(data);
+                    })
+                /*this.httpService.post(apiRequestUrl, {}, { headers:  apiRequestHeader })
+                    .pipe(
+                        map(response => {
+                            console.log(response.data);
+                            return accessToken
+                        })
+                    );*/
             })
+
+        /* return this.httpService.post(accessTokenRequestUrl, accessTokenPayload)
+             .pipe(               
+                 map(response => {
+                    return response.data.access_token;
+                 })
+             );*/
+
+        /*return this.httpService.post(accessTokenRequestUrl,{json: accessTokenPayload})
+            .pipe(
+                map(response => {
+                    console.log(response.data);
+                })
+            );
+        /*return this.carrierService.create(createOrderDto)
+            .then((carrier: Order) => {
+                return this.getIOrder(carrier);
+            })
+            .catch((error: ErrorResult) => {
+                return ErrorManager.manageErrorResult(error);
+            });*/
     }
 
     @Put(':id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
-    async update(@Param('id') id: string, @Body() carrier: UpdateCarrierDto) {
+    async update(@Param('id') id: string, @Body() carrier: UpdateOrderDto) {
         return this.carrierService.update(id, carrier)
-            .then((carrier: Carrier) => {
-                return this.getICarrier(carrier);
+            .then((carrier: Order) => {
+                return this.getIOrder(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -143,7 +150,7 @@ export class CarrierController {
     }
 
     @Get()
-    async getCarrier(@Query() query: any, @Response() response: express.Response) {
+    async getOrder(@Query() query: any, @Response() response: express.Response) {
         let shop = query.shop;
         if (shop) {
             const state = nonce();
@@ -158,9 +165,9 @@ export class CarrierController {
             console.log('please add a valid shop parameter');
         }
 
-        /*return this.carrierService.getCarrier(id)
-            .then((carrier: Carrier) => {
-                return this.getICarrier(carrier);
+        /*return this.carrierService.getOrder(id)
+            .then((carrier: Order) => {
+                return this.getIOrder(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -168,11 +175,11 @@ export class CarrierController {
     }
 
     /*@Get()
-    getCompanies(@GetUser() user: User, @Query() filter: FilterCarrierDto) {
+    getCompanies(@GetUser() user: User, @Query() filter: FilterOrderDto) {
         return this.carrierService.getCompanies(user, filter)
-            .then((companies: Carrier[]) => {
-                return companies.map((carrier: Carrier) => {
-                    return this.getICarrier(carrier);
+            .then((companies: Order[]) => {
+                return companies.map((carrier: Order) => {
+                    return this.getIOrder(carrier);
                 });
             })
             .catch((error: ErrorResult) => {
@@ -184,15 +191,15 @@ export class CarrierController {
     @Delete(':id')
     delete(@Param('id') id: string) {
         return this.carrierService.delete(id)
-            .then((carrier: Carrier) => {
-                return this.getICarrier(carrier);
+            .then((carrier: Order) => {
+                return this.getIOrder(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });
     }
 
-    getICarrier(carrier: Carrier): ICarrier {
+    getIOrder(carrier: Order): IOrder {
         return {
             id: carrier.id,
             name: carrier.name,
