@@ -28,7 +28,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping';
-const forwardingAddress = 'http://b9488535.ngrok.io/api/v1';
+const forwardingAddress = 'http://57353717.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -44,6 +44,7 @@ export class CarrierController {
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: any) {
         console.log(createCarrierDto)
+        console.log("ITEMS => " + JSON.stringify(createCarrierDto.rate.items))
         return this.carrierService.getQuotes();
         /*return this.carrierService.create(createCarrierDto)
             .then((carrier: Carrier) => {
@@ -70,7 +71,7 @@ export class CarrierController {
         return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
             .then((accessTokenResponce) => {
                 const accessToken = accessTokenResponce.access_token;
-
+                console.log("TOKEEENNN => " + accessToken);
                 const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
                 const apiRequestHeader = {
                     "X-Shopify-Access-Token": accessToken,
