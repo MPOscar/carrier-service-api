@@ -29,7 +29,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_orders';
-const forwardingAddress = 'https://aa5de269.ngrok.io/api/v1';
+const forwardingAddress = 'https://0c647c6f.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -48,26 +48,26 @@ export class CarrierController {
         console.log(createCarrierDto.items)
 
         // TODO: Interfaces and Dto stuff
-        return this.soapService.getServiceCost(createCarrierDto);
-       
-        // return {
-        //     rates: [{
-        //         'service_name': 'Endertech Overnight',
-        //         'service_code': 'ETON',
-        //         'total_price': 50,
-        //         'currency': 'USD',
-        //         'min_delivery_date': '2019-08-20T18:26:28.158Z',
-        //         'max_delivery_date': '2019-08-20T18:26:28.158Z'
-        //     },
-        //     {
-        //         'service_name': 'Endertech Regular',
-        //         'service_code': 'ETREG',
-        //         'total_price': 100,
-        //         'currency': 'USD',
-        //         'min_delivery_date': '2019-08-20T18:26:28.158Z',
-        //         'max_delivery_date': '2019-08-20T18:26:28.158Z'
-        //     }]
-        // }
+        // let result = this.soapService.getServiceCost(createCarrierDto);
+        // return result;
+        return {
+            rates: [{
+                'service_name': 'Endertech Overnight',
+                'service_code': 'ETON',
+                'total_price': 50,
+                'currency': 'USD',
+                'min_delivery_date': '2019-08-20T18:26:28.158Z',
+                'max_delivery_date': '2019-08-20T18:26:28.158Z'
+            },
+            {
+                'service_name': 'Endertech Regular',
+                'service_code': 'ETREG',
+                'total_price': 100,
+                'currency': 'USD',
+                'min_delivery_date': '2019-08-20T18:26:28.158Z',
+                'max_delivery_date': '2019-08-20T18:26:28.158Z'
+            }]
+        }
     }
 
     @Get('callback')

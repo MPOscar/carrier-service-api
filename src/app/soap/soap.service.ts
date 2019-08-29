@@ -38,6 +38,7 @@ export class SoapService {
 
     // TODO: Interfaces and Dto stuff... using types
     getServiceCost(ratesDto: ShopifyRateDto): any{
+        console.log("SOAAAAPPPP");
         const url = "http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl"
         const args = {
 
