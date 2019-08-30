@@ -27,7 +27,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags';
-const forwardingAddress = 'https://544f80c4.ngrok.io/api/v1';
+const forwardingAddress = 'https://ceeb879f.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
