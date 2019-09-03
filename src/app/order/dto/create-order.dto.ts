@@ -1,45 +1,168 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
 export class CreateOrderDto {
-    
-    @IsString()
+
     readonly order_id?: number;
 
-    @IsString()
-    readonly status?: string;
+    readonly id: number;
 
-    @IsString()
-    readonly service?: string;
+    readonly email: string;
 
-    @IsString()
-    readonly tracking_company?: string;
+    readonly number: number;
 
-    @IsString()
-    readonly shipment_status?: string;
-    
-    @IsString()
-    readonly location_id?: string;
+    readonly note: null;
 
-    @IsString()
-    readonly email?: string;
+    readonly token: string;
 
-    @IsString()
-    readonly tracking_number?: string;
+    readonly gateway: string;
 
-    @IsString()
-    readonly tracking_numbers?: string;
+    readonly test: boolean;
 
-    @IsString()
-    readonly tracking_url?: string;
+    readonly total_price: string;
 
-    @IsString()
-    readonly tracking_urls?: string;
+    readonly subtotal_price: string;
 
-    @IsString()
-    readonly name?: string;
+    readonly total_weight: number;
 
-    readonly created_at?: Date;
+    readonly total_tax: string;
 
-    readonly updated_at?: Date;
+    readonly taxes_included: boolean;
+
+    readonly currency: string;
+
+    readonly financial_status: string;
+
+    readonly confirmed: boolean;
+
+    readonly total_discounts: string;
+
+    readonly total_line_items_price: string;
+
+    readonly cart_token: string;
+
+    readonly buyer_accepts_marketing: boolean;
+
+    readonly name: string;
+
+    readonly referring_site: string;
+
+    readonly closed_at: Date;
+
+    //readonly shipping_lines: ShippingLines[]
+
+    //readonly custome: Customer;
+
+}
+
+export class ShippingLines {
+
+    readonly id: number;
+
+    readonly title: string;
+
+    readonly price: string;
+
+    readonly code: string;
+
+    readonly source: string;
+
+    readonly phone: string;
+
+    readonly requested_fulfillment_service_id: string;
+
+    readonly delivery_category: string;
+
+    readonly carrier_identifier: string;
+
+    readonly discounted_price: string;
+
+}
+
+
+export class Customer {
+
+    id: number;
+
+    email: string;
+
+    accepts_marketing: boolean;
+
+    created_at: Date;
+
+    updated_at: Date;
+
+    first_name: string;
+
+    last_name: string;
+
+    orders_count: number;
+
+    state: string;
+
+    total_spent: string;
+
+    last_order_id: number;
+
+    note: string;
+
+    verified_email: boolean;
+
+    multipass_identifier: string;
+
+    tax_exempt: boolean;
+
+    phone: string;
+
+    tags: string;
+
+    last_order_name: string;
+
+    currency: string;
+
+    accepts_marketing_updated_at: Date;
+
+    marketing_opt_in_level: string;
+
+    admin_graphql_api_id: string;
+
+    default_address: DefaultAddress
+
+}
+
+export class DefaultAddress {
+
+    id: number;
+
+    customer_id: number;
+
+    first_name: string;
+
+    last_name: string;
+
+    company: string;
+
+    address1: string;
+
+    address2: string;
+
+    city: string;
+
+    province: string;
+
+    country: string;
+
+    zip: string;
+
+    phone: string;
+
+    name: string;
+
+    province_code: string;
+
+    country_code: string;
+
+    country_name: string;
+
+    default: boolean;
 
 }

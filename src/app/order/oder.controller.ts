@@ -8,8 +8,10 @@ import {
     Param,
     Delete,
     UsePipes,
+    Req
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -24,14 +26,15 @@ import { ErrorManager } from '../common/error-manager/error-manager';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
 
-@Controller('orders')
-@UseGuards(AuthGuard(), RolesGuard)
+@Controller('webhook')
+//@UseGuards(AuthGuard(), RolesGuard)
 export class OrderController {
 
     constructor(private readonly orderService: OrderService) { }
 
-    @Post()
-    async create(@Body() order: CreateOrderDto) {
+    @Post('orders-create')
+    async create(@Req() request: Request, @Body() order: CreateOrderDto) {
+        console.log(request.headers['x-shopify-shop-domain']);
         return this.orderService.create(order)
             .then((order: Order) => {
                 return this.getIOrder(order);
@@ -41,7 +44,7 @@ export class OrderController {
             });
     }
 
-    @Put(':id')    
+    @Put(':id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() order: UpdateOrderDto) {
         return this.orderService.update(id, order)
@@ -64,9 +67,9 @@ export class OrderController {
             });
     }
 
-    @Get()    
+    @Get()
     async getOrders(@GetUser() user: User) {
-        return this.orderService.getOrders(user) 
+        return this.orderService.getOrders(user)
             .then((orders: Order[]) => {
                 return orders.map((order: Order) => {
                     return this.getIOrder(order);
@@ -77,7 +80,7 @@ export class OrderController {
             });
     }
 
-    @Delete(':id')    
+    @Delete(':id')
     async delete(@Param('id') id: string) {
         return this.orderService.delete(id)
             .then((order: Order) => {
@@ -90,7 +93,7 @@ export class OrderController {
 
     getIOrder(order: Order): IOrder {
         return {
-            id: order.id,            
+            id: order.id,
         };
     }
 }

@@ -26,8 +26,8 @@ const nonce = require('nonce')();
 
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
-const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags';
-const forwardingAddress = 'https://544f80c4.ngrok.io/api/v1';
+const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
+const forwardingAddress = 'https://0ce1ea56.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -41,8 +41,8 @@ export class CarrierController {
     @Post()
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: any) {
-        console.log(createCarrierDto)
-        console.log(createCarrierDto.rate.items)
+        //console.log(createCarrierDto)
+        //console.log(createCarrierDto.rate.items)
        
         return {
             rates: [{
@@ -103,7 +103,7 @@ export class CarrierController {
                     "X-Shopify-Access-Token": accessToken,
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "X-Shopify-Topic": "fulfillments/create",
+                    "X-Shopify-Topic": "orders/create",
                     "X-Shopify-Hmac-Sha256": "XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=",
                     "X-Shopify-Shop-Domain": shop,
                     "X-Shopify-API-Version": "2019-04"
@@ -111,7 +111,7 @@ export class CarrierController {
 
                 const dataWebhook = {
                     "webhook": {
-                        "topic": "fulfillments/create",
+                        "topic": "orders/create",
                         "address": forwardingAddress + "/webhook/orders-create",
                         "format": "json"
                     }

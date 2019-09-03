@@ -27,7 +27,7 @@ export interface IUser {
     
     readonly zip?: string;
     
-    readonly shopName?: string;
+    readonly shopUrl?: string;
     
     readonly userApiChile?: string;
     

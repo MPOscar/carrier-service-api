@@ -15,7 +15,7 @@ export class User {
     @Column({ length: 50 })
     firstName: string;
 
-    @Column()
+    @Column({nullable: true})
     language: string;
     
     @Column({nullable: true})
@@ -46,7 +46,7 @@ export class User {
     zip: string;
 
     @Column()
-    shopName: string;
+    shopUrl: string;
 
     @Column()
     userApiChile: string;

@@ -38,7 +38,7 @@ export class CreateUserDto {
     zip: string;
 
     @IsString()
-    shopName: string;
+    shopUrl: string;
 
     @IsString()
     userApiChile: string;

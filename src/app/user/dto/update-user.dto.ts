@@ -37,11 +37,8 @@ export class UpdateUserDto {
     @IsString()
     zip: string;
 
-    @IsString()
-    @IsByteLength(1, 100, {
-        message: "Invalid First Name length"
-    })
-    shopName: string;
+    @IsString()    
+    shopUrl: string;
 
     @IsString()
     userApiChile: string;

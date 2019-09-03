@@ -21,6 +21,7 @@ export class OrderService {
     ) { }
 
     async create(orderDto: CreateOrderDto): Promise<Order> {
+        console.log(orderDto);
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
 
             this.orderRepository.createOrder(orderDto).then((order: Order) => {

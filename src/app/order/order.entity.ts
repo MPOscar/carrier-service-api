@@ -9,52 +9,75 @@ export class Order {
 
   @Column()
   order_id: number;
-  
-  @Column()
-  status: string;
-  
-  @Column()
-  created_at: Date;
-  
-  @Column()
-  service: string;
-  
-  @Column()
-  updated_at: Date;
-  
-  @Column()
-  tracking_company: string;
-  
-  @Column()
-  shipment_status: string;
-  
-  @Column()
-  location_id: string;
-  
+
   @Column()
   email: string;
-  
+
   @Column()
-  tracking_number: string;
-  
+  number: number;
+
+  note: string;
+
   @Column()
-  tracking_numbers: string;
-  
+  token: string;
+
   @Column()
-  tracking_url: string;
-  
+  gateway: string;
+
   @Column()
-  tracking_urls: string;  
-  
+  test: boolean;
+
+  @Column()
+  total_price: string;
+
+  @Column()
+  subtotal_price: string;
+
+  @Column()
+  total_weight: number;
+
+  @Column()
+  total_tax: string;
+
+  @Column()
+  taxes_included: boolean;
+
+  @Column()
+  currency: string;
+
+  @Column()
+  financial_status: string;
+
+  @Column()
+  confirmed: boolean;
+
+  @Column()
+  total_discounts: string;
+
+  @Column()
+  total_line_items_price: string;
+
+  @Column()
+  cart_token: string;
+
+  @Column()
+  buyer_accepts_marketing: boolean;
+
   @Column()
   name: string;
 
   @Column()
-  createdAt?: Date;
+  referring_site: string;
 
   @Column()
-  updatedAt?: Date;
-  
+  closed_at: Date;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
+
   @ManyToOne(type => User)
   @JoinColumn({ name: "user_id", referencedColumnName: 'id' })
   user: User;

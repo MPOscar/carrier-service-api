@@ -104,7 +104,7 @@ export class UserController {
             comuna: user.comuna,       
             address: user.address,       
             zip: user.zip,       
-            shopName: user.shopName,       
+            shopUrl: user.shopUrl,       
             userApiChile: user.userApiChile,       
             passwordApiChile: user.passwordApiChile,       
             idApiChile: user.idApiChile,
