@@ -9,10 +9,10 @@ export class User {
     @Column({ default: false })
     isDeleted?: boolean;
 
-    @Column()
+    @Column({nullable: true})
     email: string;
 
-    @Column({ length: 50 })
+    @Column({nullable: true})
     firstName: string;
 
     @Column({nullable: true})
@@ -21,40 +21,40 @@ export class User {
     @Column({nullable: true})
     lastLogin?: Date;
     
-    @Column({ length: 50 })
+    @Column({nullable: true})
     lastName: string;
     
-    @Column()
+    @Column({nullable: true})
     password: string;
 
-    @Column()
+    @Column({nullable: true})
     phone: string;
   
     @Column({nullable: true})
     verificationCode: string;
 
-    @Column({ length: 50 })
+    @Column({nullable: true})
     region: string;
     
-    @Column()
+    @Column({nullable: true})
     comuna: string;
 
-    @Column()
+    @Column({nullable: true})
     address: string;
 
-    @Column()
+    @Column({nullable: true})
     zip: string;
 
     @Column({nullable: true})
     shopUrl: string;
 
-    @Column()
+    @Column({nullable: true})
     userApiChile: string;
 
-    @Column()
+    @Column({nullable: true})
     passwordApiChile: string;
 
-    @Column()
+    @Column({nullable: true})
     idApiChile: string;
 
     @Column()

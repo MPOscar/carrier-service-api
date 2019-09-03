@@ -81,7 +81,7 @@ export class UserRepository extends Repository<User> {
     getUserByEmail(shop: string) {
         return this.createQueryBuilder("user")
             .select()
-            .where("user.shopName = :shop", { shop })
+            .where("user.shopUrl = :shop", { shop })
             .andWhere("user.isDeleted = false")
             .getOne();
     }
