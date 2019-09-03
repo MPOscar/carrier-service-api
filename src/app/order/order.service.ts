@@ -1,6 +1,4 @@
-import { Injectable, HttpService } from '@nestjs/common';
-import { map } from 'rxjs/operators';
-
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Order } from './order.entity';
@@ -12,24 +10,22 @@ import { ErrorCode } from '../common/error-manager/error-codes';
 import { User } from '../user/user.entity';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { FilterOrderDto } from './dto/filter-carrier-service.dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()
 export class OrderService {
     constructor(
-        //@InjectRepository(Order)  
-        private readonly httpService: HttpService,
-        private readonly OrderRepository: OrderRepository,
+        @InjectRepository(Order)
+        private readonly orderRepository: OrderRepository,
         private readonly userService: UserService,
     ) { }
 
-    async create(OrderDto: CreateOrderDto): Promise<Order> {
+    async create(orderDto: CreateOrderDto): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
 
-            this.OrderRepository.createOrder(OrderDto).then((Order: Order) => {
-                resolve(Order);
-                /*this.userService.create(Order.id).then((user: User) => {
+            this.orderRepository.createOrder(orderDto).then((order: Order) => {
+                resolve(order);
+                /*this.userService.create(order.id).then((user: User) => {
                 }).catch((error) => {
                     reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
                 });*/
@@ -40,29 +36,15 @@ export class OrderService {
         });
     }
 
-    getQuotes() {
-        return this.httpService.get('http://quotesondesign.com/wp-json/posts')
-            .pipe(
-                map(response => response.data)
-            );
-    }
-
-    getAcccesToken(accessTokenRequestUrl: string, accessTokenPayload: any) {
-        return this.httpService.post(accessTokenRequestUrl, accessTokenPayload)
-            .pipe(
-                map(response => response.data)
-            );
-    }
-
-    update(id: string, OrderDto: UpdateOrderDto): Promise<Order> {
+    update(id: string, orderDto: UpdateOrderDto): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-            this.OrderRepository.getOrder(id).then((Order: Order) => {
-                if (!Order) {
-                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no Order with the specified ID!'));
+            this.orderRepository.getOrder(id).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;
                 }
-                this.OrderRepository.updateOrder(id, OrderDto).then((Order: Order) => {
-                    resolve(Order);
+                this.orderRepository.updateOrder(id, orderDto).then((order: Order) => {
+                    resolve(order);
                 }).catch((error) => {
                     reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
                 });
@@ -74,21 +56,21 @@ export class OrderService {
 
     async getOrder(id: string): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-            this.OrderRepository.getOrder(id).then((Order: Order) => {
-                if (!Order) {
-                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no Order with the specified ID!'));
+            this.orderRepository.getOrder(id).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;
                 }
-                resolve(Order);
+                resolve(order);
             }).catch((error) => {
                 reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
             });
         });
     }
 
-    getCompanies(user: User, filter: FilterOrderDto): Promise<Order[]> {
+    getOrders(user: User): Promise<Order[]> {
         return new Promise((resolve: (result: Order[]) => void, reject: (reason: ErrorResult) => void): void => {
-            this.OrderRepository.getCompanies(user, filter).then((companies: Order[]) => {
+            this.orderRepository.getOrders(user).then((companies: Order[]) => {
                 resolve(companies);
             }).catch((error) => {
                 reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
@@ -98,17 +80,17 @@ export class OrderService {
 
     delete(id: string): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-            this.OrderRepository.getOrder(id).then((Order: Order) => {
-                if (!Order) {
-                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no Order with the specified ID!'));
+            this.orderRepository.getOrder(id).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;
                 }
-                this.OrderRepository.remove(Order).then((Order: Order) => {
-                    if (!Order) {
+                this.orderRepository.remove(order).then((order: Order) => {
+                    if (!order) {
                         reject(new BadRequestResult(ErrorCode.UnknownError, 'It can not be eliminated!'));
                         return;
                     }
-                    resolve(Order);
+                    resolve(order);
                 });
             }).catch((error) => {
                 reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));

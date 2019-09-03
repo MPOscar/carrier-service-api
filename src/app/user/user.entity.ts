@@ -1,12 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
 
-export enum UserRole {
-    SUPER_ADMIN = 'root',
-    EXPERT = 'expert',
-    ADVISER = 'adviser',
-    COMPANY = 'company',
-}
-
 @Entity()
 export class User {
 
@@ -36,16 +29,33 @@ export class User {
 
     @Column()
     phone: string;
-    
-    @Column({
-        type: 'enum',
-        enum: UserRole,
-        default: UserRole.ADVISER,
-    })
-    role: UserRole;
-
+  
     @Column({nullable: true})
     verificationCode: string;
+
+    @Column({ length: 50 })
+    region: string;
+    
+    @Column()
+    comuna: string;
+
+    @Column()
+    address: string;
+
+    @Column()
+    zip: string;
+
+    @Column()
+    shopName: string;
+
+    @Column()
+    userApiChile: string;
+
+    @Column()
+    passwordApiChile: string;
+
+    @Column()
+    idApiChile: string;
 
     @Column()
     createdAt: Date;

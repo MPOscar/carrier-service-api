@@ -1,34 +1,58 @@
 import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
 
 export class UpdateUserDto {
+    @IsEmail()
+    email: string;
+
+    @IsString()
+    firstName: string;
+
+    @IsString()
+    language: string;
+    
+    @IsString()
+    lastLogin?: Date;
+    
+    @IsString()
+    lastName: string;
+    
+    @IsString()
+    password: string;
+
+    @IsString()
+    phone: string;
+  
+    @IsString()
+    verificationCode: string;
+
+    @IsString()
+    region: string;
+    
+    @IsString()
+    comuna: string;
+
+    @IsString()
+    address: string;
+
+    @IsString()
+    zip: string;
+
     @IsString()
     @IsByteLength(1, 100, {
         message: "Invalid First Name length"
     })
-    readonly firstName: string;
+    shopName: string;
 
     @IsString()
-    @IsByteLength(1, 100, {
-        message: "Invalid Last Name length"
-    })
-    readonly lastName?: string;
-
-    @IsEmail({}, {
-        message: "Invalid email format"
-    })
-    readonly email: string;
-
-    @IsString()   
-    readonly phone: string;
+    userApiChile: string;
 
     @IsString()
-    @MinLength(5, {
-        message: "Invalid password length"
-    })
-    readonly password?: string;
+    passwordApiChile: string;
 
-    @IsIn(['expert', 'adviser', 'company'], {
-        message: "Invalid role value, should be adviser or company"
-    })
-    readonly role?: string;
+    @IsString()
+    idApiChile: string;
+
+    createdAt: Date;
+
+    updatedAt: Date;
 }

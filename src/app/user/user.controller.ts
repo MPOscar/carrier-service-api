@@ -29,10 +29,8 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post()
-    //@Roles('expert')
-    //@UsePipes(new ValidationPipe())
-    async create(@Body() user: CreateUserDto, @Body() companyId: string) {
-        return this.userService.create(user, companyId)
+    async create(@Body() user: CreateUserDto) {
+        return this.userService.create(user)
             .then((user: User) => {
                 return this.getIUser(user);
             })
@@ -42,7 +40,7 @@ export class UserController {
     }
 
     @Put(':id')
-    @Roles('expert')
+    //@Roles('expert')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() user: UpdateUserDto) {
         return this.userService.update(id, user)
@@ -66,7 +64,7 @@ export class UserController {
     }
 
     @Get()
-    @Roles('expert')
+    //@Roles('expert')
     async getUsers() {
         return this.userService.getUsers()
             .then((users: User[]) => {
@@ -80,7 +78,7 @@ export class UserController {
     }
 
     @Delete(':id')
-    @Roles('expert')
+    //@Roles('expert')
     async delete(@Param('id') id: string) {
         return this.userService.delete(id)
             .then((user: User) => {
@@ -94,15 +92,22 @@ export class UserController {
     getIUser(user: User): IUser {
         return {
             id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            language: user.language,
-            phone: user.phone,
-            //lastLogin: user.lastLogin,
-            role: user.role,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
+            email: user.email,     
+            firstName: user.firstName,       
+            language: user.language,           
+            lastLogin: user.lastLogin,           
+            lastName: user.lastName,           
+            password: user.password,       
+            phone: user.phone,         
+            verificationCode: user.id,       
+            region: user.region,           
+            comuna: user.comuna,       
+            address: user.address,       
+            zip: user.zip,       
+            shopName: user.shopName,       
+            userApiChile: user.userApiChile,       
+            passwordApiChile: user.passwordApiChile,       
+            idApiChile: user.idApiChile,
         };
     }
 }

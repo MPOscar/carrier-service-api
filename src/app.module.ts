@@ -3,7 +3,9 @@ import { ConfigService } from './app/common/config/config.service';
 //
 import { UserModule } from './app/user/user.module';
 import { CarrierModule } from './app/carrier-service/carrier-service.module';
-import { OrderModule } from './app/oder/order.module';
+import { ItemModule } from './app/item/item.module';
+import { LabelModule } from './app/label/label.module';
+import { OrderModule } from './app/order/order.module';
 
 
 @Module({
@@ -11,7 +13,9 @@ import { OrderModule } from './app/oder/order.module';
     HttpModule,
     UserModule,
     CarrierModule,
-    OrderModule
+    ItemModule,
+    LabelModule,
+    OrderModule    
   ],
   controllers: [],
   providers: [

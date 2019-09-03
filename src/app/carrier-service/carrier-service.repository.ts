@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { CreateCarrierDto } from "./dto/create-carrier-service.dto";
 import { UpdateCarrierDto } from "./dto/update-carrier-service.dto";
 import { Carrier } from "./carrier-service.entity";
-import { User, UserRole } from "../user/user.entity";
+import { User } from "../user/user.entity";
 import { FilterCarrierDto } from "./dto/filter-carrier-service.dto";
 
 @EntityRepository(Carrier)

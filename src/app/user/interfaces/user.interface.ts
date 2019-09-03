@@ -1,26 +1,41 @@
 
 export interface IUser {
 
-    readonly companyId?: string;
-
     readonly id: string;
+    
+    readonly email?: string;
+    
+    readonly firstName?: string;
+    
+    readonly language?: string;    
+    
+    readonly lastLogin?: Date;    
+    
+    readonly lastName?: string;    
+    
+    readonly password?: string;
+    
+    readonly phone?: string;  
+    
+    readonly verificationCode?: string;
+    
+    readonly region?: string;    
+    
+    readonly comuna?: string;
+    
+    readonly address?: string;
+    
+    readonly zip?: string;
+    
+    readonly shopName?: string;
+    
+    readonly userApiChile?: string;
+    
+    readonly passwordApiChile?: string;
+    
+    readonly idApiChile?: string;
 
-    readonly firstName: string;
+    readonly createdAt?: Date;
 
-    readonly lastName: string;
-
-    readonly email: string;
-
-    readonly role: string;
-
-    readonly language: string; 
-
-    //zreadonly lastLogin: Date; 
-
-    readonly phone: string;
-
-    readonly createdAt: Date;
-
-    readonly updatedAt: Date;
-
+    readonly updatedAt?: Date;
 }
