@@ -20,7 +20,7 @@ export class UserRepository extends Repository<User> {
         user.comuna = userDto.comuna,       
         user.address = userDto.address,       
         user.zip = userDto.zip,       
-        user.shopName = userDto.shopName,       
+        user.shopUrl = userDto.shopUrl,       
         user.userApiChile = userDto.userApiChile,       
         user.passwordApiChile = userDto.passwordApiChile,       
         user.idApiChile = userDto.idApiChile,
@@ -39,7 +39,7 @@ export class UserRepository extends Repository<User> {
         user.comuna = userDto.comuna ? userDto.comuna : user.comuna;       
         user.address = userDto.address ? userDto.address : user.address;       
         user.zip = userDto.zip ? userDto.zip : user.zip;       
-        user.shopName = userDto.shopName ? userDto.shopName : user.shopName;       
+        user.shopUrl = userDto.shopUrl ? userDto.shopUrl : user.shopUrl;       
         user.userApiChile = userDto.userApiChile ? userDto.userApiChile : user.userApiChile;       
         user.passwordApiChile = userDto.passwordApiChile ? userDto.passwordApiChile : user.passwordApiChile;       
         user.idApiChile = userDto.idApiChile ? userDto.idApiChile : user.idApiChile;

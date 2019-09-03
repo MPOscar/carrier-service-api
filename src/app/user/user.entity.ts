@@ -45,7 +45,7 @@ export class User {
     @Column()
     zip: string;
 
-    @Column()
+    @Column({nullable: true})
     shopUrl: string;
 
     @Column()
