@@ -38,10 +38,10 @@ export class OrderController {
         return this.orderService.create(order)
             .then((order: Order) => {
                 return this.getIOrder(order);
-            })
+            })/*
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
-            });
+            });*/
     }
 
     @Put(':id')

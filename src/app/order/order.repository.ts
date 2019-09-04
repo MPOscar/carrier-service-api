@@ -40,9 +40,9 @@ export class OrderRepository extends Repository<Order> {
         order.shipment_status = orderDto.shipment_status;
         order.location_id = orderDto.location_id;
         order.tracking_number = orderDto.tracking_number;
-        order.tracking_url = orderDto.tracking_url;   
-        order.updatedAt = new Date();
-        order.createdAt = new Date();*/
+        order.tracking_url = orderDto.tracking_url;   */
+        order.updated_at = new Date();
+        order.created_at = new Date();
         order = await this.save(order);
         return this.getOrder(order.id);
     }

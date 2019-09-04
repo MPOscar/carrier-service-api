@@ -13,7 +13,7 @@ export class UserRepository extends Repository<User> {
         user.lastName = userDto.lastName;
         user.email = userDto.email;
         const salt: string = bcrypt.genSaltSync(10);
-        user.password = await bcrypt.hash(userDto.password, salt);
+        //user.password = await bcrypt.hash(userDto.password, salt);
         user.language = userDto.language;
         user.phone = userDto.phone;
         user.region = userDto.region,           

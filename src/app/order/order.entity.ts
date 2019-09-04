@@ -69,7 +69,7 @@ export class Order {
   @Column()
   referring_site: string;
 
-  @Column()
+  @Column({nullable: true})
   closed_at: Date;
 
   @Column()
