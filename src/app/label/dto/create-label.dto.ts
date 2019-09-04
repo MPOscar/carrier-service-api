@@ -1,7 +1,7 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 import { CreateUserDto } from '../../user/dto/create-user.dto'
 
-export class CreateOrderDto {
+export class CreateLabelDto {
     @IsString()
     readonly name: string;
 
@@ -31,7 +31,7 @@ export class CreateOrderDto {
 
 }
 
-export class RegisterOrderDto {
-    readonly company: CreateOrderDto;
+export class RegisterLabelDto {
+    readonly company: CreateLabelDto;
     readonly user: CreateUserDto;
 }

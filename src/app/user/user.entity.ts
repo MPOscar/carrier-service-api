@@ -1,12 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
 
-export enum UserRole {
-    SUPER_ADMIN = 'root',
-    EXPERT = 'expert',
-    ADVISER = 'adviser',
-    COMPANY = 'company',
-}
-
 @Entity()
 export class User {
 
@@ -16,36 +9,53 @@ export class User {
     @Column({ default: false })
     isDeleted?: boolean;
 
-    @Column()
+    @Column({nullable: true})
     email: string;
 
-    @Column({ length: 50 })
+    @Column({nullable: true})
     firstName: string;
 
-    @Column()
+    @Column({nullable: true})
     language: string;
     
     @Column({nullable: true})
     lastLogin?: Date;
     
-    @Column({ length: 50 })
+    @Column({nullable: true})
     lastName: string;
     
-    @Column()
+    @Column({nullable: true})
     password: string;
 
-    @Column()
+    @Column({nullable: true})
     phone: string;
-    
-    @Column({
-        type: 'enum',
-        enum: UserRole,
-        default: UserRole.ADVISER,
-    })
-    role: UserRole;
-
+  
     @Column({nullable: true})
     verificationCode: string;
+
+    @Column({nullable: true})
+    region: string;
+    
+    @Column({nullable: true})
+    comuna: string;
+
+    @Column({nullable: true})
+    address: string;
+
+    @Column({nullable: true})
+    zip: string;
+
+    @Column({nullable: true})
+    shopUrl: string;
+
+    @Column({nullable: true})
+    userApiChile: string;
+
+    @Column({nullable: true})
+    passwordApiChile: string;
+
+    @Column({nullable: true})
+    idApiChile: string;
 
     @Column()
     createdAt: Date;

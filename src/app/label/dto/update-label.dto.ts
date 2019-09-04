@@ -1,6 +1,6 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
-export class UpdateOrderDto {
+export class UpdateLabelDto {
     @IsString()
     readonly name: string;
 

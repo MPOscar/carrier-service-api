@@ -10,12 +10,11 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { User } from '../user/user.entity';
 //
-import { Order } from './order.entity';
-import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { FilterOrderDto } from './dto/filter-carrier-service.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { IOrder } from './interfaces/order.interface';
+import { Manifest } from './manifest.entity';
+import { ManifestService } from './manifest.service';
+import { CreateManifestDto } from './dto/create-manifest.dto';
+import { UpdateManifestDto } from './dto/update-manifest.dto';
+import { IManifest } from './interfaces/manifest.interface';
 import * as express from 'express';
 //
 
@@ -27,26 +26,26 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_order';
-const forwardingAddress = 'http://8d9e5dab.ngrok.io/api/v1';
+const forwardingAddress = 'http://bb3c10db.ngrok.io/api/v1';
 
 @Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
-export class OrderController {
+export class ManifestController {
 
     constructor(
-        private readonly carrierService: OrderService,
+        private readonly carrierService: ManifestService,
         private readonly httpService: HttpService,
     ) { }
 
     @Post("order-create")
     @UsePipes(new ValidationPipe())
-    async create(@Body() createOrderDto: any) {
-        console.log(createOrderDto)
-        console.log(createOrderDto.items)
+    async create(@Body() createManifestDto: any) {
+        console.log(createManifestDto)
+        console.log(createManifestDto.items)
         //return this.carrierService.getQuotes();
-        /*return this.carrierService.create(createOrderDto)
-            .then((carrier: Order) => {
-                return this.getIOrder(carrier);
+        /*return this.carrierService.create(createManifestDto)
+            .then((carrier: Manifest) => {
+                return this.getIManifest(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -128,9 +127,9 @@ export class OrderController {
                     console.log(response.data);
                 })
             );
-        /*return this.carrierService.create(createOrderDto)
-            .then((carrier: Order) => {
-                return this.getIOrder(carrier);
+        /*return this.carrierService.create(createManifestDto)
+            .then((carrier: Manifest) => {
+                return this.getIManifest(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -139,10 +138,10 @@ export class OrderController {
 
     @Put(':id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
-    async update(@Param('id') id: string, @Body() carrier: UpdateOrderDto) {
+    async update(@Param('id') id: string, @Body() carrier: UpdateManifestDto) {
         return this.carrierService.update(id, carrier)
-            .then((carrier: Order) => {
-                return this.getIOrder(carrier);
+            .then((carrier: Manifest) => {
+                return this.getIManifest(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -150,7 +149,7 @@ export class OrderController {
     }
 
     @Get()
-    async getOrder(@Query() query: any, @Response() response: express.Response) {
+    async getManifest(@Query() query: any, @Response() response: express.Response) {
         let shop = query.shop;
         if (shop) {
             const state = nonce();
@@ -165,9 +164,9 @@ export class OrderController {
             console.log('please add a valid shop parameter');
         }
 
-        /*return this.carrierService.getOrder(id)
-            .then((carrier: Order) => {
-                return this.getIOrder(carrier);
+        /*return this.carrierService.getManifest(id)
+            .then((carrier: Manifest) => {
+                return this.getIManifest(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -175,11 +174,11 @@ export class OrderController {
     }
 
     /*@Get()
-    getCompanies(@GetUser() user: User, @Query() filter: FilterOrderDto) {
+    getCompanies(@GetUser() user: User, @Query() filter: FilterManifestDto) {
         return this.carrierService.getCompanies(user, filter)
-            .then((companies: Order[]) => {
-                return companies.map((carrier: Order) => {
-                    return this.getIOrder(carrier);
+            .then((companies: Manifest[]) => {
+                return companies.map((carrier: Manifest) => {
+                    return this.getIManifest(carrier);
                 });
             })
             .catch((error: ErrorResult) => {
@@ -191,15 +190,15 @@ export class OrderController {
     @Delete(':id')
     delete(@Param('id') id: string) {
         return this.carrierService.delete(id)
-            .then((carrier: Order) => {
-                return this.getIOrder(carrier);
+            .then((carrier: Manifest) => {
+                return this.getIManifest(carrier);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });
     }
 
-    getIOrder(carrier: Order): IOrder {
+    getIManifest(carrier: Manifest): IManifest {
         return {
             id: carrier.id,
             name: carrier.name,

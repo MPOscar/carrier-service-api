@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 
 @Entity()
-export class Order {
+export class Label {
 
     @PrimaryGeneratedColumn('uuid')
     id?: string;

@@ -1,22 +1,29 @@
 import { EntityRepository, Repository } from "typeorm";
 import * as bcrypt from 'bcryptjs';
-import { User, UserRole } from "./user.entity";
+import { User } from "./user.entity";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-    async createUser(userDto: CreateUserDto, companyId: string) {
+    async createUser(userDto: CreateUserDto) {
         const user: User = this.create();
         user.firstName = userDto.firstName;
         user.lastName = userDto.lastName;
         user.email = userDto.email;
         const salt: string = bcrypt.genSaltSync(10);
-        user.password = await bcrypt.hash(userDto.password, salt);
-        user.role = UserRole[String(userDto.role).toUpperCase()];
+        //user.password = await bcrypt.hash(userDto.password, salt);
         user.language = userDto.language;
         user.phone = userDto.phone;
+        user.region = userDto.region,           
+        user.comuna = userDto.comuna,       
+        user.address = userDto.address,       
+        user.zip = userDto.zip,       
+        user.shopUrl = userDto.shopUrl,       
+        user.userApiChile = userDto.userApiChile,       
+        user.passwordApiChile = userDto.passwordApiChile,       
+        user.idApiChile = userDto.idApiChile,
         user.updatedAt = new Date();
         user.createdAt = new Date();
         return this.save(user);
@@ -28,12 +35,18 @@ export class UserRepository extends Repository<User> {
         user.lastName = userDto.lastName ? userDto.lastName : user.lastName;
         user.email = userDto.email ? userDto.email : user.email;
         user.phone = userDto.phone ? userDto.phone : user.phone;
-
+        user.region = userDto.region ? userDto.phone : user.phone;           
+        user.comuna = userDto.comuna ? userDto.comuna : user.comuna;       
+        user.address = userDto.address ? userDto.address : user.address;       
+        user.zip = userDto.zip ? userDto.zip : user.zip;       
+        user.shopUrl = userDto.shopUrl ? userDto.shopUrl : user.shopUrl;       
+        user.userApiChile = userDto.userApiChile ? userDto.userApiChile : user.userApiChile;       
+        user.passwordApiChile = userDto.passwordApiChile ? userDto.passwordApiChile : user.passwordApiChile;       
+        user.idApiChile = userDto.idApiChile ? userDto.idApiChile : user.idApiChile;
         if (userDto.password) {
             const salt: string = bcrypt.genSaltSync(10);
             user.password = await bcrypt.hash(userDto.password, salt);
         }
-        user.role = userDto.role ? UserRole[String(userDto.role).toUpperCase()] : user.role;
         user.updatedAt = new Date();
         return this.save(user);
     }
@@ -65,11 +78,10 @@ export class UserRepository extends Repository<User> {
         .getMany();
     }
 
-    getUserByEmail(email: string) {
+    getUserByEmail(shop: string) {
         return this.createQueryBuilder("user")
             .select()
-            .leftJoinAndSelect('user.company', 'company')
-            .where("user.email = :email", { email })
+            .where("user.shopUrl = :shop", { shop })
             .andWhere("user.isDeleted = false")
             .getOne();
     }
