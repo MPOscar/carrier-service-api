@@ -1,12 +1,12 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CarrierController } from './oders.controller';
-import { CarrierService } from './order.service';
 import { UserModule } from '../user/user.module';
-import { Carrier } from './orders.entity';
-import { CarrierRepository } from './order.repository';
 import { AuthModule } from '../common/auth/auth.module';
+import { CarrierController } from '../carrier-service/carrier-service.controller';
+import { CarrierService } from '../carrier-service/carrier-service.service';
+import { Carrier } from 'dist/src/app/carrier-service/carrier-service.entity';
+import { CarrierRepository } from '../carrier-service/carrier-service.repository';
 
 @Module({
     imports: [  

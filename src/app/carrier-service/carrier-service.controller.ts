@@ -20,6 +20,8 @@ import * as express from 'express';
 //
 
 import { ConfigService } from '../common/config/config.service';
+import { SoapService } from '../soap/soap.service';
+import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.dto';
 const configService = new ConfigService();
 const request = require('request-promise');
 const nonce = require('nonce')();
@@ -27,7 +29,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags';
-const forwardingAddress = 'https://ceeb879f.ngrok.io/api/v1';
+const forwardingAddress = 'https://61ec8cb2.ngrok.io/api/v1';
 
 @Controller('carrier-service')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -36,32 +38,19 @@ export class CarrierController {
     constructor(
         private readonly carrierService: CarrierService,
         private readonly httpService: HttpService,
+        private readonly soapService: SoapService
     ) { }
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async create(@Body() createCarrierDto: any) {
-        console.log(createCarrierDto)
-        console.log(createCarrierDto.rate.items)
-       
-        return {
-            rates: [{
-                'service_name': 'Endertech Overnight',
-                'service_code': 'ETON',
-                'total_price': 50,
-                'currency': 'USD',
-                'min_delivery_date': '2019-08-20T18:26:28.158Z',
-                'max_delivery_date': '2019-08-20T18:26:28.158Z'
-            },
-            {
-                'service_name': 'Endertech Regular',
-                'service_code': 'ETREG',
-                'total_price': 100,
-                'currency': 'USD',
-                'min_delivery_date': '2019-08-20T18:26:28.158Z',
-                'max_delivery_date': '2019-08-20T18:26:28.158Z'
-            }]
-        }
+    async create(@Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
+        try {
+            const resp = await this.soapService.getServiceCost(createCarrierDto);
+            console.log("RESPPPPPP2 => " + JSON.stringify(resp));
+            return response.json({ rates: resp });
+        } catch(error) {
+            throw error;
+        }  
     }
 
     @Get('callback')
