@@ -72,19 +72,12 @@ export class CarrierController {
 
         if (shop && hmac && code) {
             //Validate request is from Shopify
-            console.log(req.query);
-            console.log(req.query +"querrrrrrrrrrrrrrrrrrrrrrr");
-
 
             const map = Object.assign({}, req.query);
             delete map['signature'];
             delete map['hmac'];
 
-            console.log(map +"querrrrrrrrrrrrrrrrrrrrrrr");
-            console.log(map);
-
             const message = querystring.stringify(map);
-            console.log(message+ "messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 
             const providedHmac = Buffer.from(hmac, 'utf-8');
             const generatedHash = Buffer.from(
@@ -94,10 +87,7 @@ export class CarrierController {
                 .digest('hex'),
                 'utf-8'
               );
-            let hashEquals = false;
-        
-            console.log(providedHmac +"providedHmac querrrrrrrrrrrrrrrrrrrrrrr");
-            console.log(generatedHash +"generatedHash querrrrrrrrrrrrrrrrrrrrrrr");
+            let hashEquals = false;      
 
             try {
               hashEquals = crypto.timingSafeEqual(generatedHash, providedHmac)
