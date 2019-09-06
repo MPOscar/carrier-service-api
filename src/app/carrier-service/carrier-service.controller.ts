@@ -50,7 +50,6 @@ export class CarrierController {
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
         try {
             const resp = await this.soapService.getServiceCost(createCarrierDto);
-            console.log("RESPPPPPP2 => " + JSON.stringify(resp));
             return response.json({ rates: resp });
         } catch(error) {
             throw error;
