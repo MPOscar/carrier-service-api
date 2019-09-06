@@ -5,13 +5,8 @@ import { ConfigService } from "../common/config/config.service";
 import * as soap from 'soap';
 import { ShopifyItemDto } from "../rates/dto/shopify/shopify-item.dto";
 import { ShopifyParentRateDto } from "../rates/dto/shopify/shopify-parent-rate.dto";
-import { plainToClass } from "class-transformer";
 import { RateResponse } from "../rates/dto/chile/rate-respose.dto";
-import { IRateResponse } from "../rates/interfaces/chile/rate-respose.interface";
-import { ServicioTO } from "../rates/dto/chile/servicio-to.dto";
-import { ShopifyRateResponseDto } from "../rates/dto/shopify/shopify-rate-response.dto";
-// var soap = require('soap');
-
+import { RateProductResponse } from "../rates/dto/chile/rate-product-respose.dto";
 
 @Injectable()
 export class SoapService {
@@ -28,18 +23,10 @@ export class SoapService {
         }
 
         soap.createClient(url, function(err, client) {
-            console.log("ERRORRR 1 => " + err);
             client.listarTodasLasRegiones(args, function(err, result) {
-                console.log("ERRORRR => " + err);
-                console.log("SOAPPPPPP => " + JSON.stringify(result));
+                console.log("Regions => " + JSON.stringify(result));
             });
         });
-
-        // soap.createClientAsync(url).then((client) => {
-        //     return client.listarTodasLasRegiones(args);
-        //   }).then((result) => {
-        //     console.log("SOAPPPPPP => " + result);
-        //   });
     }
 
     getServiceCost(ratesDto: ShopifyParentRateDto): any{
@@ -54,6 +41,7 @@ export class SoapService {
                 CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
                 ComunaDestino: "ALTO HOSPICIO",
                 ComunaRemitente: ratesDto.rate.origin.province,
+                CodigoServicio: "?",
                 ImporteReembolso: 5,
                 ImporteValorAsegurado: 3,
                 Kilos: this.getTotalWeight(ratesDto.rate.items),
@@ -65,51 +53,44 @@ export class SoapService {
             }
         }
        
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             soap.createClient(url, {}, function(err, client) {
                 if (err) { throw err; }
-    
-                client.consultaCobertura(args, function(err, obj: RateResponse) {
+
+                client.consultaCoberturaPorProducto(args, function(err, obj: RateProductResponse) {
                     if(err) { throw err; }
-                    
-                    let res = obj.consultaCoberturaResult.ServicioTO.map((val) => {
-                        return {
-                            service_name: "Name", 
-                            service_code: val.CodigoServicio,
-                            total_price: val.TotalTasacion.Total,
-                            currency: "USD",
-                            min_delivery_date: new Date(),
-                            max_delivery_date: new Date()
+                    let date = new Date();
+                    let res =  {
+                            service_name: "Correos de Chile", 
+                            service_code: "01",
+                            total_price: obj.consultaCoberturaPorProductoResult.TotalTasacion.Total,
+                            currency: ratesDto.rate.currency,
+                            min_delivery_date: date,
+                            max_delivery_date: date.getDate() + 30
                         }
-                    });
     
                     return resolve(res);
                 });
+                
+                // Other method that return an array
+                // client.consultaCobertura(args, function(err, obj: RateResponse) {
+                //     if(err) { throw err; }
+
+                    // let res = obj.consultaCoberturaResult.ServicioTO.map((val) => {
+                    //     return {
+                    //         service_name: "Name", 
+                    //         service_code: val.CodigoServicio,
+                    //         total_price: val.TotalTasacion.Total,
+                    //         currency: ratesDto.rate.currency,
+                    //         min_delivery_date: new Date(),
+                    //         max_delivery_date: new Date()
+                    //     }
+                    // });
+    
+                    // return resolve(res);
+                // });
             });
         })
-
-        // Async
-        // soap.createClientAsync(url).then((client) => {
-        //     return client.consultaCobertura(args);
-        //   }).then((result) => {
-        //     console.log("SOAPPPPPP => " + JSON.stringify(result));
-        // }).catch(err => console.log(err));
-    }
-
-    mapToShopifyResponse(res: RateResponse[]){
-        const result = res.reduce((r,c) => {
-            Object.keys(c).map(x => {
-              r.push({ rates: c[x].map(y => ({
-                service_name: "Name", 
-                service_code: y.CodigoServicio,
-                total_price: y.Base,
-                currency: "USD",
-                min_delivery_date: new Date(),
-                max_delivery_date: new Date()
-             }))})})
-             return r}, [])
-         
-         console.log(result)
     }
 
     getTotalWeight(items: ShopifyItemDto[]): number {
