@@ -15,14 +15,15 @@ export class AuthController {
     @Post('login')
     @UsePipes(new ValidationPipe())
     signIn(@Body() loginDto: LoginDto) {
-        const email: string = loginDto.email;
-        const password: string = loginDto.password;
-        return this.authService.signIn(email, password)
+        const shop: string = loginDto.shop;
+        const hmac: string = loginDto.hmac;
+        const timestamp: string = loginDto.timestamp;
+        return this.authService.signIn(hmac, shop, timestamp)
             .then((result: ILogin) => {
                 return result;
             })
-            .catch((error: ErrorResult) => {
+            /*.catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
-            });
+            });*/
     }
 }

@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from './app/common/config/config.service';
 import { HttpExceptionFilter } from './app/common/error-manager/http-exception.filter';
+import * as cookieParser from 'cookie-parser'
+const cookie = require('cookie');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });

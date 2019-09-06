@@ -6,6 +6,7 @@ import {
     UseGuards,
     Put,
     Param,
+    Response,
     Delete,
     UsePipes,
 } from '@nestjs/common';
@@ -22,6 +23,17 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { User } from './user.entity';
 
+import * as express from 'express';
+import { ConfigService } from '../common/config/config.service';
+const configService = new ConfigService();
+const request = require('request-promise');
+const nonce = require('nonce')();
+
+const apiKey = configService.get('SHOPIFY_API_KEY');
+const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
+const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
+const forwardingAddress =  configService.get('FORWARDING_ADDRESS');;
+
 @Controller('users')
 //@UseGuards(AuthGuard(), RolesGuard)
 export class UserController {
@@ -32,6 +44,18 @@ export class UserController {
     async create(@Body() user: CreateUserDto) {
         return this.userService.create(user)
             .then((user: User) => {
+                /*if (user.shopUrl) {
+                    const state = nonce();
+                    const redirectUrl = forwardingAddress + '/carrier-service/callback';
+                    const installUrl = 'https://' + user.shopUrl + '/admin/oauth/authorize?client_id='
+                        + apiKey +
+                        '&scope=' + scopes +
+                        '&state=' + state +
+                        '&redirect_uri=' + redirectUrl;
+                    return response.redirect(303, installUrl);
+                } else {
+                    console.log('please add a valid shop parameter');
+                }*/
                 return this.getIUser(user);
             })
             .catch((error: ErrorResult) => {
@@ -92,21 +116,21 @@ export class UserController {
     getIUser(user: User): IUser {
         return {
             id: user.id,
-            email: user.email,     
-            firstName: user.firstName,       
-            language: user.language,           
-            lastLogin: user.lastLogin,           
-            lastName: user.lastName,           
-            password: user.password,       
-            phone: user.phone,         
-            verificationCode: user.id,       
-            region: user.region,           
-            comuna: user.comuna,       
-            address: user.address,       
-            zip: user.zip,       
-            shopUrl: user.shopUrl,       
-            userApiChile: user.userApiChile,       
-            passwordApiChile: user.passwordApiChile,       
+            email: user.email,
+            firstName: user.firstName,
+            language: user.language,
+            lastLogin: user.lastLogin,
+            lastName: user.lastName,
+            password: user.password,
+            phone: user.phone,
+            verificationCode: user.id,
+            region: user.region,
+            comuna: user.comuna,
+            address: user.address,
+            zip: user.zip,
+            shopUrl: user.shopUrl,
+            userApiChile: user.userApiChile,
+            passwordApiChile: user.passwordApiChile,
             idApiChile: user.idApiChile,
         };
     }

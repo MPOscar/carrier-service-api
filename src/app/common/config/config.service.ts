@@ -27,6 +27,7 @@ export class ConfigService {
             JWT_EXPIRES_IN: Joi.number().default(3600),
             SHOPIFY_API_KEY: Joi.string(),
             SHOPIFY_API_SECRET_KEY: Joi.string(),
+            FORWARDING_ADDRESS: Joi.string(),
             SOAP_USER: Joi.string(),
             SOAP_PASSWORD: Joi.string(),
 
