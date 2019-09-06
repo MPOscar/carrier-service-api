@@ -35,6 +35,7 @@ export class UserRepository extends Repository<User> {
         user.lastName = userDto.lastName ? userDto.lastName : user.lastName;
         user.email = userDto.email ? userDto.email : user.email;
         user.phone = userDto.phone ? userDto.phone : user.phone;
+        user.language = userDto.language ? userDto.language : user.language;
         user.region = userDto.region ? userDto.phone : user.phone;           
         user.comuna = userDto.comuna ? userDto.comuna : user.comuna;       
         user.address = userDto.address ? userDto.address : user.address;       
@@ -42,11 +43,7 @@ export class UserRepository extends Repository<User> {
         user.shopUrl = userDto.shopUrl ? userDto.shopUrl : user.shopUrl;       
         user.userApiChile = userDto.userApiChile ? userDto.userApiChile : user.userApiChile;       
         user.passwordApiChile = userDto.passwordApiChile ? userDto.passwordApiChile : user.passwordApiChile;       
-        user.idApiChile = userDto.idApiChile ? userDto.idApiChile : user.idApiChile;
-        if (userDto.password) {
-            const salt: string = bcrypt.genSaltSync(10);
-            user.password = await bcrypt.hash(userDto.password, salt);
-        }
+        user.idApiChile = userDto.idApiChile ? userDto.idApiChile : user.idApiChile;        
         user.updatedAt = new Date();
         return this.save(user);
     }

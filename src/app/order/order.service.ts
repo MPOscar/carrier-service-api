@@ -33,7 +33,6 @@ export class OrderService {
             }).catch((error) => {
                 reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
             });
-
         });
     }
 

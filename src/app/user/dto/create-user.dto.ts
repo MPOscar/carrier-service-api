@@ -2,50 +2,50 @@ import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validato
 
 export class CreateUserDto {
     @IsString()
-    email: string;
+    email?: string;
 
     @IsString()
-    firstName: string;
+    firstName?: string;
 
     @IsString()
-    language: string;
+    language?: string;
     
     @IsString()
     lastLogin?: Date;
     
     @IsString()
-    lastName: string;
+    lastName?: string;
     
     @IsString()
-    password: string;
+    password?: string;
 
     @IsString()
-    phone: string;
+    phone?: string;
   
     @IsString()
-    verificationCode: string;
+    verificationCode?: string;
 
     @IsString()
-    region: string;
+    region?: string;
     
     @IsString()
-    comuna: string;
+    comuna?: string;
 
     @IsString()
-    address: string;
+    address?: string;
 
     @IsString()
-    zip: string;
+    zip?: string;
 
     @IsString()
-    shopUrl: string;
+    shopUrl?: string;
 
     @IsString()
-    userApiChile: string;
+    userApiChile?: string;
 
     @IsString()
-    passwordApiChile: string;
+    passwordApiChile?: string;
 
     @IsString()
-    idApiChile: string;
+    idApiChile?: string;
 }

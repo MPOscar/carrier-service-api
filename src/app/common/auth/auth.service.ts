@@ -4,8 +4,10 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { ILogin } from './interfaces/login.interface';
 import { ConfigService } from '../config/config.service';
-import { NotFoundResult, ErrorResult, InternalServerErrorResult } from '../error-manager/errors';
+import { NotFoundResult, ErrorResult, InternalServerErrorResult, BadRequestResult } from '../error-manager/errors';
+
 import { ErrorCode } from '../error-manager/error-codes';
+import { LoginUserDto } from '../../user/dto/login-user.dto';
 import { User } from '../../user/user.entity';
 import { IUser } from '../../user/interfaces/user.interface';
 import { UserService } from '../../user/user.service';
@@ -19,9 +21,10 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) { }
 
-    signIn(email: string, password: string) {
-        return new Promise((resolve: (result: ILogin) => void, reject: (reason: ErrorResult) => void): void => {
-            this.userService.signIn(email, password).then((user: User) => {
+    signIn(hmac: string, shop: string, timestamp: string) {        
+        return new Promise((resolve: (result: ILogin) => void, reject: (reason: ErrorResult) => void): void => {            
+            this.userService.signIn(hmac, shop, timestamp).then((user: LoginUserDto) => {
+                console.log(user);
                 const response: ILogin = {
                     user: this.getIUser(user),
                     token: this.createToken(user),
@@ -34,7 +37,7 @@ export class AuthService {
         });
     }
 
-    createToken(user: User) {
+    createToken(user: LoginUserDto) {
         const token: JwtPayload = {
             userId: user.id,
             email: user.email,
@@ -53,14 +56,17 @@ export class AuthService {
         });
     }
 
-    getIUser(user: User): IUser {
+    getIUser(user: LoginUserDto): IUser {
         return {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             phone: user.phone,
-            language: user.language,            
+            language: user.language, 
+            redirect: user.redirect,
+            newUser: user.newUser,        
+            hmac: user.hmac,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt
         };

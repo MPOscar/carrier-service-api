@@ -3,10 +3,11 @@ import { IsString, IsEmail } from 'class-validator';
 export class LoginDto {
 
     @IsString()
-    @IsEmail()
-    readonly email: string;
+    readonly hmac: string;
 
     @IsString()
-    readonly password: string;
+    readonly shop: string;
+
+    readonly timestamp: any;
 
 }

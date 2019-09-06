@@ -35,6 +35,12 @@ export interface IUser {
     
     readonly idApiChile?: string;
 
+    readonly redirect?: string;
+
+    readonly newUser?: boolean;
+
+    readonly hmac?: boolean;
+
     readonly createdAt?: Date;
 
     readonly updatedAt?: Date;
