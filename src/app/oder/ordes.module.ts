@@ -1,13 +1,12 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CarrierController } from './carrier-service.controller';
-import { CarrierService } from './carrier-service.service';
 import { UserModule } from '../user/user.module';
-import { Carrier } from './carrier-service.entity';
-import { CarrierRepository } from './carrier-service.repository';
 import { AuthModule } from '../common/auth/auth.module';
-import { SoapModule } from '../soap/soap.module';
+import { CarrierController } from '../carrier-service/carrier-service.controller';
+import { CarrierService } from '../carrier-service/carrier-service.service';
+import { Carrier } from 'dist/src/app/carrier-service/carrier-service.entity';
+import { CarrierRepository } from '../carrier-service/carrier-service.repository';
 
 @Module({
     imports: [  
@@ -15,7 +14,6 @@ import { SoapModule } from '../soap/soap.module';
         TypeOrmModule.forFeature([Carrier, CarrierRepository]),
         AuthModule,
         UserModule,
-        SoapModule
     ],
     controllers: [CarrierController],
     providers: [
@@ -25,4 +23,4 @@ import { SoapModule } from '../soap/soap.module';
         CarrierService,
     ],
 })
-export class CarrierModule { }
+export class WebHooksModule { }

@@ -22,7 +22,7 @@
     "migrate:prod": "NODE_ENV=production ts-node ./node_modules/.bin/typeorm migration:run"
   },
   "dependencies": {
-    "@nestjs/common": "6.0.2",
+    "@nestjs/common": "^6.6.4",
     "@nestjs/core": "6.0.2",
     "@nestjs/jwt": "^6.0.0",
     "@nestjs/microservices": "6.0.2",
@@ -30,6 +30,7 @@
     "@nestjs/platform-express": "6.0.2",
     "@nestjs/platform-socket.io": "^6.2.4",
     "@nestjs/typeorm": "^6.0.0",
+    "@nestjs/websockets": "^6.6.4",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
@@ -37,17 +38,20 @@
     "cookie-parser": "^1.4.4",
     "custom-env": "^1.0.0",
     "dotenv": "^7.0.0",
+    "easy-soap-request": "^2.6.0",
     "joi": "^14.3.1",
     "moment": "^2.24.0",
     "nonce": "^1.0.4",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pg": "^7.9.0",
-    "reflect-metadata": "0.1.13",
+    "reflect-metadata": "^0.1.12",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "rimraf": "2.6.3",
     "rxjs": "6.4.0",
+    "soap": "^0.29.0",
+    "strong-soap": "^1.21.0",
     "typeorm": "^0.2.15"
   },
   "devDependencies": {
