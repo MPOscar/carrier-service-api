@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Get, Delete, UsePipes, Body, Param, Query, Response, Req, HttpService } from '@nestjs/common';
+import { Controller, Post, Put, Get, Delete, UsePipes, Body, Param, Query, Response, Req, HttpService, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { map } from 'rxjs/operators';
 //
@@ -36,7 +36,7 @@ const forwardingAddress =  configService.get('FORWARDING_ADDRESS');
 import { Request } from 'express';
 
 @Controller('carrier-service')
-//@UseGuards(AuthGuard(), RolesGuard)
+@UseGuards(AuthGuard(), RolesGuard)
 export class CarrierController {
 
     constructor(
@@ -47,7 +47,7 @@ export class CarrierController {
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async create(@Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
+    async create(@GetUser() user: User, @Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
         try {
             const resp = await this.soapService.getServiceCost(createCarrierDto);
             return response.json({ rates: resp });

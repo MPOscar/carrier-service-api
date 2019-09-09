@@ -15,7 +15,7 @@ export class AuthController {
     @Post('login')
     @UsePipes(new ValidationPipe())
     signIn(@Body() loginDto: LoginDto) {
-        const shop: string = loginDto.queryParams.shop;
+        const shop: string = loginDto.shop;
         const hmac: string = loginDto.queryParams.hmac;
         const timestamp: string = loginDto.queryParams.timestamp;
         return this.authService.signIn(hmac, shop, timestamp)
