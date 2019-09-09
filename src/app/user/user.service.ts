@@ -162,17 +162,15 @@ export class UserService {
 
                         if (!hashEquals) {
                             console.log("hmac failed");
-                            let loginUserDto: LoginUserDto = user;                          
+                            let loginUserDto: LoginUserDto = user;
                             loginUserDto.newUser = false;
                             loginUserDto.hmac = false;
-                            loginUserDto.newUser = false;
                             loginUserDto.redirect = "https://" + shop + "/admin";
                             resolve(loginUserDto);
                         } else {
-                            let loginUserDto: LoginUserDto = user;                          
+                            let loginUserDto: LoginUserDto = user;
                             loginUserDto.newUser = false;
                             loginUserDto.hmac = true;
-                            loginUserDto.newUser = false;
                             resolve(loginUserDto);
                         }
 
@@ -183,59 +181,12 @@ export class UserService {
                             code
                         }
 
-                        /*return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
-                            .then((response) => {
-                                const accessToken = response.access_token;
-
-                                //create user in db
-
-                                const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
-
-                                const apiRequestHeader = {
-                                    "X-Shopify-Access-Token": accessToken,
-                                    "Content-Type": "application/json",
-                                    "Accept": "application/json"
-                                }
-
-                                const data = {
-                                    "carrier_service": {
-                                        "name": "Correos Chile",
-                                        "callback_url": forwardingAddress + "/carrier-service",
-                                        "service_discovery": true
-                                    }
-                                }
-
-                                const apiRequestUrlWebhook = 'https://' + shop + '/admin/webhooks';
-
-                                const apiRequestHeaderWebhook = {
-                                    "X-Shopify-Access-Token": accessToken,
-                                    "Content-Type": "application/json",
-                                    "Accept": "application/json",
-                                    "X-Shopify-Topic": "orders/create",
-                                    "X-Shopify-Hmac-Sha256": "XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=",
-                                    "X-Shopify-Shop-Domain": shop,
-                                    "X-Shopify-API-Version": "2019-04"
-                                }
-
-                                const dataWebhook = {
-                                    "webhook": {
-                                        "topic": "orders/create",
-                                        "address": forwardingAddress + "/webhook/orders-create",
-                                        "format": "json"
-                                    }
-                                }
-
-                                return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
-                                    .then((response) => {
-                                        console.log(response);
-                                        return request.post(apiRequestUrlWebhook, { json: dataWebhook, headers: apiRequestHeaderWebhook })
-                                            .then((response) => {
-                                                console.log(response);
-                                            })
-                                    });
-                            })*/
                     } else {
-                        //res.status(400).send('Required parameters missing');
+                        let loginUserDto: LoginUserDto = user;
+                        loginUserDto.newUser = false;
+                        loginUserDto.hmac = false;
+                        loginUserDto.redirect = "https://" + shop + "/admin";
+                        resolve(loginUserDto);
                     }
                     resolve(user);
                 }
