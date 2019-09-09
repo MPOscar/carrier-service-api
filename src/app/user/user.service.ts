@@ -119,9 +119,22 @@ export class UserService {
             this.userRepository.getUserByEmail(shop).then((user: User) => {
                 if (!user) {
                     let userDto: CreateUserDto = {
-                        shopUrl: shop
+                        shopUrl: shop                       
                     }
-                    this.userRepository.createUser(userDto).then((user: User) => {
+                    let loginUserDto: LoginUserDto = {
+                        newUser: true,
+                        redirect: "",
+                    };
+                    const state = nonce();
+                    const redirectUrl = redirectAddress;
+                    const installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id='
+                        + apiKey +
+                        '&scope=' + scopes +
+                        '&state=' + state +
+                        '&redirect_uri=' + redirectUrl;
+                    loginUserDto.redirect = installUrl;
+                    resolve(loginUserDto);
+                    /*this.userRepository.createUser(userDto).then((user: User) => {
                         let loginUserDto: LoginUserDto = user;
                         const state = nonce();
                         const redirectUrl = redirectAddress;
@@ -133,7 +146,7 @@ export class UserService {
                         loginUserDto.newUser = true;
                         loginUserDto.redirect = installUrl;
                         resolve(loginUserDto);
-                    });
+                    });*/
                 } else {
                     if (shop && hmac) {
                         let loginUserDto: LoginUserDto = user;
