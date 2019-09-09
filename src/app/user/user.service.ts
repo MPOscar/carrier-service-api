@@ -165,12 +165,14 @@ export class UserService {
                             let loginUserDto: LoginUserDto = user;                          
                             loginUserDto.newUser = false;
                             loginUserDto.hmac = false;
+                            loginUserDto.newUser = false;
                             loginUserDto.redirect = "https://" + shop + "/admin";
                             resolve(loginUserDto);
                         } else {
                             let loginUserDto: LoginUserDto = user;                          
                             loginUserDto.newUser = false;
                             loginUserDto.hmac = true;
+                            loginUserDto.newUser = false;
                             resolve(loginUserDto);
                         }
 
