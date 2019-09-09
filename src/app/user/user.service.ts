@@ -119,7 +119,7 @@ export class UserService {
             this.userRepository.getUserByEmail(shop).then((user: User) => {
                 if (!user) {
                     let userDto: CreateUserDto = {
-                        shopUrl: shop                       
+                        shopUrl: shop
                     }
                     let loginUserDto: LoginUserDto = {
                         newUser: true,
@@ -134,19 +134,6 @@ export class UserService {
                         '&redirect_uri=' + redirectUrl;
                     loginUserDto.redirect = installUrl;
                     resolve(loginUserDto);
-                    /*this.userRepository.createUser(userDto).then((user: User) => {
-                        let loginUserDto: LoginUserDto = user;
-                        const state = nonce();
-                        const redirectUrl = redirectAddress;
-                        const installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id='
-                            + apiKey +
-                            '&scope=' + scopes +
-                            '&state=' + state +
-                            '&redirect_uri=' + redirectUrl;
-                        loginUserDto.newUser = true;
-                        loginUserDto.redirect = installUrl;
-                        resolve(loginUserDto);
-                    });*/
                 } else {
                     if (shop && hmac) {
                         let loginUserDto: LoginUserDto = user;
@@ -236,4 +223,25 @@ export class UserService {
             });
         });
     }
+
+    createUser(userDto: CreateUserDto): Promise<User> {
+        return new Promise((resolve: (result: User) => void, reject: (reason: ErrorResult) => void): void => {
+            this.userRepository.createUser(userDto).then((user: User) => {
+                resolve(user);
+            });
+        });
+    }
+    /*this.userRepository.createUser(userDto).then((user: User) => {
+                      let loginUserDto: LoginUserDto = user;
+                      const state = nonce();
+                      const redirectUrl = redirectAddress;
+                      const installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id='
+                          + apiKey +
+                          '&scope=' + scopes +
+                          '&state=' + state +
+                          '&redirect_uri=' + redirectUrl;
+                      loginUserDto.newUser = true;
+                      loginUserDto.redirect = installUrl;
+                      resolve(loginUserDto);
+                  });*/
 }

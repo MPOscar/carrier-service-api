@@ -10,6 +10,8 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { User } from '../user/user.entity';
 //
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UserService } from '../user/user.service';
 import { Carrier } from './carrier-service.entity';
 import { CarrierService } from './carrier-service.service';
 import { CreateCarrierDto } from './dto/create-carrier-service.dto';
@@ -42,13 +44,14 @@ export class CarrierController {
     constructor(
         private readonly carrierService: CarrierService,
         private readonly httpService: HttpService,
-        private readonly soapService: SoapService
+        private readonly soapService: SoapService,
+        private readonly userService: UserService,
     ) { }
 
     @Post()
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Req() req: Request, @Response() response: express.Response) {
-       console.log(req);
+        console.log(req);
         try {
             const resp = await this.soapService.getServiceCost(createCarrierDto);
             return response.json({ rates: resp });
@@ -110,59 +113,97 @@ export class CarrierController {
                 .then((response) => {
                     const accessToken = response.access_token;
 
+
                     //create user in db
-
-                    const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
-
-                    const apiRequestHeader = {
-                        "X-Shopify-Access-Token": accessToken,
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
+                    let user: CreateUserDto = {
+                        accessToken: accessToken,
+                        shopUrl: shop,
                     }
 
-                    const data = {
-                        "carrier_service": {
-                            "name": "Correos Chile",
-                            "callback_url": forwardingAddress + "/carrier-service",
-                            "service_discovery": true
+                    this.userService.createUser(user).then((user: User) => {
+
+                        const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
+
+                        const apiRequestHeader = {
+                            "X-Shopify-Access-Token": accessToken,
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
                         }
-                    }
 
-                    const apiRequestUrlWebhook = 'https://' + shop + '/admin/webhooks';
-
-                    const apiRequestHeaderWebhook = {
-                        "X-Shopify-Access-Token": accessToken,
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                        "X-Shopify-Topic": "orders/create",
-                        "X-Shopify-Hmac-Sha256": "XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=",
-                        "X-Shopify-Shop-Domain": shop,
-                        "X-Shopify-API-Version": "2019-04"
-                    }
-
-                    const dataWebhook = {
-                        "webhook": {
-                            "topic": "orders/create",
-                            "address": forwardingAddress + "/webhook/orders-create",
-                            "format": "json"
+                        const data = {
+                            "carrier_service": {
+                                "name": "Correos Chile",
+                                "callback_url": forwardingAddress + "/carrier-service",
+                                "service_discovery": true
+                            }
                         }
-                    }
 
-                    console.log(accessToken);
+                        const apiRequestUrlWebhook = 'https://' + shop + '/admin/webhooks';
 
-                    return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
-                        .then((response) => {
-                            console.log(response);
-                            return request.post(apiRequestUrlWebhook, { json: dataWebhook, headers: apiRequestHeaderWebhook })
-                                .then((response) => {
-                                    console.log(response);
-                                })
-                        });
-                })
+                        const apiRequestHeaderWebhook = {
+                            "X-Shopify-Access-Token": accessToken,
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            "X-Shopify-Topic": "orders/create",
+                            "X-Shopify-Hmac-Sha256": "XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=",
+                            "X-Shopify-Shop-Domain": shop,
+                            "X-Shopify-API-Version": "2019-04"
+                        }
+
+                        const dataWebhook = {
+                            "webhook": {
+                                "topic": "orders/create",
+                                "address": forwardingAddress + "/webhook/orders-create",
+                                "format": "json"
+                            }
+                        }
+
+                        return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
+                            .then((response) => {
+                                return request.post(apiRequestUrlWebhook, { json: dataWebhook, headers: apiRequestHeaderWebhook })
+                                    .then((response) => {
+                                        return res.status(200).send({
+                                            data: {
+                                                user: user,
+                                                carrierService: true,
+                                                webhook: true,
+                                            }
+                                        });
+                                    }).catch((error) => {
+                                        return res.status(400).send({
+                                            data: {
+                                                user: user,
+                                                carrierService: true,
+                                                webhook: false,
+                                                error: error.error,
+                                            }
+                                        });
+                                    });
+                            }).catch((error) => {
+                                return res.status(400).send({
+                                    data: {
+                                        error: error.error,
+                                    }
+                                });
+                            });
+
+                    });
+
+                }).catch((error) => {
+                    return res.status(400).send({
+                        data: {
+                            error: error.error,
+                        }
+                    });
+                });
         } else {
-            res.status(400).send('Required parameters missing');
+            return res.status(400).send({
+                data: {
+                    hmac: false,
+                    code: false,
+                }
+            });
         }
-
     }
 
 

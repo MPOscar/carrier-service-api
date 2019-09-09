@@ -1,6 +1,10 @@
 import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
 
 export class CreateUserDto {
+
+    @IsString()
+    accessToken?: string;
+
     @IsString()
     email?: string;
 
@@ -48,4 +52,5 @@ export class CreateUserDto {
 
     @IsString()
     idApiChile?: string;
+
 }
