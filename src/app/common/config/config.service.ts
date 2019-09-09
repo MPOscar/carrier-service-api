@@ -28,6 +28,7 @@ export class ConfigService {
             SHOPIFY_API_KEY: Joi.string(),
             SHOPIFY_API_SECRET_KEY: Joi.string(),
             FORWARDING_ADDRESS: Joi.string(),
+            REDIRECT_URL: Joi.string(),
             SOAP_USER: Joi.string(),
             SOAP_PASSWORD: Joi.string(),
 

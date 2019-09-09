@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Get, Delete, UsePipes, Body, Param, Query, Response, Req, HttpService, UseGuards } from '@nestjs/common';
+import { Controller, Post, Put, Get, Delete, UsePipes, Body, Param, Query, Response, Req, HttpService } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { map } from 'rxjs/operators';
 //
@@ -32,11 +32,11 @@ const request = require('request-promise');
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
-const forwardingAddress =  configService.get('FORWARDING_ADDRESS');
+const forwardingAddress = configService.get('FORWARDING_ADDRESS');
 import { Request } from 'express';
 
 @Controller('carrier-service')
-@UseGuards(AuthGuard(), RolesGuard)
+//@UseGuards(AuthGuard(), RolesGuard)
 export class CarrierController {
 
     constructor(
@@ -47,13 +47,14 @@ export class CarrierController {
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async create(@GetUser() user: User, @Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
+    async create(@Body() createCarrierDto: ShopifyParentRateDto, @Req() req: Request, @Response() response: express.Response) {
+       console.log(req);
         try {
             const resp = await this.soapService.getServiceCost(createCarrierDto);
             return response.json({ rates: resp });
-        } catch(error) {
+        } catch (error) {
             throw error;
-        }  
+        }
     }
 
     @Get('callback')
@@ -65,9 +66,9 @@ export class CarrierController {
         let state = query.state;
 
         //const stateCookie = cookie.parse(req.headers.cookie).state;
-       /* if (state !== stateCookie) {
-            return query.status(403).send('Request origin cannot be verified');
-        }*/
+        /* if (state !== stateCookie) {
+             return query.status(403).send('Request origin cannot be verified');
+         }*/
 
         if (shop && hmac && code) {
             //Validate request is from Shopify
@@ -80,45 +81,45 @@ export class CarrierController {
 
             const providedHmac = Buffer.from(hmac, 'utf-8');
             const generatedHash = Buffer.from(
-              crypto
-                .createHmac('sha256', apiSecret)
-                .update(message)
-                .digest('hex'),
+                crypto
+                    .createHmac('sha256', apiSecret)
+                    .update(message)
+                    .digest('hex'),
                 'utf-8'
-              );
-            let hashEquals = false;      
+            );
+            let hashEquals = false;
 
             try {
-              hashEquals = crypto.timingSafeEqual(generatedHash, providedHmac)
+                hashEquals = crypto.timingSafeEqual(generatedHash, providedHmac)
             } catch (e) {
-              hashEquals = false;
+                hashEquals = false;
             };
-        
+
             if (!hashEquals) {
-              return res.status(400).send('HMAC validation failed');
+                return res.status(400).send('HMAC validation failed');
             }
-        
+
             const accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
             const accessTokenPayload = {
                 client_id: apiKey,
                 client_secret: apiSecret,
                 code
             }
-    
+
             return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
                 .then((response) => {
                     const accessToken = response.access_token;
-    
+
                     //create user in db
-    
+
                     const apiRequestUrl = 'https://' + shop + '/admin/carrier_services';
-    
+
                     const apiRequestHeader = {
                         "X-Shopify-Access-Token": accessToken,
                         "Content-Type": "application/json",
                         "Accept": "application/json"
                     }
-    
+
                     const data = {
                         "carrier_service": {
                             "name": "Correos Chile",
@@ -126,9 +127,9 @@ export class CarrierController {
                             "service_discovery": true
                         }
                     }
-    
+
                     const apiRequestUrlWebhook = 'https://' + shop + '/admin/webhooks';
-    
+
                     const apiRequestHeaderWebhook = {
                         "X-Shopify-Access-Token": accessToken,
                         "Content-Type": "application/json",
@@ -138,7 +139,7 @@ export class CarrierController {
                         "X-Shopify-Shop-Domain": shop,
                         "X-Shopify-API-Version": "2019-04"
                     }
-    
+
                     const dataWebhook = {
                         "webhook": {
                             "topic": "orders/create",
@@ -146,9 +147,9 @@ export class CarrierController {
                             "format": "json"
                         }
                     }
-    
+
                     console.log(accessToken);
-    
+
                     return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
                         .then((response) => {
                             console.log(response);
@@ -158,13 +159,13 @@ export class CarrierController {
                                 })
                         });
                 })
-          } else {
+        } else {
             res.status(400).send('Required parameters missing');
-          }
-     
+        }
+
     }
 
-  
+
     @Get()
     async getCarrier(@Query() query: any, @Response() res: express.Response) {
         let shop = query.shop;
@@ -176,11 +177,11 @@ export class CarrierController {
                 '&scope=' + scopes +
                 '&state=' + state +
                 '&redirect_uri=' + redirectUrl;
-                res.cookie('state', state);
+            res.cookie('state', state);
             return res.redirect(303, installUrl);
         } else {
             console.log('please add a valid shop parameter');
-        }     
+        }
     }
 
     /*@Get()

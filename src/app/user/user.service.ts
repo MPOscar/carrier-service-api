@@ -21,6 +21,8 @@ const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
 const forwardingAddress = configService.get('FORWARDING_ADDRESS');
+const redirectAddress = configService.get('REDIRECT_URL');
+
 
 @Injectable()
 export class UserService {
@@ -122,7 +124,7 @@ export class UserService {
                     this.userRepository.createUser(userDto).then((user: User) => {
                         let loginUserDto: LoginUserDto = user;
                         const state = nonce();
-                        const redirectUrl = forwardingAddress + '/carrier-service/callback';
+                        const redirectUrl = redirectAddress;
                         const installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id='
                             + apiKey +
                             '&scope=' + scopes +
