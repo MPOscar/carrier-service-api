@@ -1,7 +1,7 @@
 {
-  "name": "cci-digipilote-backend",
+  "name": "carrier-service-backend",
   "version": "1.0.0",
-  "description": "CCI France Digipilote",
+  "description": "Correos de Chile - Shopify Carrier Service",
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
