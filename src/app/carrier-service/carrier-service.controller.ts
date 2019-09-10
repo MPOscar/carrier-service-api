@@ -21,7 +21,6 @@ import { FilterCarrierDto } from './dto/filter-carrier-service.dto';
 import { UpdateCarrierDto } from './dto/update-carrier-service.dto';
 import { ICarrier } from './interfaces/carrier-service.interface';
 import * as express from 'express';
-
 //
 import { ConfigService } from '../common/config/config.service';
 import { SoapService } from '../soap/soap.service';
@@ -54,7 +53,7 @@ export class CarrierController {
     @Post()
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Req() req: Request, @Response() response: express.Response) {
-        console.log(req);
+        console.log(req.headers['x-shopify-shop-domain']);
         try {
             const resp = await this.soapService.getServiceCost(createCarrierDto);
             return response.json({ rates: resp });

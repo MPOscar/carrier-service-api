@@ -116,7 +116,7 @@ export class UserService {
 
     signIn(hmac: string, shop: string, timestamp: string, code?: string): Promise<LoginUserDto> {
         return new Promise((resolve: (result: LoginUserDto) => void, reject: (reason: ErrorResult) => void): void => {
-            this.userRepository.getUserByEmail(shop).then((user: User) => {
+            this.userRepository.getUserByEmail(shop).then((user: User) => {               
                 if (!user) {
                     let userDto: CreateUserDto = {
                         shopUrl: shop
