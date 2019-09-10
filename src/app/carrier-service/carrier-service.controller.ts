@@ -10,6 +10,7 @@ import { ErrorManager } from '../common/error-manager/error-manager';
 import { ErrorResult } from '../common/error-manager/errors';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
 import { User } from '../user/user.entity';
+import { UserDto } from '../user/dto/login-user.dto'
 //
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UserService } from '../user/user.service';
@@ -177,52 +178,47 @@ export class CarrierController {
                                             .then((response) => {
                                             }).catch((error) => {
                                                 res.status(400).send({
-                                                    data: {
-                                                        error: error.error,
-                                                    }
+                                                    error: error.error
                                                 });
                                             })
+                                        let userDto: UserDto = {
+                                            id: user.id,
+                                            newUser: true,
+                                            shopUrl: user.shopUrl
+                                        };
+                                        userDto.newUser = true;
+                                        console.log(userDto)
                                         return res.status(200).send({
-                                            data: {
-                                                user: user,
-                                                token: this.authService.createToken(user),
-                                                carrierService: true,
-                                                webhook: true,
-                                            }
+                                            user: userDto,
+                                            token: this.authService.createToken(user),
+                                            carrierService: true,
+                                            webhook: true
                                         });
                                     }).catch((error) => {
                                         return res.status(400).send({
-                                            data: {
-                                                user: user,
-                                                token: this.authService.createToken(user),
-                                                carrierService: true,
-                                                webhook: false,
-                                                error: error.error,
-                                            }
+                                            user: user,
+                                            token: this.authService.createToken(user),
+                                            carrierService: true,
+                                            webhook: false,
+                                            error: error.error
                                         });
                                     });
                             }).catch((error) => {
                                 return res.status(400).send({
-                                    data: {
-                                        error: error.error,
-                                    }
+                                    error: error.error
                                 });
                             });
                     });
 
                 }).catch((error) => {
                     return res.status(400).send({
-                        data: {
-                            error: error.error,
-                        }
+                        error: error.error
                     });
                 });
         } else {
             return res.status(400).send({
-                data: {
-                    hmac: false,
-                    code: false,
-                }
+                hmac: false,
+                code: false
             });
         }
     }
