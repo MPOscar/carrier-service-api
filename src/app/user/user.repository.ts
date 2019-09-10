@@ -31,12 +31,13 @@ export class UserRepository extends Repository<User> {
 
     async updateUser(id: string, userDto: UpdateUserDto) {
         const user: User = await this.getUser(id);
+        user.isDeleted = userDto.isDeleted ? userDto.isDeleted : user.isDeleted;
         user.firstName = userDto.firstName ? userDto.firstName : user.firstName;
         user.lastName = userDto.lastName ? userDto.lastName : user.lastName;
         user.email = userDto.email ? userDto.email : user.email;
         user.phone = userDto.phone ? userDto.phone : user.phone;
         user.language = userDto.language ? userDto.language : user.language;
-        user.region = userDto.region ? userDto.phone : user.phone;           
+        user.region = userDto.region ? userDto.region : user.region;           
         user.comuna = userDto.comuna ? userDto.comuna : user.comuna;       
         user.address = userDto.address ? userDto.address : user.address;       
         user.zip = userDto.zip ? userDto.zip : user.zip;       

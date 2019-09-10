@@ -6,6 +6,9 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
     
+    @Column({nullable: true})
+    accessToken: string;
+
     @Column({ default: false })
     isDeleted?: boolean;
 

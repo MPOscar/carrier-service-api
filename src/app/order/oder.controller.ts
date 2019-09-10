@@ -8,7 +8,8 @@ import {
     Param,
     Delete,
     UsePipes,
-    Req
+    Req,
+    Response
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -25,12 +26,16 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import * as express from 'express';
 
 @Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
 export class OrderController {
 
-    constructor(private readonly orderService: OrderService) { }
+    constructor(
+        private readonly userService: UserService,
+        private readonly orderService: OrderService) { }
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
@@ -42,6 +47,24 @@ export class OrderController {
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });*/
+    }
+
+    @Post('uninstalled-app')
+    async uninstalledApp(@Req() request: Request,  @Response() res: express.Response, @Body() order: CreateOrderDto) {
+        let shop: any = request.headers['x-shopify-shop-domain'];
+        console.log(shop);
+        this.userService.findUserByShop(shop).then((user: User) => {
+            user.shopUrl = user.shopUrl + user.id;
+            user.isDeleted = true;
+            this.userService.update(user.id, user).then((user: User) => {
+                console.log(user);
+                res.status(200).send({
+                    data: {
+                        user: user,
+                    }
+                });
+            })
+        })
     }
 
     @Put(':id')

@@ -48,3 +48,17 @@ export class LoginUserDto {
 
     hmac?: boolean;
 }
+
+export class UserDto {
+
+    id?: string;
+
+    redirect?: string;
+
+    newUser?: boolean;
+
+    hmac?: boolean;
+
+    shopUrl?: string;
+
+}

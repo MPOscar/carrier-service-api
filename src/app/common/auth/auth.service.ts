@@ -67,6 +67,7 @@ export class AuthService {
             redirect: user.redirect,
             newUser: user.newUser,        
             hmac: user.hmac,
+            shopUrl: user.shopUrl,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt
         };
