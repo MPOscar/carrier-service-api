@@ -49,6 +49,8 @@ export class UpdateUserDto {
     @IsString()
     idApiChile: string;
 
+    isDeleted?: boolean
+
     createdAt: Date;
 
     updatedAt: Date;

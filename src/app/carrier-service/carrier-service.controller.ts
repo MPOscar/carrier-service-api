@@ -2,6 +2,7 @@ import { Controller, Post, Put, Get, Delete, UsePipes, Body, Param, Query, Respo
 import { AuthGuard } from '@nestjs/passport';
 import { map } from 'rxjs/operators';
 //
+import { AuthService } from '../common/auth/auth.service';
 import { RolesGuard } from '../common/auth/guards/roles.guard';
 import { GetUser } from '../common/decorator/user.decorator';
 import { Roles } from '../common/decorator/roles.decorator';
@@ -42,6 +43,7 @@ import { Request } from 'express';
 export class CarrierController {
 
     constructor(
+        private readonly authService: AuthService,
         private readonly carrierService: CarrierService,
         private readonly httpService: HttpService,
         private readonly soapService: SoapService,
@@ -112,7 +114,8 @@ export class CarrierController {
             return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
                 .then((response) => {
                     const accessToken = response.access_token;
-
+                    console.log("accessToken");
+                    console.log(accessToken);
 
                     //create user in db
                     let user: CreateUserDto = {
@@ -158,13 +161,31 @@ export class CarrierController {
                             }
                         }
 
+                        const dataWebhookUninstalled = {
+                            "webhook": {
+                                "topic": "app/uninstalled",
+                                "address": forwardingAddress + "/webhook/uninstalled-app",
+                                "format": "json"
+                            }
+                        }
+
                         return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
                             .then((response) => {
                                 return request.post(apiRequestUrlWebhook, { json: dataWebhook, headers: apiRequestHeaderWebhook })
                                     .then((response) => {
+                                        request.post(apiRequestUrlWebhook, { json: dataWebhookUninstalled, headers: apiRequestHeaderWebhook })
+                                            .then((response) => {
+                                            }).catch((error) => {
+                                                res.status(400).send({
+                                                    data: {
+                                                        error: error.error,
+                                                    }
+                                                });
+                                            })
                                         return res.status(200).send({
                                             data: {
                                                 user: user,
+                                                token: this.authService.createToken(user),
                                                 carrierService: true,
                                                 webhook: true,
                                             }
@@ -173,6 +194,7 @@ export class CarrierController {
                                         return res.status(400).send({
                                             data: {
                                                 user: user,
+                                                token: this.authService.createToken(user),
                                                 carrierService: true,
                                                 webhook: false,
                                                 error: error.error,
@@ -186,7 +208,6 @@ export class CarrierController {
                                     }
                                 });
                             });
-
                     });
 
                 }).catch((error) => {

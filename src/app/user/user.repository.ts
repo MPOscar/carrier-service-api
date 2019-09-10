@@ -31,6 +31,7 @@ export class UserRepository extends Repository<User> {
 
     async updateUser(id: string, userDto: UpdateUserDto) {
         const user: User = await this.getUser(id);
+        user.isDeleted = userDto.isDeleted ? userDto.isDeleted : user.isDeleted;
         user.firstName = userDto.firstName ? userDto.firstName : user.firstName;
         user.lastName = userDto.lastName ? userDto.lastName : user.lastName;
         user.email = userDto.email ? userDto.email : user.email;
