@@ -56,7 +56,7 @@ export class CarrierController {
         let shop: any = req.headers['x-shopify-shop-domain'];
         this.userService.getUserByEmail(shop).then((user: User) => {
             try {
-                const resp = this.soapService.getServiceCost(createCarrierDto);
+                const resp = this.soapService.getServiceCost(createCarrierDto, user);
                 return response.json({ rates: resp });
             } catch (error) {
                 throw error;
