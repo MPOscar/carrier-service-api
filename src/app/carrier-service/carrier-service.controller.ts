@@ -32,7 +32,8 @@ const request = require('request-promise');
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
-const forwardingAddress =  configService.get('FORWARDING_ADDRESS');
+// const forwardingAddress =  configService.get('FORWARDING_ADDRESS');
+const forwardingAddress =  "https://56908b25.ngrok.io/api/v1";
 import { Request } from 'express';
 
 @Controller('carrier-service')
@@ -49,6 +50,7 @@ export class CarrierController {
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Response() response: express.Response) {
         try {
+            console.log("ITEMSSS => " + JSON.stringify(createCarrierDto.rate.items));
             const resp = await this.soapService.getServiceCost(createCarrierDto);
             return response.json({ rates: resp });
         } catch(error) {
