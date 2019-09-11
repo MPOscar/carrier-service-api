@@ -53,13 +53,15 @@ export class CarrierController {
     @Post()
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Req() req: Request, @Response() response: express.Response) {
-        console.log(req.headers['x-shopify-shop-domain']);
-        try {
-            const resp = await this.soapService.getServiceCost(createCarrierDto);
-            return response.json({ rates: resp });
-        } catch (error) {
-            throw error;
-        }
+        let shop: any = req.headers['x-shopify-shop-domain'];
+        this.userService.getUserByEmail(shop).then((user: User) => {
+            try {
+                const resp = this.soapService.getServiceCost(createCarrierDto, user);
+                return response.json({ rates: resp });
+            } catch (error) {
+                throw error;
+            }           
+        })      
     }
 
     @Get('callback')
@@ -117,10 +119,9 @@ export class CarrierController {
                     console.log("accessToken");
                     console.log(accessToken);
 
-                    //create user in db
                     let user: CreateUserDto = {
                         accessToken: accessToken,
-                        shopUrl: shop,
+                        shopUrl: shop
                     }
 
                     this.userService.createUser(user).then((user: User) => {

@@ -7,6 +7,7 @@ import { ShopifyItemDto } from "../rates/dto/shopify/shopify-item.dto";
 import { ShopifyParentRateDto } from "../rates/dto/shopify/shopify-parent-rate.dto";
 import { RateResponse } from "../rates/dto/chile/rate-respose.dto";
 import { RateProductResponse } from "../rates/dto/chile/rate-product-respose.dto";
+import { User } from "../user/user.entity";
 
 @Injectable()
 export class SoapService {
@@ -29,7 +30,7 @@ export class SoapService {
         });
     }
 
-    getServiceCost(ratesDto: ShopifyParentRateDto): any{
+    getServiceCost(ratesDto: ShopifyParentRateDto, user: User): any{
         const url = "http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl";
 
         const args = {
@@ -39,7 +40,7 @@ export class SoapService {
             consultaCobertura: {
                 CodigoPostalDestinatario: ratesDto.rate.destination.postal_code,
                 CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
-                ComunaDestino: "ALTO HOSPICIO",
+                ComunaDestino: user.comuna,
                 ComunaRemitente: ratesDto.rate.origin.province,
                 CodigoServicio: "?",
                 ImporteReembolso: 5,
