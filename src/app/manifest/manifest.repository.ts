@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { CreateManifestDto } from "./dto/create-manifest.dto";
 import { UpdateManifestDto } from "./dto/update-manifest.dto";
 import { Manifest } from "./manifest.entity";
-import { User, UserRole } from "../user/user.entity";
+import { User } from "../user/user.entity";
 
 @EntityRepository(Manifest)
 export class ManifestRepository extends Repository<Manifest> {
