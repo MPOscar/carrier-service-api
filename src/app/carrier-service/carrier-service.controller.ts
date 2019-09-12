@@ -35,7 +35,8 @@ const request = require('request-promise');
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
-const forwardingAddress = configService.get('FORWARDING_ADDRESS');
+// const forwardingAddress = configService.get('FORWARDING_ADDRESS');
+const forwardingAddress = "https://c228d05a.ngrok.io/api/v1";
 import { Request } from 'express';
 
 @Controller('carrier-service')
@@ -54,14 +55,13 @@ export class CarrierController {
     @UsePipes(new ValidationPipe())
     async create(@Body() createCarrierDto: ShopifyParentRateDto, @Req() req: Request, @Response() response: express.Response) {
         let shop: any = req.headers['x-shopify-shop-domain'];
-        this.userService.getUserByEmail(shop).then((user: User) => {
+        const user = await this.userService.getUserByEmail(shop);
             try {
-                const resp = this.soapService.getServiceCost(createCarrierDto, user);
+                const resp = await this.soapService.getServiceCost(createCarrierDto, user);
                 return response.json({ rates: resp });
             } catch (error) {
                 throw error;
             }           
-        })      
     }
 
     @Get('callback')
@@ -116,8 +116,6 @@ export class CarrierController {
             return request.post(accessTokenRequestUrl, { json: accessTokenPayload })
                 .then((response) => {
                     const accessToken = response.access_token;
-                    console.log("accessToken");
-                    console.log(accessToken);
 
                     let user: CreateUserDto = {
                         accessToken: accessToken,
@@ -187,7 +185,7 @@ export class CarrierController {
                                             shopUrl: user.shopUrl
                                         };
                                         userDto.newUser = true;
-                                        console.log(userDto)
+                                        
                                         return res.status(200).send({
                                             user: userDto,
                                             token: this.authService.createToken(user),

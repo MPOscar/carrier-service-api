@@ -50,7 +50,7 @@ export class SoapService {
                 PaisDestinatario: ratesDto.rate.destination.country,
                 PaisRemitente: ratesDto.rate.origin.country,
                 TipoPortes: "P",
-                Volumen: 2
+                Volumen: (50 ** 3) / 1000000
             }
         }
        
@@ -69,7 +69,7 @@ export class SoapService {
                             min_delivery_date: date,
                             max_delivery_date: date.getDate() + 30
                         }
-    
+                    
                     return resolve(res);
                 });
                 
