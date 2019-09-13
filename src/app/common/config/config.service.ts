@@ -31,6 +31,7 @@ export class ConfigService {
             REDIRECT_URL: Joi.string(),
             SOAP_USER: Joi.string(),
             SOAP_PASSWORD: Joi.string(),
+            MAPQUEST_API_KEY: Joi.string(),
 
             DATABASE_HOST: Joi.string(),
             DATABASE_PORT: Joi.number().default(5432),
