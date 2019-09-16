@@ -185,6 +185,7 @@ export class CarrierController {
                       })
                       .then(() => {})
                       .catch(error => {
+                        console.log('ERROR 1 => ' + error.error);
                         res.status(400).send({
                           error: error.error,
                         });
@@ -204,7 +205,7 @@ export class CarrierController {
                     });
                   })
                   .catch(error => {
-                    console.log("ERROR 1 => " + error.error);
+                    console.log('ERROR 2 => ' + error.error);
                     return res.status(400).send({
                       user: user,
                       token: this.authService.createToken(user),
@@ -215,7 +216,6 @@ export class CarrierController {
                   });
               })
               .catch(error => {
-                console.log("ERROR 2 => " + error.error);
                 return res.status(400).send({
                   error: error.error,
                 });
@@ -223,7 +223,6 @@ export class CarrierController {
           });
         })
         .catch(error => {
-          console.log("ERROR 3 => " + error.error);
           return res.status(400).send({
             error: error.error,
           });
