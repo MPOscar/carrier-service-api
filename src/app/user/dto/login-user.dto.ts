@@ -63,4 +63,5 @@ export class UserDto {
 
     shopUrl?: string;
 
+    profile?: boolean;
 }

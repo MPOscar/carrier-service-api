@@ -223,6 +223,7 @@ export class CarrierController {
                                             id: user.id,
                                             newUser: true,
                                             shopUrl: user.shopUrl,
+                                            profile: user.profile,
                                         };
                                         userDto.newUser = true;
 
