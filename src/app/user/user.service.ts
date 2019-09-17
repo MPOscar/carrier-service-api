@@ -101,7 +101,7 @@ export class UserService {
                     reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no user with the specified ID!'));
                     return;
                 }
-                this.userRepository.deleteUser(user).then((user: User) => {
+                this.userRepository.remove(user).then((user: User) => {
                     if (!user) {
                         reject(new BadRequestResult(ErrorCode.UnknownError, 'It can not be eliminated!'));
                         return;
@@ -185,7 +185,7 @@ export class UserService {
                         let loginUserDto: LoginUserDto = user;
                         loginUserDto.newUser = false;
                         loginUserDto.hmac = false;
-                        loginUserDto.redirect = "https://" + shop + "/admin";
+                        loginUserDto.redirect = "https://" + shop + "/admin/apps";
                         resolve(loginUserDto);
                     }
                     resolve(user);

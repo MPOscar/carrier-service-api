@@ -118,9 +118,12 @@ export class CarrierController {
         .then(response => {
           const accessToken = response.access_token;
 
+          console.log(accessToken);
+
           let user: CreateUserDto = {
             accessToken: accessToken,
             shopUrl: shop,
+            profile: false
           };
 
           this.userService.createUser(user).then((user: User) => {

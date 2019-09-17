@@ -24,6 +24,7 @@ export class UserRepository extends Repository<User> {
         user.userApiChile = userDto.userApiChile,       
         user.passwordApiChile = userDto.passwordApiChile,       
         user.idApiChile = userDto.idApiChile,
+        user.profile = userDto.profile,
         user.updatedAt = new Date();
         user.createdAt = new Date();
         return this.save(user);
@@ -41,7 +42,8 @@ export class UserRepository extends Repository<User> {
         user.comuna = userDto.comuna ? userDto.comuna : user.comuna;       
         user.address = userDto.address ? userDto.address : user.address;       
         user.zip = userDto.zip ? userDto.zip : user.zip;       
-        user.shopUrl = userDto.shopUrl ? userDto.shopUrl : user.shopUrl;       
+        user.shopUrl = userDto.shopUrl ? userDto.shopUrl : user.shopUrl;   
+        user.profile = userDto.profile ? userDto.profile : user.profile;     
         user.userApiChile = userDto.userApiChile ? userDto.userApiChile : user.userApiChile;       
         user.passwordApiChile = userDto.passwordApiChile ? userDto.passwordApiChile : user.passwordApiChile;       
         user.idApiChile = userDto.idApiChile ? userDto.idApiChile : user.idApiChile;        

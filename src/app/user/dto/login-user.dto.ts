@@ -47,6 +47,8 @@ export class LoginUserDto {
     newUser?: boolean;
 
     hmac?: boolean;
+
+    profile?: boolean;
 }
 
 export class UserDto {

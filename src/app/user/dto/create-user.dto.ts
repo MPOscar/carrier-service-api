@@ -53,4 +53,8 @@ export class CreateUserDto {
     @IsString()
     idApiChile?: string;
 
+    newUser?: boolean;
+
+    profile?: boolean;
+
 }

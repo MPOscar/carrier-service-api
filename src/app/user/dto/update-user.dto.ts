@@ -51,6 +51,8 @@ export class UpdateUserDto {
 
     isDeleted?: boolean
 
+    profile?: boolean;
+
     createdAt: Date;
 
     updatedAt: Date;

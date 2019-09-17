@@ -60,6 +60,9 @@ export class User {
     @Column({nullable: true})
     idApiChile: string;
 
+    @Column({nullable: true})
+    profile?: boolean;
+
     @Column()
     createdAt: Date;
 
