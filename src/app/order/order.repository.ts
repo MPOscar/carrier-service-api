@@ -8,32 +8,32 @@ import { User } from "../user/user.entity";
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
 
-    async createOrder(orderDto: CreateOrderDto) {
+    async createOrder(user: User, orderDto: CreateOrderDto) {
         let order: Order = this.create();
         order.name = orderDto.name;
         order.email = orderDto.email;
-        order.order_id = orderDto.order_id;
-        order.email = orderDto.email;
+        order.orderId = orderDto.order_id;
         order.number = orderDto.order_id;
         order.note = orderDto.note;
         order.token = orderDto.token;
         order.gateway = orderDto.gateway;
         order.test = orderDto.test;
-        order.total_price = orderDto.total_price;
-        order.subtotal_price = orderDto.subtotal_price;
-        order.total_weight = orderDto.total_weight;
-        order.total_tax = orderDto.total_tax;
-        order.taxes_included = orderDto.taxes_included;
+        order.totalPrice = orderDto.total_price;
+        order.subtotalPrice = orderDto.subtotal_price;
+        order.totalWeight = orderDto.total_weight;
+        order.totalTax = orderDto.total_tax;
+        order.taxesIncluded = orderDto.taxes_included;
         order.currency = orderDto.currency;
-        order.financial_status = orderDto.financial_status;
+        order.financialStatus = orderDto.financial_status;
         order.confirmed = orderDto.confirmed;
-        order.total_discounts = orderDto.total_discounts;
-        order.total_line_items_price = orderDto.total_line_items_price;
-        order.cart_token = orderDto.cart_token;
-        order.buyer_accepts_marketing = orderDto.buyer_accepts_marketing;
+        order.totalDiscounts = orderDto.total_discounts;
+        order.totalLineItemsPrice = orderDto.total_line_items_price;
+        order.cartToken = orderDto.cart_token;
+        order.buyerAcceptsMarketing = orderDto.buyer_accepts_marketing;
         order.name = orderDto.name;
-        order.referring_site = orderDto.referring_site;
-        order.closed_at = orderDto.closed_at;
+        order.referringSite = orderDto.referring_site;
+        order.closedAt = orderDto.closed_at;
+        order.user = <any>{ id: user.id };
         /*order.status = orderDto.status;
         order.service = orderDto.service;
         order.tracking_company = orderDto.tracking_company;
@@ -41,8 +41,8 @@ export class OrderRepository extends Repository<Order> {
         order.location_id = orderDto.location_id;
         order.tracking_number = orderDto.tracking_number;
         order.tracking_url = orderDto.tracking_url;   */
-        order.updated_at = new Date();
-        order.created_at = new Date();
+        order.updatedAt = new Date();
+        order.createdAt = new Date();
         order = await this.save(order);
         return this.getOrder(order.id);
     }
@@ -51,15 +51,27 @@ export class OrderRepository extends Repository<Order> {
         let order: Order = await this.getOrder(id);
         order.name = orderDto.name ? orderDto.name : Order.name;
         order.email = orderDto.email ? orderDto.email : order.email;
-        order.order_id = orderDto.order_id ? orderDto.order_id : order.order_id;
-        /*order.status = orderDto.status ? orderDto.status : order.status;
-        order.service = orderDto.service ? orderDto.service : order.service;
-        order.tracking_company = orderDto.tracking_company ? orderDto.tracking_company : order.tracking_company;
-        order.shipment_status = orderDto.shipment_status ? orderDto.shipment_status : order.shipment_status;
-        order.location_id = orderDto.location_id ? orderDto.location_id : order.location_id;
-        order.tracking_number = orderDto.tracking_number ? orderDto.tracking_number : order.tracking_number;
-        order.tracking_url = orderDto.tracking_url ? orderDto.tracking_url : order.tracking_url;
-        order.updatedAt = new Date();*/
+        order.orderId = orderDto.orderId ? orderDto.orderId : order.orderId;
+        order.number = orderDto.orderId ? orderDto.orderId : order.orderId;
+        order.note = orderDto.note ? orderDto.note : order.note;
+        order.token = orderDto.token ? orderDto.token : order.token;
+        order.gateway = orderDto.gateway ? orderDto.gateway : order.gateway;
+        order.test = orderDto.test ? orderDto.test : order.test;
+        order.totalPrice = orderDto.totalPrice ? orderDto.totalPrice : order.totalPrice;
+        order.subtotalPrice = orderDto.subtotalPrice ? orderDto.subtotalPrice : order.subtotalPrice;
+        order.totalWeight = orderDto.totalWeight ? orderDto.totalWeight : order.totalWeight;
+        order.totalTax = orderDto.totalTax ? orderDto.totalTax : order.totalTax;
+        order.taxesIncluded = orderDto.taxesIncluded ? orderDto.taxesIncluded : order.taxesIncluded;
+        order.currency = orderDto.currency ? orderDto.currency : order.currency;
+        order.financialStatus = orderDto.financialStatus ? orderDto.financialStatus : order.financialStatus;
+        order.confirmed = orderDto.confirmed ? orderDto.confirmed : order.confirmed;
+        order.totalDiscounts = orderDto.totalDiscounts ? orderDto.totalDiscounts : order.totalDiscounts;
+        order.totalLineItemsPrice = orderDto.totalLineItemsPrice ? orderDto.totalLineItemsPrice : order.totalLineItemsPrice;
+        order.cartToken = orderDto.cartToken ? orderDto.cartToken : order.cartToken;
+        order.buyerAcceptsMarketing = orderDto.buyerAcceptsMarketing ? orderDto.buyerAcceptsMarketing : order.buyerAcceptsMarketing;
+        order.referringSite = orderDto.referringSite ? orderDto.referringSite : order.referringSite;
+        order.closedAt = orderDto.closedAt ? orderDto.closedAt : order.closedAt;      
+        order.updatedAt = new Date();
         order = await this.save(order);
         return this.getOrder(order.id);
     }

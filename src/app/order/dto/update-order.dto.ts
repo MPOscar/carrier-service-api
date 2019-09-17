@@ -1,39 +1,48 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
 export class UpdateOrderDto {
-    @IsString()
-    readonly order_id?: number;
 
-    @IsString()
-    readonly status?: string;
+    readonly orderId?: number;
 
-    @IsString()
-    readonly service?: string;
+    readonly email: string;
 
-    @IsString()
-    readonly tracking_company?: string;
+    readonly number: number;
 
-    @IsString()
-    readonly shipment_status?: string;
-    
-    @IsString()
-    readonly location_id?: string;
+    readonly note: null;
 
-    @IsString()
-    readonly email?: string;
+    readonly token: string;
 
-    @IsString()
-    readonly tracking_number?: string;
+    readonly gateway: string;
 
-    @IsString()
-    readonly tracking_numbers?: string;
+    readonly test: boolean;
 
-    @IsString()
-    readonly tracking_url?: string;
+    readonly totalPrice: string;
 
-    @IsString()
-    readonly tracking_urls?: string;
+    readonly subtotalPrice: string;
 
-    @IsString()
-    readonly name?: string;
+    readonly totalWeight: number;
+
+    readonly totalTax: string;
+
+    readonly taxesIncluded: boolean;
+
+    readonly currency: string;
+
+    readonly financialStatus: string;
+
+    readonly confirmed: boolean;
+
+    readonly totalDiscounts: string;
+
+    readonly totalLineItemsPrice: string;
+
+    readonly cartToken: string;
+
+    readonly buyerAcceptsMarketing: boolean;
+
+    readonly name: string;
+
+    readonly referringSite: string;
+
+    readonly closedAt: Date;
 }

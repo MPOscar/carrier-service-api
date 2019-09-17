@@ -20,16 +20,10 @@ export class OrderService {
         private readonly userService: UserService,
     ) { }
 
-    async create(orderDto: CreateOrderDto): Promise<Order> {
-        console.log(orderDto);
+    async create(user: User, orderDto: CreateOrderDto): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-
-            this.orderRepository.createOrder(orderDto).then((order: Order) => {
-                resolve(order);
-                /*this.userService.create(order.id).then((user: User) => {
-                }).catch((error) => {
-                    reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
-                });*/
+            this.orderRepository.createOrder(user, orderDto).then((order: Order) => {
+                resolve(order);               
             }).catch((error) => {
                 reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
             });

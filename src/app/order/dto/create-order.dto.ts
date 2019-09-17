@@ -4,8 +4,6 @@ export class CreateOrderDto {
 
     readonly order_id?: number;
 
-    readonly id: number;
-
     readonly email: string;
 
     readonly number: number;

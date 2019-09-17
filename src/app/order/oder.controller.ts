@@ -34,19 +34,68 @@ import * as express from 'express';
 export class OrderController {
 
     constructor(
-        private readonly userService: UserService,
-        private readonly orderService: OrderService) { }
+        private  userService: UserService,
+        private  orderService: OrderService) { }
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
-        console.log(request.headers['x-shopify-shop-domain']);
-        return this.orderService.create(order)
+        let createOrderDto: CreateOrderDto = {
+             order_id: order.order_id,
+        
+             email: order.email,
+        
+             number: order.number,
+        
+             note: order.note,
+        
+             token: order.token,
+        
+             gateway: order.gateway,
+        
+             test: order.test,
+        
+             total_price: order.total_price,
+        
+             subtotal_price: order.subtotal_price,
+        
+             total_weight: order.total_weight,
+        
+             total_tax: order.total_tax,
+        
+             taxes_included: order.taxes_included,
+        
+             currency: order.currency,
+        
+             financial_status: order.financial_status,
+        
+             confirmed: order.confirmed,
+        
+             total_discounts: order.total_discounts,
+        
+             total_line_items_price: order.total_line_items_price,
+        
+             cart_token: order.cart_token,
+        
+             buyer_accepts_marketing: order.buyer_accepts_marketing,
+        
+             name: order.name,
+        
+             referring_site: order.referring_site,
+        
+             closed_at: order.closed_at
+        }
+        console.log(order)
+        let shop: any = request.headers['x-shopify-shop-domain'];
+        this.userService.findUserByShop(shop).then((user: User) => {
+            return this.orderService.create(user, order)
             .then((order: Order) => {
                 return this.getIOrder(order);
             })/*
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });*/
+        })
+        
     }
 
     @Post('uninstalled-app')
@@ -56,7 +105,7 @@ export class OrderController {
         this.userService.findUserByShop(shop).then((user: User) => {
             user.shopUrl = user.shopUrl + user.id;
             user.isDeleted = true;
-            this.userService.update(user.id, user).then((user: User) => {
+            this.userService.delete(user.id).then((user: User) => {
                 console.log(user);
                 res.status(200).send({
                     data: {
