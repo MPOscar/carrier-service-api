@@ -1,28 +1,33 @@
-import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
+import {
+    IsString,
+    IsIn,
+    IsByteLength,
+    IsEmail,
+    MinLength,
+} from 'class-validator';
 
 export class LoginUserDto {
-   
     id?: string;
-    
+
     isDeleted?: boolean;
 
     email?: string;
 
     firstName?: string;
 
-    language?: string;    
+    language?: string;
 
-    lastLogin?: Date;    
+    lastLogin?: Date;
 
-    lastName?: string;    
+    lastName?: string;
 
     password?: string;
 
-    phone?: string;  
+    phone?: string;
 
     verificationCode?: string;
 
-    region?: string;    
+    region?: string;
 
     comuna?: string;
 
@@ -37,9 +42,9 @@ export class LoginUserDto {
     passwordApiChile?: string;
 
     idApiChile?: string;
-    
+
     createdAt?: Date;
-    
+
     updatedAt?: Date;
 
     redirect?: string;
@@ -52,7 +57,6 @@ export class LoginUserDto {
 }
 
 export class UserDto {
-
     id?: string;
 
     redirect?: string;

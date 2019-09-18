@@ -1,7 +1,7 @@
-import { IUser } from "../../../user/interfaces/user.interface";
+import { UserDto } from 'src/app/user/dto/login-user.dto';
 
 export interface ILogin {
-    readonly user: IUser;
+    readonly user: UserDto;
     readonly token: string;
     readonly expiresIn: number;
 }
