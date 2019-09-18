@@ -9,7 +9,7 @@ import {
     Delete,
     UsePipes,
     Req,
-    Response
+    Response,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -32,74 +32,57 @@ import * as express from 'express';
 @Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
 export class OrderController {
-
     constructor(
-        private  userService: UserService,
-        private  orderService: OrderService) { }
+        private userService: UserService,
+        private orderService: OrderService,
+    ) {}
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
         let createOrderDto: CreateOrderDto = {
-             order_id: order.order_id,
-        
-             email: order.email,
-        
-             number: order.number,
-        
-             note: order.note,
-        
-             token: order.token,
-        
-             gateway: order.gateway,
-        
-             test: order.test,
-        
-             total_price: order.total_price,
-        
-             subtotal_price: order.subtotal_price,
-        
-             total_weight: order.total_weight,
-        
-             total_tax: order.total_tax,
-        
-             taxes_included: order.taxes_included,
-        
-             currency: order.currency,
-        
-             financial_status: order.financial_status,
-        
-             confirmed: order.confirmed,
-        
-             total_discounts: order.total_discounts,
-        
-             total_line_items_price: order.total_line_items_price,
-        
-             cart_token: order.cart_token,
-        
-             buyer_accepts_marketing: order.buyer_accepts_marketing,
-        
-             name: order.name,
-        
-             referring_site: order.referring_site,
-        
-             closed_at: order.closed_at
-        }
-        console.log(order)
+            order_id: order.order_id,
+            email: order.email,
+            number: order.number,
+            note: order.note,
+            token: order.token,
+            gateway: order.gateway,
+            test: order.test,
+            total_price: order.total_price,
+            subtotal_price: order.subtotal_price,
+            total_weight: order.total_weight,
+            total_tax: order.total_tax,
+            taxes_included: order.taxes_included,
+            currency: order.currency,
+            financial_status: order.financial_status,
+            confirmed: order.confirmed,
+            total_discounts: order.total_discounts,
+            total_line_items_price: order.total_line_items_price,
+            cart_token: order.cart_token,
+            buyer_accepts_marketing: order.buyer_accepts_marketing,
+            name: order.name,
+            referring_site: order.referring_site,
+            closed_at: order.closed_at,
+        };
+        console.log(order);
         let shop: any = request.headers['x-shopify-shop-domain'];
         this.userService.findUserByShop(shop).then((user: User) => {
-            return this.orderService.create(user, order)
-            .then((order: Order) => {
-                return this.getIOrder(order);
-            })/*
+            return this.orderService
+                .create(user, order)
+                .then((order: Order) => {
+                    return this.getIOrder(order);
+                }); /*
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });*/
-        })
-        
+        });
     }
 
     @Post('uninstalled-app')
-    async uninstalledApp(@Req() request: Request,  @Response() res: express.Response, @Body() order: CreateOrderDto) {
+    async uninstalledApp(
+        @Req() request: Request,
+        @Response() res: express.Response,
+        @Body() order: CreateOrderDto,
+    ) {
         let shop: any = request.headers['x-shopify-shop-domain'];
         console.log(shop);
         this.userService.findUserByShop(shop).then((user: User) => {
@@ -110,16 +93,17 @@ export class OrderController {
                 res.status(200).send({
                     data: {
                         user: user,
-                    }
+                    },
                 });
-            })
-        })
+            });
+        });
     }
 
     @Put(':id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() order: UpdateOrderDto) {
-        return this.orderService.update(id, order)
+        return this.orderService
+            .update(id, order)
             .then((order: Order) => {
                 return this.getIOrder(order);
             })
@@ -130,7 +114,8 @@ export class OrderController {
 
     @Get(':id')
     async getOrder(@Param('id') id: string) {
-        return this.orderService.getOrder(id)
+        return this.orderService
+            .getOrder(id)
             .then((order: Order) => {
                 return this.getIOrder(order);
             })
@@ -141,7 +126,8 @@ export class OrderController {
 
     @Get()
     async getOrders(@GetUser() user: User) {
-        return this.orderService.getOrders(user)
+        return this.orderService
+            .getOrders(user)
             .then((orders: Order[]) => {
                 return orders.map((order: Order) => {
                     return this.getIOrder(order);
@@ -154,7 +140,8 @@ export class OrderController {
 
     @Delete(':id')
     async delete(@Param('id') id: string) {
-        return this.orderService.delete(id)
+        return this.orderService
+            .delete(id)
             .then((order: Order) => {
                 return this.getIOrder(order);
             })
