@@ -7,25 +7,35 @@ import { SoapModule } from './app/soap/soap.module';
 import { ItemModule } from './app/item/item.module';
 import { LabelModule } from './app/label/label.module';
 import { OrderModule } from './app/order/order.module';
-
+import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
+import { HttpErrorFilter } from './app/common/shared/http-error.filter';
+import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
 
 @Module({
-  imports: [
-    HttpModule,
-    UserModule,
-    CarrierModule,
-    SoapModule,
-    OrderModule,
-    ItemModule,
-    LabelModule,
-    OrderModule    
-  ],
-  controllers: [],
-  providers: [
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(),
-    },
-  ],
+    imports: [
+        HttpModule,
+        UserModule,
+        CarrierModule,
+        SoapModule,
+        OrderModule,
+        ItemModule,
+        LabelModule,
+        OrderModule,
+    ],
+    controllers: [],
+    providers: [
+        {
+            provide: ConfigService,
+            useValue: new ConfigService(),
+        },
+        {
+            provide: APP_FILTER,
+            useClass: HttpErrorFilter,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: LoggingInterceptor,
+        },
+    ],
 })
-export class AppModule { }
+export class AppModule {}
