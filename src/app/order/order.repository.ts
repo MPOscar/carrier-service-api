@@ -1,13 +1,12 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository } from 'typeorm';
 
-import { CreateOrderDto } from "./dto/create-order.dto";
-import { UpdateOrderDto } from "./dto/update-order.dto";
-import { Order } from "./order.entity";
-import { User } from "../user/user.entity";
+import { CreateOrderDto, LineItems } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from './order.entity';
+import { User } from '../user/user.entity';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
-
     async createOrder(user: User, orderDto: CreateOrderDto) {
         let order: Order = this.create();
         order.name = orderDto.name;
@@ -32,6 +31,15 @@ export class OrderRepository extends Repository<Order> {
         order.buyerAcceptsMarketing = orderDto.buyer_accepts_marketing;
         order.name = orderDto.name;
         order.referringSite = orderDto.referring_site;
+        order.receiverName = orderDto.shipping_address.name;
+        order.receiverAddress = orderDto.shipping_address.address1;
+        order.receiverContactName = orderDto.shipping_address.name;
+        order.receiverContactPhone = orderDto.shipping_address.phone;
+        order.serviceCode = orderDto.shipping_lines[0].code;
+        order.totalPieces = this.getTotalPieces(orderDto.line_items);
+        order.kg = this.getTotalWeight(orderDto.line_items);
+        order.volumen = 50 ** 3 / 1000000;
+        order.receiverCountry = orderDto.shipping_address.country;
         order.closedAt = orderDto.closed_at;
         order.user = <any>{ id: user.id };
         /*order.status = orderDto.status;
@@ -57,29 +65,51 @@ export class OrderRepository extends Repository<Order> {
         order.token = orderDto.token ? orderDto.token : order.token;
         order.gateway = orderDto.gateway ? orderDto.gateway : order.gateway;
         order.test = orderDto.test ? orderDto.test : order.test;
-        order.totalPrice = orderDto.totalPrice ? orderDto.totalPrice : order.totalPrice;
-        order.subtotalPrice = orderDto.subtotalPrice ? orderDto.subtotalPrice : order.subtotalPrice;
-        order.totalWeight = orderDto.totalWeight ? orderDto.totalWeight : order.totalWeight;
+        order.totalPrice = orderDto.totalPrice
+            ? orderDto.totalPrice
+            : order.totalPrice;
+        order.subtotalPrice = orderDto.subtotalPrice
+            ? orderDto.subtotalPrice
+            : order.subtotalPrice;
+        order.totalWeight = orderDto.totalWeight
+            ? orderDto.totalWeight
+            : order.totalWeight;
         order.totalTax = orderDto.totalTax ? orderDto.totalTax : order.totalTax;
-        order.taxesIncluded = orderDto.taxesIncluded ? orderDto.taxesIncluded : order.taxesIncluded;
+        order.taxesIncluded = orderDto.taxesIncluded
+            ? orderDto.taxesIncluded
+            : order.taxesIncluded;
         order.currency = orderDto.currency ? orderDto.currency : order.currency;
-        order.financialStatus = orderDto.financialStatus ? orderDto.financialStatus : order.financialStatus;
-        order.confirmed = orderDto.confirmed ? orderDto.confirmed : order.confirmed;
-        order.totalDiscounts = orderDto.totalDiscounts ? orderDto.totalDiscounts : order.totalDiscounts;
-        order.totalLineItemsPrice = orderDto.totalLineItemsPrice ? orderDto.totalLineItemsPrice : order.totalLineItemsPrice;
-        order.cartToken = orderDto.cartToken ? orderDto.cartToken : order.cartToken;
-        order.buyerAcceptsMarketing = orderDto.buyerAcceptsMarketing ? orderDto.buyerAcceptsMarketing : order.buyerAcceptsMarketing;
-        order.referringSite = orderDto.referringSite ? orderDto.referringSite : order.referringSite;
-        order.closedAt = orderDto.closedAt ? orderDto.closedAt : order.closedAt;      
+        order.financialStatus = orderDto.financialStatus
+            ? orderDto.financialStatus
+            : order.financialStatus;
+        order.confirmed = orderDto.confirmed
+            ? orderDto.confirmed
+            : order.confirmed;
+        order.totalDiscounts = orderDto.totalDiscounts
+            ? orderDto.totalDiscounts
+            : order.totalDiscounts;
+        order.totalLineItemsPrice = orderDto.totalLineItemsPrice
+            ? orderDto.totalLineItemsPrice
+            : order.totalLineItemsPrice;
+        order.cartToken = orderDto.cartToken
+            ? orderDto.cartToken
+            : order.cartToken;
+        order.buyerAcceptsMarketing = orderDto.buyerAcceptsMarketing
+            ? orderDto.buyerAcceptsMarketing
+            : order.buyerAcceptsMarketing;
+        order.referringSite = orderDto.referringSite
+            ? orderDto.referringSite
+            : order.referringSite;
+        order.closedAt = orderDto.closedAt ? orderDto.closedAt : order.closedAt;
         order.updatedAt = new Date();
         order = await this.save(order);
         return this.getOrder(order.id);
     }
 
     getOrder(id: string) {
-        return this.createQueryBuilder("Order")
+        return this.createQueryBuilder('Order')
             .select()
-            .where("Order.id = :OrderId", { OrderId: id })
+            .where('Order.id = :OrderId', { OrderId: id })
             .getOne();
     }
 
@@ -105,10 +135,29 @@ export class OrderRepository extends Repository<Order> {
         return this.find();
     }
 
-
     async deleteOrder(id: string) {
         let Order: Order = await this.getOrder(id);
         await this.remove(Order);
         return Order;
+    }
+
+    getTotalPieces(items: LineItems[]): number {
+        let totalPieces = 0;
+
+        items.forEach(element => {
+            totalPieces += element.quantity;
+        });
+
+        return totalPieces;
+    }
+
+    getTotalWeight(items: LineItems[]): number {
+        let totalWeight = 0;
+
+        items.forEach(element => {
+            totalWeight += element.grams / 1000;
+        });
+
+        return totalWeight;
     }
 }

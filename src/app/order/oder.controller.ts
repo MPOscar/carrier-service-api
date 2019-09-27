@@ -28,6 +28,7 @@ import { Order } from './order.entity';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import * as express from 'express';
+import { SoapService } from '../soap/soap.service';
 
 @Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -35,35 +36,12 @@ export class OrderController {
     constructor(
         private userService: UserService,
         private orderService: OrderService,
+        private soapService: SoapService,
     ) {}
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
-        let createOrderDto: CreateOrderDto = {
-            order_id: order.order_id,
-            email: order.email,
-            number: order.number,
-            note: order.note,
-            token: order.token,
-            gateway: order.gateway,
-            test: order.test,
-            total_price: order.total_price,
-            subtotal_price: order.subtotal_price,
-            total_weight: order.total_weight,
-            total_tax: order.total_tax,
-            taxes_included: order.taxes_included,
-            currency: order.currency,
-            financial_status: order.financial_status,
-            confirmed: order.confirmed,
-            total_discounts: order.total_discounts,
-            total_line_items_price: order.total_line_items_price,
-            cart_token: order.cart_token,
-            buyer_accepts_marketing: order.buyer_accepts_marketing,
-            name: order.name,
-            referring_site: order.referring_site,
-            closed_at: order.closed_at,
-        };
-        console.log(order);
+        console.log('ORDER =>', order);
         let shop: any = request.headers['x-shopify-shop-domain'];
         this.userService.findUserByShop(shop).then((user: User) => {
             return this.orderService
@@ -97,6 +75,22 @@ export class OrderController {
                 });
             });
         });
+    }
+
+    @Post('admission/:orderId')
+    @UsePipes(new ValidationPipe())
+    async processAdmission(
+        @Param('orderId') orderId: string,
+        @GetUser() user: User,
+        @Response() response: express.Response,
+    ) {
+        let order: Order = await this.orderService.getOrder(orderId);
+        try {
+            const resp = await this.soapService.processAdmission(order, user);
+            return response.json({ rates: resp });
+        } catch (error) {
+            throw error;
+        }
     }
 
     @Put(':id')

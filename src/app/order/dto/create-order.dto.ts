@@ -1,7 +1,6 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
 export class CreateOrderDto {
-
     readonly order_id?: number;
 
     readonly email: string;
@@ -46,14 +45,34 @@ export class CreateOrderDto {
 
     readonly closed_at: Date;
 
-    //readonly shipping_lines: ShippingLines[]
+    readonly shipping_address: ShippingAddress;
+
+    readonly shipping_lines: ShippingLines[];
+
+    readonly line_items: LineItems[];
 
     //readonly custome: Customer;
+}
 
+export class ShippingAddress {
+    readonly first_name: string;
+
+    readonly address1: string;
+
+    readonly phone: string;
+
+    readonly city: string;
+
+    readonly zip: string;
+
+    readonly country: string;
+
+    readonly name: string;
+
+    readonly country_code: string;
 }
 
 export class ShippingLines {
-
     readonly id: number;
 
     readonly title: string;
@@ -73,12 +92,19 @@ export class ShippingLines {
     readonly carrier_identifier: string;
 
     readonly discounted_price: string;
-
 }
 
+export class LineItems {
+    readonly title: string;
+
+    readonly quantity: number;
+
+    readonly vendor: string;
+
+    readonly grams: number;
+}
 
 export class Customer {
-
     id: number;
 
     email: string;
@@ -123,12 +149,10 @@ export class Customer {
 
     admin_graphql_api_id: string;
 
-    default_address: DefaultAddress
-
+    default_address: DefaultAddress;
 }
 
 export class DefaultAddress {
-
     id: number;
 
     customer_id: number;
@@ -162,5 +186,4 @@ export class DefaultAddress {
     country_name: string;
 
     default: boolean;
-
 }
