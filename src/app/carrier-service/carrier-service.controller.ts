@@ -65,6 +65,7 @@ export class CarrierController {
                 createCarrierDto,
                 user,
             );
+            console.log('CARRIER CONTROLLER => ' + JSON.stringify(resp));
             return response.json({ rates: resp });
         } catch (error) {
             throw error;

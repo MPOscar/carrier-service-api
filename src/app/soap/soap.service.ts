@@ -53,6 +53,10 @@ export class SoapService {
             user,
         );
 
+        console.log('ARGS => ' + JSON.stringify(args));
+        console.log('GEOITEM => ' + JSON.stringify(geoItem));
+        console.log('SUCURSAL => ' + JSON.stringify(sucursalCarrier));
+
         return new Promise(
             (
                 resolve: (result: ShopifyRateResponseDto[]) => void,
