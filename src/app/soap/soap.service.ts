@@ -88,6 +88,8 @@ export class SoapService {
                             sucursalCarrier,
                         ];
 
+                        console.log('CARRIERRR => ' + JSON.stringify(res));
+
                         return resolve(res);
                     });
 
