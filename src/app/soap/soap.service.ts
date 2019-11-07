@@ -9,7 +9,6 @@ import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.d
 import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-response.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
-import { ManifestService } from '../manifest/manifest.service';
 import { GeoResService } from '../geocoder/geores.service';
 import * as dataRegions from './sucursales.json';
 
@@ -24,57 +23,60 @@ export class SoapService {
         ratesDto: ShopifyParentRateDto,
         user: User,
     ): Promise<ShopifyRateResponseDto[]> {
-        const url =
-            'http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl';
-
-        let geoItem = await this.geoReService.getGeocodeAddress(
-            ratesDto.rate.destination.address1,
-            ratesDto.rate.destination.country,
-        );
-
-        const args = {
-            // usuario: user.userApiChile,
-            // contrasena: user.passwordApiChile,
-
-            usuario: this.configService.get('SOAP_USER'),
-            contrasena: this.configService.get('SOAP_PASSWORD'),
-
-            consultaCobertura: {
-                CodigoPostalDestinatario: ratesDto.rate.destination.postal_code,
-                CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
-                ComunaDestino: geoItem ? geoItem.city : '?',
-                ComunaRemitente: ratesDto.rate.origin.province,
-                CodigoServicio: '?',
-                ImporteReembolso: 1,
-                ImporteValorAsegurado: 1,
-                Kilos: this.getTotalWeight(ratesDto.rate.items),
-                NumeroTotalPieza: this.getTotalPieces(ratesDto.rate.items),
-                PaisDestinatario: ratesDto.rate.destination.country,
-                PaisRemitente: ratesDto.rate.origin.country,
-                TipoPortes: 'P',
-                Volumen: 50 ** 3 / 1000000,
-            },
-        };
-
-        // let sucursalCarrier: ShopifyRateResponseDto = await this.getSucursal(
-        //     ratesDto,
-        // );
-
-        let sucursalCarrier: ShopifyRateResponseDto[] = await this.getSucursals(
-            ratesDto,
-        );
-
-        console.log('USERRR => ' + JSON.stringify(user));
-        console.log('GEOOOOO => ' + JSON.stringify(geoItem));
-        console.log('SUCURSAL => ' + JSON.stringify(sucursalCarrier));
-
-        let res: ShopifyRateResponseDto[] = [];
-
         return new Promise(
-            (
+            async (
                 resolve: (result: ShopifyRateResponseDto[]) => void,
                 reject: (reason) => void,
-            ): void => {
+            ): Promise<void> => {
+                const url =
+                    'http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl';
+
+                let geoItem = await this.geoReService.getGeocodeAddress(
+                    ratesDto.rate.destination.address1,
+                    ratesDto.rate.destination.country,
+                );
+
+                const args = {
+                    // usuario: user.userApiChile,
+                    // contrasena: user.passwordApiChile,
+
+                    usuario: this.configService.get('SOAP_USER'),
+                    contrasena: this.configService.get('SOAP_PASSWORD'),
+
+                    consultaCobertura: {
+                        CodigoPostalDestinatario:
+                            ratesDto.rate.destination.postal_code,
+                        CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
+                        ComunaDestino: geoItem ? geoItem.city : '?',
+                        ComunaRemitente: ratesDto.rate.origin.province,
+                        CodigoServicio: '?',
+                        ImporteReembolso: 1,
+                        ImporteValorAsegurado: 1,
+                        Kilos: this.getTotalWeight(ratesDto.rate.items),
+                        NumeroTotalPieza: this.getTotalPieces(
+                            ratesDto.rate.items,
+                        ),
+                        PaisDestinatario: ratesDto.rate.destination.country,
+                        PaisRemitente: ratesDto.rate.origin.country,
+                        TipoPortes: 'P',
+                        Volumen: 50 ** 3 / 1000000,
+                    },
+                };
+
+                // let sucursalCarrier: ShopifyRateResponseDto = await this.getSucursal(
+                //     ratesDto,
+                // );
+
+                let sucursalCarrier: ShopifyRateResponseDto[] = await this.getSucursals(
+                    ratesDto,
+                );
+
+                console.log('USERRR => ' + JSON.stringify(user));
+                console.log('GEOOOOO => ' + JSON.stringify(geoItem));
+                console.log('SUCURSAL => ' + JSON.stringify(sucursalCarrier));
+
+                let res: ShopifyRateResponseDto[] = [];
+
                 soap.createClient(url, {}, function(err, client) {
                     if (err) reject(err);
 
@@ -109,27 +111,9 @@ export class SoapService {
                             res.push(element);
                         }
                         console.log('CARRIERRR => ' + JSON.stringify(res));
+                        resolve(res);
                     });
-
-                    // Other method that return an array
-                    /* client.consultaCobertura(args, function(err, obj: RateResponse) {
-                    if(err) { throw err; }
-
-                    let res = obj.consultaCoberturaResult.ServicioTO.map((val) => {
-                        return {
-                            service_name: "Name", 
-                            service_code: val.CodigoServicio,
-                            total_price: val.TotalTasacion.Total,
-                            currency: ratesDto.rate.currency,
-                            min_delivery_date: new Date(),
-                            max_delivery_date: new Date()
-                        }
-                    });
-    
-                    return resolve(res);
-                });*/
                 });
-                resolve(res);
             },
         );
     }
@@ -149,12 +133,13 @@ export class SoapService {
                     return region.RGI == ratesDto.rate.destination.province;
                 });
 
+                let serviceCode = 25;
                 for (let i = 0; i < filterRegions.length; i++) {
                     const element = filterRegions[i];
 
                     let res: ShopifyRateResponseDto = {
                         service_name: 'PES ' + element.SUCURSAL,
-                        service_code: '07',
+                        service_code: ('0' + serviceCode++).slice(-3),
                         total_price: '0',
                         currency: ratesDto.rate.currency,
                         min_delivery_date: date.toDateString(),
