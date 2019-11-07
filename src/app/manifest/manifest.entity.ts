@@ -35,6 +35,9 @@ export class Manifest {
     @Column()
     expNumber?: string;
 
+    @Column({ nullable: true })
+    admissionCode?: string;
+
     @Column()
     createdAt?: Date;
 
@@ -42,5 +45,6 @@ export class Manifest {
     updatedAt?: Date;
 
     @OneToOne(type => Order, order => order.manifest)
+    @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     order: Order;
 }

@@ -1,9 +1,7 @@
 'use strict';
 import { Injectable } from '@nestjs/common';
-import * as NodeGeocoder from 'node-geocoder';
 import * as soap from 'soap';
 import { ConfigService } from '../common/config/config.service';
-import { GeoRes } from '../geocoder/geores.dto';
 import { RateProductResponse } from '../rates/dto/chile/rate-product-respose.dto';
 import { Sucursal } from '../rates/dto/chile/sucursal.dto';
 import { ShopifyItemDto } from '../rates/dto/shopify/shopify-item.dto';
@@ -11,10 +9,16 @@ import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.d
 import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-response.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
+import { ManifestService } from '../manifest/manifest.service';
+import { GeoResService } from '../geocoder/geores.service';
+import * as dataRegions from './sucursales.json';
 
 @Injectable()
 export class SoapService {
-    constructor(private readonly configService: ConfigService) {}
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly geoReService: GeoResService,
+    ) {}
 
     async getServiceCost(
         ratesDto: ShopifyParentRateDto,
@@ -23,7 +27,7 @@ export class SoapService {
         const url =
             'http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl';
 
-        let geoItem = await this.getGeocodeAddress(
+        let geoItem = await this.geoReService.getGeocodeAddress(
             ratesDto.rate.destination.address1,
             ratesDto.rate.destination.country,
         );
@@ -41,8 +45,8 @@ export class SoapService {
                 ComunaDestino: geoItem ? geoItem.city : '?',
                 ComunaRemitente: ratesDto.rate.origin.province,
                 CodigoServicio: '?',
-                ImporteReembolso: 5,
-                ImporteValorAsegurado: 3,
+                ImporteReembolso: 1,
+                ImporteValorAsegurado: 1,
                 Kilos: this.getTotalWeight(ratesDto.rate.items),
                 NumeroTotalPieza: this.getTotalPieces(ratesDto.rate.items),
                 PaisDestinatario: ratesDto.rate.destination.country,
@@ -52,14 +56,19 @@ export class SoapService {
             },
         };
 
-        let sucursalCarrier: ShopifyRateResponseDto = await this.getSucursal(
+        // let sucursalCarrier: ShopifyRateResponseDto = await this.getSucursal(
+        //     ratesDto,
+        // );
+
+        let sucursalCarrier: ShopifyRateResponseDto[] = await this.getSucursals(
             ratesDto,
-            user,
         );
 
         console.log('USERRR => ' + JSON.stringify(user));
         console.log('GEOOOOO => ' + JSON.stringify(geoItem));
         console.log('SUCURSAL => ' + JSON.stringify(sucursalCarrier));
+
+        let res: ShopifyRateResponseDto[] = [];
 
         return new Promise(
             (
@@ -79,26 +88,27 @@ export class SoapService {
                         console.log(
                             'CARRIERRR CHILE => ' + JSON.stringify(obj),
                         );
-                        sucursalCarrier.total_price =
-                            obj.consultaCoberturaPorProductoResult.TotalTasacion.Total;
+
                         let date = new Date();
-                        let res: ShopifyRateResponseDto[] = [
-                            {
-                                service_name: 'PED Correos de Chile',
-                                service_code: '24',
-                                total_price:
-                                    obj.consultaCoberturaPorProductoResult
-                                        .TotalTasacion.Total,
-                                currency: ratesDto.rate.currency,
-                                min_delivery_date: date.toDateString(),
-                                max_delivery_date: (
-                                    date.getDate() + 30
-                                ).toString(),
-                            },
-                            sucursalCarrier,
-                        ];
+                        res.push({
+                            service_name: 'PED Correos de Chile',
+                            service_code: '24',
+                            total_price:
+                                obj.consultaCoberturaPorProductoResult
+                                    .TotalTasacion.Total,
+                            currency: ratesDto.rate.currency,
+                            min_delivery_date: date.toDateString(),
+                            max_delivery_date: (date.getDate() + 30).toString(),
+                        });
+
+                        for (let i = 0; i < sucursalCarrier.length; i++) {
+                            const element = sucursalCarrier[i];
+                            element.total_price =
+                                obj.consultaCoberturaPorProductoResult.TotalTasacion.Total;
+
+                            res.push(element);
+                        }
                         console.log('CARRIERRR => ' + JSON.stringify(res));
-                        return resolve(res);
                     });
 
                     // Other method that return an array
@@ -119,18 +129,53 @@ export class SoapService {
                     return resolve(res);
                 });*/
                 });
+                resolve(res);
+            },
+        );
+    }
+
+    async getSucursals(
+        ratesDto: ShopifyParentRateDto,
+    ): Promise<ShopifyRateResponseDto[]> {
+        return new Promise(
+            (
+                resolve: (result: ShopifyRateResponseDto[]) => void,
+                reject: (reason) => void,
+            ): void => {
+                let responseArr = [];
+                let date = new Date();
+
+                let filterRegions = dataRegions.filter(region => {
+                    return region.RGI == ratesDto.rate.destination.province;
+                });
+
+                for (let i = 0; i < filterRegions.length; i++) {
+                    const element = filterRegions[i];
+
+                    let res: ShopifyRateResponseDto = {
+                        service_name: 'PES ' + element.SUCURSAL,
+                        service_code: '07',
+                        total_price: '0',
+                        currency: ratesDto.rate.currency,
+                        min_delivery_date: date.toDateString(),
+                        max_delivery_date: (date.getDate() + 30).toString(),
+                    };
+
+                    responseArr.push(res);
+                }
+
+                resolve(responseArr);
             },
         );
     }
 
     async getSucursal(
         ratesDto: ShopifyParentRateDto,
-        user: User,
     ): Promise<ShopifyRateResponseDto> {
         const url =
             'http://b2b.correos.cl:8008/ServicioListadoSucursalesExterno/cch/ws/distribucionGeografica/implementacion/ServicioExternoListarSucursales.asmx?wsdl';
 
-        let geoItem = await this.getGeocodeAddress(
+        let geoItem = await this.geoReService.getGeocodeAddress(
             ratesDto.rate.destination.address1,
             ratesDto.rate.destination.country,
         );
@@ -164,6 +209,8 @@ export class SoapService {
                         if (err) reject(err);
 
                         let date = new Date();
+
+                        if (!obj.consultaSucursalMasCercanaResult) return null;
                         let res: ShopifyRateResponseDto = {
                             service_name:
                                 'PES ' +
@@ -187,9 +234,9 @@ export class SoapService {
         const url =
             'http://apicert.correos.cl:8008/ServicioAdmisionCEPExterno/cch/ws/enviosCEP/externo/implementacion/ServicioExternoAdmisionCEP.asmx?wsdl';
 
-        let geoItem = await this.getGeocodeAddress(
+        let geoItem = await this.geoReService.getGeocodeAddress(
             order.receiverAddress,
-            order.receiverCountry,
+            'CL',
         );
 
         const args = {
@@ -199,39 +246,49 @@ export class SoapService {
             contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
-                CodigoAdmision: '?',
+                CodigoAdmision: '011043183201',
                 ClienteRemitente: user.idApiChile,
-                CentroRemitente: '?',
-                NombreRemitente: '?',
+                CentroRemitente: '',
+                NombreRemitente: user.firstName, // TODO: save in user store name
                 DireccionRemitente: user.address,
                 PaisRemitente: '056',
-                CodigoPostalRemitente: '?',
+                CodigoPostalRemitente: '',
                 ComunaRemitente: user.comuna,
-                RutRemitente: '?',
-                PersonaContactoRemitente: user.firstName + ' ' + user.lastName,
-                TelefonoContactoRemitente: user.phone,
-                ClienteDestinatario: '?',
-                CentroDestinatario: '?',
-                NombreDestinatario: order.receiverName,
+                RutRemitente: '',
+                PersonaContactoRemitente: (
+                    user.firstName +
+                    ' ' +
+                    user.lastName
+                ).toString(),
+                TelefonoContactoRemitente: user.phone ? user.phone : '',
+                ClienteDestinatario: '',
+                CentroDestinatario: '',
+                NombreDestinatario: order.receiverName
+                    ? order.receiverName
+                    : '',
                 DireccionDestinatario: order.receiverAddress,
                 PaisDestinatario: '056',
-                CodigoPostalDestinatario: '?',
+                CodigoPostalDestinatario: '',
                 ComunaDestinatario: geoItem.city,
-                RutDestinatario: '?',
-                PersonaContactoDestinatario: order.receiverContactName,
-                TelefonoContactoDestinatario: order.receiverContactPhone,
-                CodigoServicio: order.serviceCode,
-                NumeroTotalPiezas: order.totalPieces,
-                Kilos: order.kg,
-                Volumen: order.volumen,
+                RutDestinatario: '',
+                PersonaContactoDestinatario: order.receiverContactName
+                    ? order.receiverContactName
+                    : '',
+                TelefonoContactoDestinatario: order.receiverContactPhone
+                    ? order.receiverContactPhone
+                    : '',
+                CodigoServicio: order.serviceCode ? order.serviceCode : '',
+                NumeroTotalPiezas: order.totalPieces ? order.totalPieces : '',
+                Kilos: order.kg ? order.kg : '',
+                Volumen: order.volumen ? order.volumen : '',
                 NumeroReferencia: '011043183201',
                 ImporteReembolso: 0,
                 ImporteValorDeclarado: 0,
                 TipoPortes: 'P',
-                Observaciones: '?',
-                Observaciones2: '?',
+                Observaciones: '',
+                Observaciones2: '',
                 EmailDestino: order.email,
-                TipoMercancia: '?',
+                TipoMercancia: '',
                 DevolucionConforme: 'N',
                 NumeroDocumentos: 0,
                 PagoSeguro: 'N',
@@ -248,37 +305,10 @@ export class SoapService {
 
                     client.admitirEnvio(args, function(err, obj: any) {
                         if (err) reject(err);
-                        console.log('ADMISION => ' + JSON.stringify(obj));
+
                         return resolve(obj);
                     });
                 });
-            },
-        );
-    }
-
-    getGeocodeAddress(address: string, countryCode: string): Promise<GeoRes> {
-        return new Promise(
-            (
-                resolve: (result: GeoRes) => void,
-                reject: (reason) => void,
-            ): void => {
-                const options = {
-                    provider: 'mapquest',
-                    httpAdapter: 'http',
-                    apiKey: this.configService.get('MAPQUEST_API_KEY'),
-                    formatter: null,
-                };
-
-                var geocoder = NodeGeocoder(options);
-
-                geocoder.geocode(
-                    { address: address, country: countryCode },
-                    function(err, res: GeoRes[]) {
-                        if (err) reject(err);
-
-                        resolve(res[0]);
-                    },
-                );
             },
         );
     }

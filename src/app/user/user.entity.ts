@@ -63,6 +63,12 @@ export class User {
     @Column({ nullable: true })
     profile?: boolean;
 
+    @Column({ nullable: false, default: 0 })
+    correlativeNumber?: number;
+
+    @Column({ nullable: true })
+    rut?: string;
+
     @Column()
     createdAt: Date;
 

@@ -10,6 +10,7 @@ import {
     UsePipes,
     Req,
     Response,
+    Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -29,6 +30,11 @@ import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import * as express from 'express';
 import { SoapService } from '../soap/soap.service';
+import { ManifestService } from '../manifest/manifest.service';
+import { ManifestDto } from '../manifest/dto/create-manifest.dto';
+import { AdmissionResponseDto } from '../admission/dto/admission-response.dto';
+import { plainToClass } from 'class-transformer';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
 
 @Controller('webhook')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -37,6 +43,7 @@ export class OrderController {
         private userService: UserService,
         private orderService: OrderService,
         private soapService: SoapService,
+        private manifestService: ManifestService,
     ) {}
 
     @Post('orders-create')
@@ -77,23 +84,52 @@ export class OrderController {
         });
     }
 
-    @Post('admission/:orderId')
+    @Post('admission')
     @UsePipes(new ValidationPipe())
     async processAdmission(
-        @Param('orderId') orderId: string,
-        @GetUser() user: User,
+        @Query() query: any,
         @Response() response: express.Response,
     ) {
-        let order: Order = await this.orderService.getOrder(orderId);
+        let user: User = await this.userService.getUser(query.userId);
+        let order: Order = await this.orderService.getOrder(query.orderId);
         try {
-            const resp = await this.soapService.processAdmission(order, user);
-            return response.json({ rates: resp });
+            const resp: AdmissionResponseDto = await this.soapService.processAdmission(
+                order,
+                user,
+            );
+
+            const userDto = plainToClass(UpdateUserDto, user);
+            let correlativeNumber = user.correlativeNumber + 1;
+
+            let manifestDto: ManifestDto = {
+                clientRut: '88020127381', // must be user.rut
+                clientName: user.firstName,
+                manifestNumber: user.idApiChile + correlativeNumber,
+                productName: order.name,
+                trackingReference: resp.admitirEnvioResult.CodigoEncaminamiento,
+                packagesCount: 1,
+                barCode:
+                    resp.admitirEnvioResult.CodigoEncaminamiento +
+                    resp.admitirEnvioResult.NumeroEnvio +
+                    '1', //TODO: Change 1 for tatola pieces
+                expNumber: '805', // TODO: check this
+                admissionCode: resp.admitirEnvioResult.CodigoAdmision,
+            };
+
+            userDto.correlativeNumber = correlativeNumber;
+            await this.userService.update(user.id, userDto);
+
+            const manifest = await this.manifestService.create(
+                manifestDto,
+                order,
+            );
+            return response.json({ manifest });
         } catch (error) {
             throw error;
         }
     }
 
-    @Put(':id')
+    @Put('orders:id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() order: UpdateOrderDto) {
         return this.orderService
@@ -106,7 +142,7 @@ export class OrderController {
             });
     }
 
-    @Get(':id')
+    @Get('orders:id')
     async getOrder(@Param('id') id: string) {
         return this.orderService
             .getOrder(id)
@@ -118,7 +154,7 @@ export class OrderController {
             });
     }
 
-    @Get()
+    @Get('orders')
     async getOrders(@GetUser() user: User) {
         return this.orderService
             .getOrders(user)
@@ -132,7 +168,7 @@ export class OrderController {
             });
     }
 
-    @Delete(':id')
+    @Delete('orders:id')
     async delete(@Param('id') id: string) {
         return this.orderService
             .delete(id)
@@ -147,6 +183,36 @@ export class OrderController {
     getIOrder(order: Order): IOrder {
         return {
             id: order.id,
+            email: order.email,
+            number: order.number,
+            note: order.note,
+            token: order.token,
+            gateway: order.gateway,
+            test: order.test,
+            totalPrice: order.totalPrice,
+            subtotalPrice: order.subtotalPrice,
+            totalWeight: order.totalWeight,
+            totalTax: order.totalTax,
+            taxesIncluded: order.taxesIncluded,
+            currency: order.currency,
+            financialStatus: order.financialStatus,
+            confirmed: order.confirmed,
+            totalDiscounts: order.totalDiscounts,
+            totalLineItemsPrice: order.totalLineItemsPrice,
+            cartToken: order.cartToken,
+            buyerAcceptsMarketing: order.buyerAcceptsMarketing,
+            name: order.name,
+            referringSite: order.referringSite,
+            receiverName: order.receiverName,
+            receiverAddress: order.receiverAddress,
+            receiverContactName: order.receiverContactName,
+            receiverContactPhone: order.receiverContactPhone,
+            serviceCode: order.serviceCode,
+            totalPieces: order.totalPieces,
+            kg: order.kg,
+            volumen: order.volumen,
+            admissionProcessed: order.admissionProcessed,
+            receiverCountry: order.receiverCountry,
         };
     }
 }

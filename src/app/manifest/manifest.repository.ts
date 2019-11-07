@@ -12,11 +12,12 @@ export class ManifestRepository extends Repository<Manifest> {
         let manifest: Manifest = this.create();
         manifest.clientRut = manifestDto.clientRut;
         manifest.manifestNumber = manifestDto.manifestNumber;
-        manifest.productName = manifestDto.productName;
+        manifest.productName = order.name;
         manifest.trackingReference = manifestDto.trackingReference;
         manifest.barCode = manifestDto.barCode;
         manifest.packagesCount = manifestDto.packagesCount;
         manifest.expNumber = manifestDto.expNumber;
+        manifest.admissionCode = manifestDto.admissionCode;
         manifest.order = order;
         manifest.updatedAt = new Date();
         manifest.createdAt = new Date();
@@ -47,6 +48,7 @@ export class ManifestRepository extends Repository<Manifest> {
         manifest.expNumber = manifestDto.expNumber
             ? manifestDto.expNumber
             : manifest.expNumber;
+        manifest.admissionCode = manifestDto.admissionCode;
         manifest.updatedAt = new Date();
         manifest = await this.save(manifest);
         return this.getManifest(manifest.id);
@@ -56,7 +58,14 @@ export class ManifestRepository extends Repository<Manifest> {
         return this.createQueryBuilder('Manifest')
             .select()
             .where('Manifest.id = :ManifestId', { ManifestId: id })
+            .innerJoinAndSelect('Manifest.order', 'order')
             .getOne();
+    }
+
+    getManifests() {
+        return this.createQueryBuilder('manifest')
+            .select()
+            .getMany();
     }
 
     async deleteManifest(id: string) {

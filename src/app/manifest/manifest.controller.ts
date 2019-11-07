@@ -31,7 +31,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_order';
-const forwardingAddress = 'http://bb3c10db.ngrok.io/api/v1';
+const forwardingAddress = configService.get('FORWARDING_ADDRESS');
 
 @Controller('manifest')
 //@UseGuards(AuthGuard(), RolesGuard)
@@ -43,8 +43,8 @@ export class ManifestController {
     async update(@Param('id') id: string, @Body() manifest: ManifestDto) {
         return this.manifestService
             .update(id, manifest)
-            .then((carrier: Manifest) => {
-                return this.getIManifest(carrier);
+            .then((manifest: Manifest) => {
+                return this.getIManifest(manifest);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -52,10 +52,18 @@ export class ManifestController {
     }
 
     @Get()
-    async getManifests(
-        @Query() query: any,
-        @Response() response: express.Response,
-    ) {}
+    async getManifests() {
+        return this.manifestService
+            .getManifests()
+            .then((manifests: Manifest[]) => {
+                return manifests.map((manifest: Manifest) => {
+                    return this.getIManifest(manifest);
+                });
+            })
+            .catch((error: ErrorResult) => {
+                return ErrorManager.manageErrorResult(error);
+            });
+    }
 
     @Get(':id')
     async getManifest(
@@ -85,6 +93,7 @@ export class ManifestController {
             packagesCount: manifest.packagesCount,
             barCode: manifest.barCode,
             expNumber: manifest.expNumber,
+            admissionCode: manifest.admissionCode,
             createdAt: manifest.createdAt,
             updatedAt: manifest.updatedAt,
         };

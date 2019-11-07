@@ -26,7 +26,7 @@ const nonce = require('nonce')();
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes = 'write_shipping, read_order';
-const forwardingAddress = 'http://bb3c10db.ngrok.io/api/v1';
+const forwardingAddress = configService.get('FORWARDING_ADDRESS');
 
 @Controller('item')
 //@UseGuards(AuthGuard(), RolesGuard)

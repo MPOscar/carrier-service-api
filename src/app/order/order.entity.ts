@@ -121,6 +121,5 @@ export class Order {
     user: User;
 
     @OneToOne(type => Manifest, manifest => manifest.order)
-    @JoinColumn({ name: 'manifest_id', referencedColumnName: 'id' })
     manifest: Manifest;
 }

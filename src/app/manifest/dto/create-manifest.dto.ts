@@ -1,5 +1,5 @@
 import { IsString, IsInt, IsEmail, IsUUID, IsNumber } from 'class-validator';
-import { CreateUserDto } from '../../user/dto/create-user.dto'
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 export class ManifestDto {
     @IsString()
@@ -8,17 +8,8 @@ export class ManifestDto {
     @IsString()
     readonly clientName: string;
 
-    // @IsString()
-    // readonly clientIdApiChile: string; // SAP code
-
-    // @IsString()
-    // readonly user: string; // by default WEB_SERVICE
-
     @IsString()
     readonly manifestNumber: string;
-
-    // @IsString()
-    // readonly comuna: string;
 
     @IsString()
     readonly productName: string;
@@ -34,6 +25,9 @@ export class ManifestDto {
 
     @IsString()
     readonly expNumber: string;
+
+    @IsString()
+    readonly admissionCode: string;
 }
 
 export class RegisterManifestDto {

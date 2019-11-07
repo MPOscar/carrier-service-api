@@ -10,6 +10,8 @@ import { OrderModule } from './app/order/order.module';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import { HttpErrorFilter } from './app/common/shared/http-error.filter';
 import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
+import { ManifestModule } from './app/manifest/manifest.module';
+import { GeoResModule } from './app/geocoder/geores.module';
 
 @Module({
     imports: [
@@ -21,6 +23,9 @@ import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
         ItemModule,
         LabelModule,
         OrderModule,
+        ManifestModule,
+        LabelModule,
+        GeoResModule,
     ],
     controllers: [],
     providers: [

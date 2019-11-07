@@ -26,19 +26,19 @@ export class ManifestService {
     constructor(
         //@InjectRepository(Manifest)
         private readonly httpService: HttpService,
-        private readonly ManifestRepository: ManifestRepository,
+        private readonly manifestRepository: ManifestRepository,
         private readonly userService: UserService,
         private readonly orderService: OrderService,
     ) {}
 
-    async create(manifestDto: ManifestDto, orderId: string): Promise<Manifest> {
+    async create(manifestDto: ManifestDto, order: Order): Promise<Manifest> {
         return new Promise(
             async (
                 resolve: (result: Manifest) => void,
                 reject: (reason: ErrorResult) => void,
             ): Promise<void> => {
-                const order: Order = await this.orderService.getOrder(orderId);
-                this.ManifestRepository.createManifest(manifestDto, order)
+                this.manifestRepository
+                    .createManifest(manifestDto, order)
                     .then((manifest: Manifest) => {
                         resolve(manifest);
                     })
@@ -72,7 +72,8 @@ export class ManifestService {
                 resolve: (result: Manifest) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.ManifestRepository.getManifest(id)
+                this.manifestRepository
+                    .getManifest(id)
                     .then((Manifest: Manifest) => {
                         if (!Manifest) {
                             reject(
@@ -83,7 +84,8 @@ export class ManifestService {
                             );
                             return;
                         }
-                        this.ManifestRepository.updateManifest(id, manifestDto)
+                        this.manifestRepository
+                            .updateManifest(id, manifestDto)
                             .then((Manifest: Manifest) => {
                                 resolve(Manifest);
                             })
@@ -114,9 +116,10 @@ export class ManifestService {
                 resolve: (result: Manifest) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.ManifestRepository.getManifest(id)
-                    .then((Manifest: Manifest) => {
-                        if (!Manifest) {
+                this.manifestRepository
+                    .getManifest(id)
+                    .then((manifest: Manifest) => {
+                        if (!manifest) {
                             reject(
                                 new NotFoundResult(
                                     ErrorCode.UnknownEntity,
@@ -125,7 +128,30 @@ export class ManifestService {
                             );
                             return;
                         }
-                        resolve(Manifest);
+                        resolve(manifest);
+                    })
+                    .catch(error => {
+                        reject(
+                            new InternalServerErrorResult(
+                                ErrorCode.GeneralError,
+                                error,
+                            ),
+                        );
+                    });
+            },
+        );
+    }
+
+    getManifests(): Promise<Manifest[]> {
+        return new Promise(
+            (
+                resolve: (result: Manifest[]) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.manifestRepository
+                    .getManifests()
+                    .then((manifests: Manifest[]) => {
+                        resolve(manifests);
                     })
                     .catch(error => {
                         reject(
@@ -145,7 +171,8 @@ export class ManifestService {
                 resolve: (result: Manifest) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.ManifestRepository.getManifest(id)
+                this.manifestRepository
+                    .getManifest(id)
                     .then((Manifest: Manifest) => {
                         if (!Manifest) {
                             reject(
@@ -156,8 +183,9 @@ export class ManifestService {
                             );
                             return;
                         }
-                        this.ManifestRepository.remove(Manifest).then(
-                            (Manifest: Manifest) => {
+                        this.manifestRepository
+                            .remove(Manifest)
+                            .then((Manifest: Manifest) => {
                                 if (!Manifest) {
                                     reject(
                                         new BadRequestResult(
@@ -168,8 +196,7 @@ export class ManifestService {
                                     return;
                                 }
                                 resolve(Manifest);
-                            },
-                        );
+                            });
                     })
                     .catch(error => {
                         reject(

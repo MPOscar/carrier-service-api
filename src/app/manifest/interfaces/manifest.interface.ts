@@ -7,6 +7,7 @@ export interface IManifest {
     readonly packagesCount?: number;
     readonly barCode?: string;
     readonly expNumber?: string;
+    readonly admissionCode?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }
