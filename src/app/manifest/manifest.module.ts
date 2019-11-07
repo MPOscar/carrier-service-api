@@ -7,20 +7,18 @@ import { UserModule } from '../user/user.module';
 import { Manifest } from './manifest.entity';
 import { ManifestRepository } from './manifest.repository';
 import { AuthModule } from '../common/auth/auth.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
-    imports: [  
-        HttpModule,     
+    imports: [
+        HttpModule,
         TypeOrmModule.forFeature([Manifest, ManifestRepository]),
         AuthModule,
         UserModule,
+        OrderModule,
     ],
     controllers: [ManifestController],
-    providers: [
-        ManifestService,
-    ],
-    exports: [
-        ManifestService,
-    ],
+    providers: [ManifestService],
+    exports: [ManifestService],
 })
-export class ManifestModule { }
+export class ManifestModule {}

@@ -1,37 +1,42 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    JoinColumn,
+    OneToOne,
+} from 'typeorm';
+import { User } from '../user/user.entity';
+import { Order } from '../order/order.entity';
 
 @Entity()
 export class Manifest {
-
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
     @Column()
-    name?: string;
+    clientRut?: string;
 
     @Column()
-    phone?: string;
+    manifestNumber?: string;
 
     @Column()
-    email?: string;
+    productName?: string;
 
     @Column()
-    address?: string;
+    trackingReference?: string;
 
     @Column()
-    city?: string;
+    packagesCount?: number;
 
     @Column()
-    state?: string;
+    barCode?: string;
 
     @Column()
-    language?: string;
+    expNumber?: string;
 
-    @Column()
-    driverAssignRadius?: number;
-
-    @Column()
-    zip?: number;
+    @Column({ nullable: true })
+    admissionCode?: string;
 
     @Column()
     createdAt?: Date;
@@ -39,4 +44,7 @@ export class Manifest {
     @Column()
     updatedAt?: Date;
 
+    @OneToOne(type => Order, order => order.manifest)
+    @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
+    order: Order;
 }

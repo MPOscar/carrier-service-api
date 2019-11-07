@@ -78,10 +78,10 @@ export class AdmissionRequestDto {
 
     @IsNumber()
     readonly referenceNumber: number;
-    
+
     @IsNumber()
     readonly refundAmount: number;
-    
+
     @IsNumber()
     readonly amountInsuredValue: number;
 
@@ -108,5 +108,4 @@ export class AdmissionRequestDto {
 
     @IsString()
     readonly securePayment: string;
-
 }

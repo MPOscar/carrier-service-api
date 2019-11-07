@@ -1,14 +1,13 @@
 export interface IManifest {
-    readonly id: string;
-    readonly name: string;
-    readonly phone: string;
-    readonly email: string;
-    readonly address: string;
-    readonly city: string;
-    readonly state: string;
-    readonly zip: number;
-    readonly language: string;    
-    readonly driverAssignRadius: number;
+    readonly id?: string;
+    readonly clientRut?: string;
+    readonly manifestNumber?: string;
+    readonly productName?: string;
+    readonly trackingReference?: string;
+    readonly packagesCount?: number;
+    readonly barCode?: string;
+    readonly expNumber?: string;
+    readonly admissionCode?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }

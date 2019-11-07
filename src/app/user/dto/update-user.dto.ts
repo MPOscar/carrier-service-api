@@ -1,4 +1,11 @@
-import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
+import {
+    IsString,
+    IsIn,
+    IsByteLength,
+    IsEmail,
+    MinLength,
+    IsNumber,
+} from 'class-validator';
 
 export class UpdateUserDto {
     @IsEmail()
@@ -9,25 +16,25 @@ export class UpdateUserDto {
 
     @IsString()
     language: string;
-    
+
     @IsString()
     lastLogin?: Date;
-    
+
     @IsString()
     lastName: string;
-    
+
     @IsString()
     password: string;
 
     @IsString()
     phone: string;
-  
+
     @IsString()
     verificationCode: string;
 
     @IsString()
     region: string;
-    
+
     @IsString()
     comuna: string;
 
@@ -37,7 +44,7 @@ export class UpdateUserDto {
     @IsString()
     zip: string;
 
-    @IsString()    
+    @IsString()
     shopUrl: string;
 
     @IsString()
@@ -49,9 +56,15 @@ export class UpdateUserDto {
     @IsString()
     idApiChile: string;
 
-    isDeleted?: boolean
+    @IsNumber()
+    correlativeNumber?: number;
+
+    isDeleted?: boolean;
 
     profile?: boolean;
+
+    @IsString()
+    rut?: string;
 
     createdAt: Date;
 

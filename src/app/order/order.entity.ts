@@ -8,6 +8,7 @@ import {
     OneToOne,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Manifest } from '../manifest/manifest.entity';
 
 @Entity()
 export class Order {
@@ -77,6 +78,36 @@ export class Order {
     referringSite: string;
 
     @Column({ nullable: true })
+    receiverName: string;
+
+    @Column({ nullable: true })
+    receiverAddress: string;
+
+    @Column({ nullable: true })
+    receiverContactName: string;
+
+    @Column({ nullable: true })
+    receiverContactPhone: string;
+
+    @Column({ nullable: true })
+    serviceCode: string;
+
+    @Column({ nullable: true })
+    totalPieces: number;
+
+    @Column({ nullable: true })
+    kg: number;
+
+    @Column({ nullable: true })
+    volumen: number;
+
+    @Column({ nullable: true, default: false })
+    admissionProcessed: boolean;
+
+    @Column({ nullable: true })
+    receiverCountry: string;
+
+    @Column({ nullable: true })
     closedAt: Date;
 
     @Column({ nullable: true })
@@ -88,4 +119,7 @@ export class Order {
     @ManyToOne(type => User)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user: User;
+
+    @OneToOne(type => Manifest, manifest => manifest.order)
+    manifest: Manifest;
 }

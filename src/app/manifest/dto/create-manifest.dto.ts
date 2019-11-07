@@ -1,37 +1,36 @@
-import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
-import { CreateUserDto } from '../../user/dto/create-user.dto'
+import { IsString, IsInt, IsEmail, IsUUID, IsNumber } from 'class-validator';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
-export class CreateManifestDto {
+export class ManifestDto {
     @IsString()
-    readonly name: string;
-
-    @IsString()
-    readonly phone: string;
-
-    @IsEmail()
-    readonly email: string;
+    readonly clientRut: string;
 
     @IsString()
-    readonly address: string;
+    readonly clientName: string;
 
     @IsString()
-    readonly city: string;
+    readonly manifestNumber: string;
 
     @IsString()
-    readonly state: string;
-
-    @IsInt()
-    readonly zip: number;
+    readonly productName: string;
 
     @IsString()
-    readonly language: string;
-    
-    @IsInt()
-    readonly driverAssignRadius: number;
+    readonly trackingReference: string;
 
+    @IsNumber()
+    readonly packagesCount: number;
+
+    @IsString()
+    readonly barCode: string;
+
+    @IsString()
+    readonly expNumber: string;
+
+    @IsString()
+    readonly admissionCode: string;
 }
 
 export class RegisterManifestDto {
-    readonly company: CreateManifestDto;
+    readonly company: ManifestDto;
     readonly user: CreateUserDto;
 }

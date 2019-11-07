@@ -1,33 +1,36 @@
 export interface IOrder {
-
     readonly id?: string;
-
     readonly order_id?: number;
-
-    readonly status?: string;   
-
-    readonly service?: string;    
-
-    readonly tracking_company?: string;
-
-    readonly shipment_status?: string;
-
-    readonly location_id?: string;
-
     readonly email?: string;
-
-    readonly tracking_number?: string;
-
-    readonly tracking_numbers?: string;
-
-    readonly tracking_url?: string;
-
-    readonly tracking_urls?: string;
-
+    readonly number?: number;
+    readonly note?: string;
+    readonly token?: string;
+    readonly gateway?: string;
+    readonly test?: boolean;
+    readonly totalPrice?: string;
+    readonly subtotalPrice?: string;
+    readonly totalWeight?: number;
+    readonly totalTax?: string;
+    readonly taxesIncluded?: boolean;
+    readonly currency?: string;
+    readonly financialStatus?: string;
+    readonly confirmed?: boolean;
+    readonly totalDiscounts?: string;
+    readonly totalLineItemsPrice?: string;
+    readonly cartToken?: string;
+    readonly buyerAcceptsMarketing?: boolean;
     readonly name?: string;
-
+    readonly referringSite?: string;
+    readonly receiverName?: string;
+    readonly receiverAddress?: string;
+    readonly receiverContactName?: string;
+    readonly receiverContactPhone?: string;
+    readonly serviceCode?: string;
+    readonly totalPieces?: number;
+    readonly kg?: number;
+    readonly volumen?: number;
+    readonly admissionProcessed?: boolean;
+    readonly receiverCountry?: string;
     readonly created_at?: Date;
-
     readonly updated_at?: Date;
-
 }

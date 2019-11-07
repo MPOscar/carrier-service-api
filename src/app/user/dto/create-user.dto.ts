@@ -57,4 +57,7 @@ export class CreateUserDto {
 
     profile?: boolean;
 
+    @IsString()
+    rut?: string;
+
 }

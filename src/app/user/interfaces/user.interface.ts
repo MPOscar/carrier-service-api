@@ -41,6 +41,8 @@ export interface IUser {
 
     readonly hmac?: boolean;
 
+    readonly rut?: boolean;
+
     readonly createdAt?: Date;
 
     readonly updatedAt?: Date;

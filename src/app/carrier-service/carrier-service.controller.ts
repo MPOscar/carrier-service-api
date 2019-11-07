@@ -239,7 +239,8 @@ export class CarrierController {
                                     })
                                     .catch(error => {
                                         console.log(
-                                            'ERROR 2 => ' + error.error,
+                                            'ERROR 2 => ' +
+                                                JSON.stringify(error.error),
                                         );
                                         return res.status(400).send({
                                             user: user,
