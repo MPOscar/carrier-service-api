@@ -37,18 +37,18 @@ export class SoapService {
                 );
 
                 const args = {
-                    // usuario: user.userApiChile,
-                    // contrasena: user.passwordApiChile,
+                    usuario: user.userApiChile,
+                    contrasena: user.passwordApiChile,
 
-                    usuario: this.configService.get('SOAP_USER'),
-                    contrasena: this.configService.get('SOAP_PASSWORD'),
+                    // usuario: this.configService.get('SOAP_USER'),
+                    // contrasena: this.configService.get('SOAP_PASSWORD'),
 
                     consultaCobertura: {
                         CodigoPostalDestinatario:
                             ratesDto.rate.destination.postal_code,
                         CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
                         ComunaDestino: geoItem ? geoItem.city : '?',
-                        ComunaRemitente: ratesDto.rate.origin.province,
+                        ComunaRemitente: user.comuna,
                         CodigoServicio: '?',
                         ImporteReembolso: 1,
                         ImporteValorAsegurado: 1,
@@ -225,10 +225,10 @@ export class SoapService {
         );
 
         const args = {
-            // usuario: user.userApiChile,
-            // contrasena: user.passwordApiChile,
-            usuario: this.configService.get('SOAP_USER'),
-            contrasena: this.configService.get('SOAP_PASSWORD'),
+            usuario: user.userApiChile,
+            contrasena: user.passwordApiChile,
+            // usuario: this.configService.get('SOAP_USER'),
+            // contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
                 CodigoAdmision: '011043183201',
