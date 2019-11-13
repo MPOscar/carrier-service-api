@@ -69,6 +69,12 @@ export class User {
     @Column({ nullable: true })
     rut?: string;
 
+    @Column({ nullable: true })
+    labelFormat?: string;
+
+    @Column({ nullable: true })
+    recharge?: number;
+
     @Column()
     createdAt: Date;
 

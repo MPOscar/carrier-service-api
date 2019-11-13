@@ -10,7 +10,7 @@ import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-respon
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
 import { GeoResService } from '../geocoder/geores.service';
-import * as dataRegions from './sucursales.json';
+import * as dataRegions from './region-comuna-sucursal.json';
 
 @Injectable()
 export class SoapService {
@@ -31,49 +31,47 @@ export class SoapService {
                 const url =
                     'http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl';
 
-                let geoItem = await this.geoReService.getGeocodeAddress(
-                    ratesDto.rate.destination.address1,
-                    ratesDto.rate.destination.country,
-                );
+                let comunaDestino = dataRegions
+                    .find(reg => reg.rgi == ratesDto.rate.destination.province)
+                    .comunas.find(
+                        comuna =>
+                            comuna.name.includes(
+                                ratesDto.rate.destination.city.toUpperCase(),
+                            ) ||
+                            ratesDto.rate.destination.city
+                                .toUpperCase()
+                                .includes(comuna.name),
+                    ).name;
 
                 const args = {
-                    usuario: user.userApiChile,
-                    contrasena: user.passwordApiChile,
+                    // usuario: user.userApiChile,
+                    // contrasena: user.passwordApiChile,
 
-                    // usuario: this.configService.get('SOAP_USER'),
-                    // contrasena: this.configService.get('SOAP_PASSWORD'),
+                    usuario: this.configService.get('SOAP_USER'),
+                    contrasena: this.configService.get('SOAP_PASSWORD'),
 
                     consultaCobertura: {
-                        CodigoPostalDestinatario:
-                            ratesDto.rate.destination.postal_code,
-                        CodigoPostalRemitente: ratesDto.rate.origin.postal_code,
-                        ComunaDestino: geoItem ? geoItem.city : '?',
-                        ComunaRemitente: user.comuna,
-                        CodigoServicio: '?',
-                        ImporteReembolso: 1,
-                        ImporteValorAsegurado: 1,
+                        CodigoPostalDestinatario: '',
+                        CodigoPostalRemitente: '9160002', // user.zip,
+                        ComunaDestino: comunaDestino,
+                        ComunaRemitente: 'SANTIAGO', // user.comuna,
+                        CodigoServicio: '24',
+                        ImporteReembolso: '',
+                        ImporteValorAsegurado: '',
                         Kilos: this.getTotalWeight(ratesDto.rate.items),
                         NumeroTotalPieza: this.getTotalPieces(
                             ratesDto.rate.items,
                         ),
-                        PaisDestinatario: ratesDto.rate.destination.country,
-                        PaisRemitente: ratesDto.rate.origin.country,
+                        PaisDestinatario: '056',
+                        PaisRemitente: '056',
                         TipoPortes: 'P',
-                        Volumen: 50 ** 3 / 1000000,
+                        Volumen: 0.000001,
                     },
                 };
-
-                // let sucursalCarrier: ShopifyRateResponseDto = await this.getSucursal(
-                //     ratesDto,
-                // );
 
                 let sucursalCarrier: ShopifyRateResponseDto[] = await this.getSucursals(
                     ratesDto,
                 );
-
-                console.log('USERRR => ' + JSON.stringify(user));
-                console.log('GEOOOOO => ' + JSON.stringify(geoItem));
-                console.log('SUCURSAL => ' + JSON.stringify(sucursalCarrier));
 
                 let res: ShopifyRateResponseDto[] = [];
 
@@ -93,7 +91,7 @@ export class SoapService {
 
                         let date = new Date();
                         res.push({
-                            service_name: 'PED Correos de Chile',
+                            service_name: 'OFICINA DE CORREOS',
                             service_code: '24',
                             total_price:
                                 obj.consultaCoberturaPorProductoResult
@@ -129,16 +127,25 @@ export class SoapService {
                 let responseArr = [];
                 let date = new Date();
 
-                let filterRegions = dataRegions.filter(region => {
-                    return region.RGI == ratesDto.rate.destination.province;
-                });
+                let sucursales = dataRegions
+                    .find(reg => reg.rgi == ratesDto.rate.destination.province)
+                    .comunas.find(
+                        comuna =>
+                            comuna.name.includes(
+                                ratesDto.rate.destination.city.toUpperCase(),
+                            ) ||
+                            ratesDto.rate.destination.city
+                                .toUpperCase()
+                                .includes(comuna.name),
+                    ).sucursales;
 
                 let serviceCode = 25;
-                for (let i = 0; i < filterRegions.length; i++) {
-                    const element = filterRegions[i];
+
+                for (let i = 0; i < sucursales.length; i++) {
+                    const sucursal = sucursales[i];
 
                     let res: ShopifyRateResponseDto = {
-                        service_name: 'PES ' + element.SUCURSAL,
+                        service_name: 'SUCURSAL ' + sucursal.address,
                         service_code: ('0' + serviceCode++).slice(-3),
                         total_price: '0',
                         currency: ratesDto.rate.currency,
@@ -148,69 +155,7 @@ export class SoapService {
 
                     responseArr.push(res);
                 }
-
                 resolve(responseArr);
-            },
-        );
-    }
-
-    async getSucursal(
-        ratesDto: ShopifyParentRateDto,
-    ): Promise<ShopifyRateResponseDto> {
-        const url =
-            'http://b2b.correos.cl:8008/ServicioListadoSucursalesExterno/cch/ws/distribucionGeografica/implementacion/ServicioExternoListarSucursales.asmx?wsdl';
-
-        let geoItem = await this.geoReService.getGeocodeAddress(
-            ratesDto.rate.destination.address1,
-            ratesDto.rate.destination.country,
-        );
-
-        const args = {
-            // usuario: user.userApiChile,
-            // contrasena: user.passwordApiChile,
-            usuario: this.configService.get('SOAP_USER'),
-            contrasena: this.configService.get('SOAP_PASSWORD'),
-            id: 1,
-            nombreCalle: geoItem.streetName,
-            numeroCalle: geoItem.streetNumber,
-            restoCalle: '?',
-            NombreComuna: geoItem.city,
-            latitud: geoItem.latitude,
-            longitud: geoItem.longitude,
-        };
-
-        return new Promise(
-            (
-                resolve: (result: ShopifyRateResponseDto) => void,
-                reject: (reason) => void,
-            ): void => {
-                soap.createClient(url, {}, function(err, client) {
-                    if (err) reject(err);
-
-                    client.consultaSucursalMasCercana(args, function(
-                        err,
-                        obj: Sucursal,
-                    ) {
-                        if (err) reject(err);
-
-                        let date = new Date();
-
-                        if (!obj.consultaSucursalMasCercanaResult) return null;
-                        let res: ShopifyRateResponseDto = {
-                            service_name:
-                                'PES ' +
-                                obj.consultaSucursalMasCercanaResult
-                                    .NombreAgencia,
-                            service_code: '07',
-                            total_price: '0',
-                            currency: ratesDto.rate.currency,
-                            min_delivery_date: date.toDateString(),
-                            max_delivery_date: (date.getDate() + 30).toString(),
-                        };
-
-                        return resolve(res);
-                    });
-                });
             },
         );
     }

@@ -84,51 +84,6 @@ export class OrderController {
         });
     }
 
-    @Post('admission')
-    @UsePipes(new ValidationPipe())
-    async processAdmission(
-        @Query() query: any,
-        @Response() response: express.Response,
-    ) {
-        let user: User = await this.userService.getUser(query.userId);
-        let order: Order = await this.orderService.getOrder(query.orderId);
-        try {
-            const resp: AdmissionResponseDto = await this.soapService.processAdmission(
-                order,
-                user,
-            );
-
-            const userDto = plainToClass(UpdateUserDto, user);
-            let correlativeNumber = user.correlativeNumber + 1;
-
-            let manifestDto: ManifestDto = {
-                clientRut: '88020127381', // must be user.rut
-                clientName: user.firstName,
-                manifestNumber: user.idApiChile + correlativeNumber,
-                productName: order.name,
-                trackingReference: resp.admitirEnvioResult.CodigoEncaminamiento,
-                packagesCount: 1,
-                barCode:
-                    resp.admitirEnvioResult.CodigoEncaminamiento +
-                    resp.admitirEnvioResult.NumeroEnvio +
-                    '1', //TODO: Change 1 for tatola pieces
-                expNumber: '805', // TODO: check this
-                admissionCode: resp.admitirEnvioResult.CodigoAdmision,
-            };
-
-            userDto.correlativeNumber = correlativeNumber;
-            await this.userService.update(user.id, userDto);
-
-            const manifest = await this.manifestService.create(
-                manifestDto,
-                order,
-            );
-            return response.json({ manifest });
-        } catch (error) {
-            throw error;
-        }
-    }
-
     @Put('orders:id')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() order: UpdateOrderDto) {

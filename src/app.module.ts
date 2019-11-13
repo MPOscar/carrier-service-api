@@ -12,6 +12,7 @@ import { HttpErrorFilter } from './app/common/shared/http-error.filter';
 import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
 import { ManifestModule } from './app/manifest/manifest.module';
 import { GeoResModule } from './app/geocoder/geores.module';
+import { AdmissionModule } from './app/admission/admission.module';
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { GeoResModule } from './app/geocoder/geores.module';
         ManifestModule,
         LabelModule,
         GeoResModule,
+        AdmissionModule,
     ],
     controllers: [],
     providers: [
