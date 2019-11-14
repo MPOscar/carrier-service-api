@@ -44,17 +44,17 @@ export class SoapService {
                     ).name;
 
                 const args = {
-                    // usuario: user.userApiChile,
-                    // contrasena: user.passwordApiChile,
+                    usuario: user.userApiChile,
+                    contrasena: user.passwordApiChile,
 
-                    usuario: this.configService.get('SOAP_USER'),
-                    contrasena: this.configService.get('SOAP_PASSWORD'),
+                    // usuario: this.configService.get('SOAP_USER'),
+                    // contrasena: this.configService.get('SOAP_PASSWORD'),
 
                     consultaCobertura: {
                         CodigoPostalDestinatario: '',
-                        CodigoPostalRemitente: '9160002', // user.zip,
+                        CodigoPostalRemitente: user.zip,
                         ComunaDestino: comunaDestino,
-                        ComunaRemitente: 'SANTIAGO', // user.comuna,
+                        ComunaRemitente: user.comuna,
                         CodigoServicio: '24',
                         ImporteReembolso: '',
                         ImporteValorAsegurado: '',
