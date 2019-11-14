@@ -7,16 +7,11 @@ import {
     Response,
 } from '@nestjs/common';
 import { AdmissionResponseDto } from './dto/admission-response.dto';
-import { plainToClass } from 'class-transformer';
-import { ManifestDto } from '../manifest/dto/create-manifest.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
 import { UserService } from '../user/user.service';
 import { OrderService } from '../order/order.service';
-import { SoapService } from '../soap/soap.service';
-import { ManifestService } from '../manifest/manifest.service';
 import * as express from 'express';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
 import { AdmissionService } from './admission.service';
 import { IAdmission } from './interfaces/admission.interface';
 import { ErrorResult } from '../common/error-manager/errors';
@@ -32,10 +27,7 @@ export class AdmissionController {
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async processAdmission(
-        @Query() query: any,
-        @Response() response: express.Response,
-    ) {
+    async processAdmission(@Query() query: any) {
         let user: User = await this.userService.getUser(query.userId);
         let order: Order = await this.orderService.getOrder(query.orderId);
 
