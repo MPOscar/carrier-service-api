@@ -42,7 +42,7 @@ const scopes =
 const forwardingAddress = configService.get('FORWARDING_ADDRESS');
 
 @Controller('carrier-service')
-//@UseGuards(AuthGuard(), RolesGuard)
+//@UseGuards(AuthGuard())
 export class CarrierController {
     constructor(
         private readonly authService: AuthService,

@@ -53,6 +53,7 @@
     "request-promise": "^4.2.4",
     "rimraf": "2.6.3",
     "rxjs": "6.4.0",
+    "shopify-api-node": "^2.25.1",
     "soap": "^0.29.0",
     "stylelint-config-prettier": "^5.2.0",
     "stylelint-prettier": "^1.1.1",

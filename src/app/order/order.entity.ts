@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Manifest } from '../manifest/manifest.entity';
+import { Admission } from '../admission/admission.entity';
+import { Withdrawal } from '../withdrawal/withdrawal.entity';
 
 @Entity()
 export class Order {
@@ -122,4 +124,10 @@ export class Order {
 
     @OneToOne(type => Manifest, manifest => manifest.order)
     manifest: Manifest;
+
+    @OneToOne(type => Admission, admission => admission.order)
+    admission: Admission;
+
+    @ManyToOne(type => Withdrawal, withdrawal => withdrawal.orders)
+    withdrawal: Withdrawal;
 }

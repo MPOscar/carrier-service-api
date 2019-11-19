@@ -4,6 +4,7 @@ import { CreateOrderDto, LineItems } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
+import { InjectConnection } from '@nestjs/typeorm';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
@@ -133,6 +134,12 @@ export class OrderRepository extends Repository<Order> {
          }
          return query.getMany();*/
         return this.find();
+    }
+
+    async getOrdersNoWithdrawal() {
+        return await this.createQueryBuilder('Order')
+            .where('Order.withdrawal_id is null')
+            .getMany();
     }
 
     async deleteOrder(id: string) {

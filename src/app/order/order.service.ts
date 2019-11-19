@@ -13,16 +13,18 @@ import {
 } from '../common/error-manager/errors';
 import { ErrorCode } from '../common/error-manager/error-codes';
 import { User } from '../user/user.entity';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { UserService } from '../user/user.service';
+import { AdmissionService } from '../admission/admission.service';
+import { Admission } from '../admission/admission.entity';
+import { ErrorManager } from '../common/error-manager/error-manager';
+import { FulfillmentService } from '../fulfillment/fulfillment.service';
 
 @Injectable()
 export class OrderService {
     constructor(
         @InjectRepository(Order)
         private readonly orderRepository: OrderRepository,
-        private readonly userService: UserService,
+        private readonly admissionService: AdmissionService,
+        private readonly fulfillmentService: FulfillmentService,
     ) {}
 
     async create(user: User, orderDto: CreateOrderDto): Promise<Order> {
@@ -34,6 +36,20 @@ export class OrderService {
                 this.orderRepository
                     .createOrder(user, orderDto)
                     .then((order: Order) => {
+                        this.admissionService
+                            .processAdmission(order, user)
+                            .then((admission: Admission) => {
+                                this.fulfillmentService
+                                    .createFulfillment(
+                                        order,
+                                        user,
+                                        admission.codigoEncaminamiento,
+                                    )
+                                    .catch(err => console.log(err));
+                            })
+                            .catch((error: ErrorResult) => {
+                                return ErrorManager.manageErrorResult(error);
+                            });
                         resolve(order);
                     })
                     .catch(error => {
@@ -132,8 +148,31 @@ export class OrderService {
             ): void => {
                 this.orderRepository
                     .getOrders(user)
-                    .then((companies: Order[]) => {
-                        resolve(companies);
+                    .then((orders: Order[]) => {
+                        resolve(orders);
+                    })
+                    .catch(error => {
+                        reject(
+                            new InternalServerErrorResult(
+                                ErrorCode.GeneralError,
+                                error,
+                            ),
+                        );
+                    });
+            },
+        );
+    }
+
+    getOrdersNoWithdrawal(): Promise<Order[]> {
+        return new Promise(
+            (
+                resolve: (result: Order[]) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.orderRepository
+                    .getOrdersNoWithdrawal()
+                    .then((orders: Order[]) => {
+                        resolve(orders);
                     })
                     .catch(error => {
                         reject(

@@ -11,6 +11,7 @@ export class UserRepository extends Repository<User> {
         user.firstName = userDto.firstName;
         user.lastName = userDto.lastName;
         user.email = userDto.email;
+        user.accessToken = userDto.accessToken;
         const salt: string = bcrypt.genSaltSync(10);
         //user.password = await bcrypt.hash(userDto.password, salt);
         user.language = userDto.language;

@@ -14,4 +14,4 @@ import { RatesService } from "./rates.service";
         RatesService,
     ],
 })
-export class SoapModule { }
+export class RatesModule { }
