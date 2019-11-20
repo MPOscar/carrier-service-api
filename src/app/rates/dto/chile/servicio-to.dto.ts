@@ -5,9 +5,6 @@ import { IsString } from "class-validator";
 
 export class ServicioTO {
     @IsString()
-    ExtensionData: string;
-
-    @IsString()
     CodigoServicio: string;
 
     @Type(() => ConceptosTasacion)

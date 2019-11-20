@@ -1,5 +1,4 @@
 export class ConsultaSucursalMasCercanaResult {
-    ExtensionData: string;
     Id: string;
     DireccionOriginal: string;
     ComunaOrginal: string;

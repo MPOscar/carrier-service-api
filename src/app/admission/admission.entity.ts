@@ -12,46 +12,43 @@ export class Admission {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @Column()
-    extensionData: string;
-
-    @Column()
+    @Column({ nullable: true })
     cuartel: string;
 
-    @Column()
+    @Column({ nullable: true })
     sector: string;
 
-    @Column()
+    @Column({ nullable: true })
     SDP: string;
 
-    @Column()
+    @Column({ nullable: true })
     abreviaturaCentro: string;
 
-    @Column()
+    @Column({ nullable: true })
     codigoDelegacionDestino: string;
 
-    @Column()
+    @Column({ nullable: true })
     nombreDelegacionDestino: string;
 
-    @Column()
+    @Column({ nullable: true })
     direccionDestino: string;
 
-    @Column()
+    @Column({ nullable: true })
     codigoEncaminamiento: string;
 
-    @Column()
+    @Column({ nullable: true })
     grabarEnvio: string;
 
-    @Column()
+    @Column({ nullable: true })
     numeroEnvio: string;
 
-    @Column()
+    @Column({ nullable: true })
     comunaDestino: string;
 
-    @Column()
+    @Column({ nullable: true })
     abreviaturaServicio: string;
 
-    @Column()
+    @Column({ nullable: true })
     codigoAdmision: string;
 
     @Column({ nullable: true })

@@ -22,7 +22,6 @@ export class AdmissionRepository extends Repository<Admission> {
         admission.cuartel = admissionDto.admitirEnvioResult.Cuartel;
         admission.direccionDestino =
             admissionDto.admitirEnvioResult.DireccionDestino;
-        admission.extensionData = admissionDto.admitirEnvioResult.ExtensionData;
         admission.grabarEnvio = admissionDto.admitirEnvioResult.GrabarEnvio;
         admission.nombreDelegacionDestino =
             admissionDto.admitirEnvioResult.NombreDelegacionDestino;

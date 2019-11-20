@@ -91,9 +91,7 @@ export class SoapService {
                         );
 
                         let recharge: number =
-                            (user.recharge != user.recharge) != null
-                                ? user.recharge
-                                : 0;
+                            user.recharge != null ? user.recharge : 0;
                         let date = new Date();
                         let totalPrice =
                             obj.consultaCoberturaPorProductoResult.TotalTasacion
@@ -176,20 +174,20 @@ export class SoapService {
         );
 
         const args = {
-            usuario: user.userApiChile,
-            contrasena: user.passwordApiChile,
-            // usuario: this.configService.get('SOAP_USER'),
-            // contrasena: this.configService.get('SOAP_PASSWORD'),
+            // usuario: user.userApiChile,
+            // contrasena: user.passwordApiChile,
+            usuario: this.configService.get('SOAP_USER'),
+            contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
                 CodigoAdmision: '011043183201',
-                ClienteRemitente: user.idApiChile,
+                ClienteRemitente: '61001', // TODO: change user.idApiChile,
                 CentroRemitente: '',
-                NombreRemitente: user.firstName, // TODO: save in user store name
-                DireccionRemitente: user.address,
+                NombreRemitente: 'Paco', // TODO: change user.firstName, // TODO: save in user store name
+                DireccionRemitente: 'EXPOSICION 221', // TODO: chnage user.address,
                 PaisRemitente: '056',
                 CodigoPostalRemitente: '',
-                ComunaRemitente: user.comuna,
+                ComunaRemitente: 'Coquimbo', // TODO: chnage user.comuna,
                 RutRemitente: '',
                 PersonaContactoRemitente: (
                     user.firstName +

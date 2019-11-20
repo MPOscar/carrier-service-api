@@ -6,18 +6,24 @@ import {
     JoinColumn,
     OneToMany,
     OneToOne,
+    ValueTransformer,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Manifest } from '../manifest/manifest.entity';
 import { Admission } from '../admission/admission.entity';
 import { Withdrawal } from '../withdrawal/withdrawal.entity';
 
+export const bigint: ValueTransformer = {
+    to: (entityValue: bigint) => entityValue,
+    from: (databaseValue: string): bigint => BigInt(databaseValue),
+}
+
 @Entity()
 export class Order {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @Column({ nullable: true })
+    @Column({ type: 'bigint', nullable: true, transformer: bigint })
     orderId: number;
 
     @Column({ nullable: true })
@@ -43,7 +49,7 @@ export class Order {
     @Column({ nullable: true })
     subtotalPrice: string;
 
-    @Column({ nullable: true })
+    @Column('decimal', { precision: 5, scale: 2, nullable: true })
     totalWeight: number;
 
     @Column({ nullable: true })
@@ -97,10 +103,10 @@ export class Order {
     @Column({ nullable: true })
     totalPieces: number;
 
-    @Column({ nullable: true })
+    @Column('decimal', { precision: 3, scale: 2, nullable: true })
     kg: number;
 
-    @Column({ nullable: true })
+    @Column('decimal', { precision: 7, scale: 6, nullable: true })
     volumen: number;
 
     @Column({ nullable: true, default: false })

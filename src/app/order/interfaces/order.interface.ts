@@ -1,8 +1,8 @@
 export interface IOrder {
     readonly id?: string;
-    readonly order_id?: number;
+    readonly orderId?: number;
     readonly email?: string;
-    readonly number?: number;
+    readonly orderNumber?: number;
     readonly note?: string;
     readonly token?: string;
     readonly gateway?: string;

@@ -38,7 +38,7 @@ const request = require('request-promise');
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
 const scopes =
-    'write_shipping, read_themes, write_themes, read_orders, read_script_tags, write_script_tags, read_fulfillments';
+    'write_shipping, read_themes, write_themes, read_orders, write_orders, read_script_tags, write_script_tags, read_fulfillments, read_products, write_products, read_product_listings, read_inventory, write_inventory, read_locations';
 const forwardingAddress = configService.get('FORWARDING_ADDRESS');
 
 @Controller('carrier-service')

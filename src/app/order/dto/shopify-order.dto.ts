@@ -4,6 +4,7 @@ import { CreateUserDto } from '../../user/dto/create-user.dto';
 export class ShopifyOrderDto {
     id: number;
     order_id: number;
+    order_number: number;
     status: string;
     created_at: Date;
     service: string;

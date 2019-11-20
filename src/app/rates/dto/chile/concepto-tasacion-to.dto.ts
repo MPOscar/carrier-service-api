@@ -2,9 +2,6 @@ import { IsString } from "class-validator";
 
 export class ConceptoTasacionTO {
     @IsString()
-    ExtensionData: string;
-
-    @IsString()
     Base: string;
 
     @IsString()

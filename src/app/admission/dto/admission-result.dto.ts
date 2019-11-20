@@ -2,9 +2,6 @@ import { IsString } from 'class-validator';
 
 export class AdmissionResutlDto {
     @IsString()
-    readonly ExtensionData: string;
-
-    @IsString()
     readonly Cuartel: string;
 
     @IsString()

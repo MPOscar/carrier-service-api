@@ -45,6 +45,12 @@ export class OrderService {
                                         user,
                                         admission.codigoEncaminamiento,
                                     )
+                                    .then(fulfillment =>
+                                        console.log(
+                                            'Fulfillment created => ' +
+                                                JSON.stringify(fulfillment),
+                                        ),
+                                    )
                                     .catch(err => console.log(err));
                             })
                             .catch((error: ErrorResult) => {
