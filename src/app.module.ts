@@ -14,6 +14,7 @@ import { ManifestModule } from './app/manifest/manifest.module';
 import { GeoResModule } from './app/geocoder/geores.module';
 import { AdmissionModule } from './app/admission/admission.module';
 import { WithdrawalModule } from './app/withdrawal/withdrawal.module';
+import { WebhookModule } from './app/webhook/webhook.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { WithdrawalModule } from './app/withdrawal/withdrawal.module';
         GeoResModule,
         AdmissionModule,
         WithdrawalModule,
+        WebhookModule,
     ],
     controllers: [],
     providers: [

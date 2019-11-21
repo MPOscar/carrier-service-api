@@ -16,7 +16,6 @@ import { User } from '../user/user.entity';
 import { AdmissionService } from '../admission/admission.service';
 import { Admission } from '../admission/admission.entity';
 import { ErrorManager } from '../common/error-manager/error-manager';
-import { FulfillmentService } from '../fulfillment/fulfillment.service';
 
 @Injectable()
 export class OrderService {
@@ -24,7 +23,6 @@ export class OrderService {
         @InjectRepository(Order)
         private readonly orderRepository: OrderRepository,
         private readonly admissionService: AdmissionService,
-        private readonly fulfillmentService: FulfillmentService,
     ) {}
 
     async create(user: User, orderDto: CreateOrderDto): Promise<Order> {
