@@ -174,20 +174,20 @@ export class SoapService {
         );
 
         const args = {
-            // usuario: user.userApiChile,
-            // contrasena: user.passwordApiChile,
-            usuario: this.configService.get('SOAP_USER'),
-            contrasena: this.configService.get('SOAP_PASSWORD'),
+            usuario: user.userApiChile,
+            contrasena: user.passwordApiChile,
+            // usuario: this.configService.get('SOAP_USER'),
+            // contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
                 CodigoAdmision: '011043183201',
-                ClienteRemitente: '61001', // TODO: change user.idApiChile,
+                ClienteRemitente: user.idApiChile,
                 CentroRemitente: '',
-                NombreRemitente: 'Paco', // TODO: change user.firstName, // TODO: save in user store name
-                DireccionRemitente: 'EXPOSICION 221', // TODO: chnage user.address,
+                NombreRemitente: user.firstName, // TODO: save in user store name
+                DireccionRemitente: user.address,
                 PaisRemitente: '056',
                 CodigoPostalRemitente: '',
-                ComunaRemitente: 'Coquimbo', // TODO: chnage user.comuna,
+                ComunaRemitente: user.comuna,
                 RutRemitente: '',
                 PersonaContactoRemitente: (
                     user.firstName +
