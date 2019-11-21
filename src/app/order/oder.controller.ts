@@ -8,7 +8,6 @@ import {
     Delete,
     UsePipes,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
 import { OrderService } from './order.service';
 import { IOrder } from './interfaces/order.interface';
@@ -19,12 +18,10 @@ import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
-import { SoapService } from '../soap/soap.service';
-import { ManifestService } from '../manifest/manifest.service';
+import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('orders')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class OrderController {
     constructor(private orderService: OrderService) {}
 

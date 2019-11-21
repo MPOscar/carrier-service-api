@@ -18,10 +18,10 @@ import { Manifest } from './manifest.entity';
 import { ManifestService } from './manifest.service';
 import { IManifest } from './interfaces/manifest.interface';
 import { ManifestDto } from './dto/create-manifest.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('manifest')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class ManifestController {
     constructor(private readonly manifestService: ManifestService) {}
 

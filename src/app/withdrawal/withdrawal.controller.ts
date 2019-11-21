@@ -18,11 +18,11 @@ import { CreateWithdrawalDto } from './dto/create-withdrawal.dto';
 import { WithdrawalService } from './withdrawal.service';
 import { Withdrawal } from './withdrawal.entity';
 import { IWithdrawal } from './interfaces/withdrawal.interface';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../common/decorator/user.decorator';
+import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('withdrawal')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class WithdrawalController {
     constructor(
         private readonly userService: UserService,

@@ -6,7 +6,6 @@ import {
     UseGuards,
     Header,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../common/decorator/user.decorator';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { ErrorResult } from '../common/error-manager/errors';
@@ -19,10 +18,10 @@ import * as express from 'express';
 //
 
 import { ConfigService } from '../common/config/config.service';
-const configService = new ConfigService();
+import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('label')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class LabelController {
     constructor(private readonly labelService: LabelService) {}
 

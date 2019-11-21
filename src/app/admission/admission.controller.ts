@@ -15,11 +15,11 @@ import { IAdmission } from './interfaces/admission.interface';
 import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { Admission } from './admission.entity';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../common/decorator/user.decorator';
+import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('admission')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class AdmissionController {
     constructor(
         private readonly userService: UserService,
