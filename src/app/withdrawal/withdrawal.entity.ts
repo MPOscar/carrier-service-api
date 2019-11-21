@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToMany,
+} from 'typeorm';
+import { Order } from '../order/order.entity';
 
 @Entity()
 export class Withdrawal {
@@ -16,4 +22,7 @@ export class Withdrawal {
 
     @Column({ nullable: true })
     updatedAt: Date;
+
+    @OneToMany(() => Order, order => order.withdrawal)
+    orders: Order[];
 }

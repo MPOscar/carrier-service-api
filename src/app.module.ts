@@ -13,6 +13,7 @@ import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
 import { ManifestModule } from './app/manifest/manifest.module';
 import { GeoResModule } from './app/geocoder/geores.module';
 import { AdmissionModule } from './app/admission/admission.module';
+import { WithdrawalModule } from './app/withdrawal/withdrawal.module';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { AdmissionModule } from './app/admission/admission.module';
         LabelModule,
         GeoResModule,
         AdmissionModule,
+        WithdrawalModule,
     ],
     controllers: [],
     providers: [

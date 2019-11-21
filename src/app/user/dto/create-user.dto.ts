@@ -1,4 +1,4 @@
-import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
+import { IsString, IsIn, IsByteLength, IsEmail, MinLength, IsNumber } from 'class-validator';
 
 export class CreateUserDto {
 
@@ -59,5 +59,11 @@ export class CreateUserDto {
 
     @IsString()
     rut?: string;
+
+    @IsString()
+    labelFormat?: string;
+
+    @IsNumber()
+    recharge?: number;
 
 }

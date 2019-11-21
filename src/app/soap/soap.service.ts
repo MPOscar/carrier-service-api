@@ -11,6 +11,7 @@ import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
 import { GeoResService } from '../geocoder/geores.service';
 import * as dataRegions from './region-comuna-sucursal.json';
+import { CreateWithdrawalDto } from '../withdrawal/dto/create-withdrawal.dto';
 
 @Injectable()
 export class SoapService {
@@ -89,13 +90,17 @@ export class SoapService {
                             'CARRIERRR CHILE => ' + JSON.stringify(obj),
                         );
 
+                        let recharge: number =
+                            user.recharge != null ? user.recharge : 0;
                         let date = new Date();
+                        let totalPrice =
+                            obj.consultaCoberturaPorProductoResult.TotalTasacion
+                                .Total + recharge;
+
                         res.push({
                             service_name: 'OFICINA DE CORREOS',
                             service_code: '24',
-                            total_price:
-                                obj.consultaCoberturaPorProductoResult
-                                    .TotalTasacion.Total,
+                            total_price: totalPrice,
                             currency: ratesDto.rate.currency,
                             min_delivery_date: date.toDateString(),
                             max_delivery_date: (date.getDate() + 30).toString(),
@@ -103,8 +108,7 @@ export class SoapService {
 
                         for (let i = 0; i < sucursalCarrier.length; i++) {
                             const element = sucursalCarrier[i];
-                            element.total_price =
-                                obj.consultaCoberturaPorProductoResult.TotalTasacion.Total;
+                            element.total_price = totalPrice;
 
                             res.push(element);
                         }
@@ -170,20 +174,20 @@ export class SoapService {
         );
 
         const args = {
-            usuario: user.userApiChile,
-            contrasena: user.passwordApiChile,
-            // usuario: this.configService.get('SOAP_USER'),
-            // contrasena: this.configService.get('SOAP_PASSWORD'),
+            // usuario: user.userApiChile,
+            // contrasena: user.passwordApiChile,
+            usuario: this.configService.get('SOAP_USER'),
+            contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
                 CodigoAdmision: '011043183201',
-                ClienteRemitente: user.idApiChile,
+                ClienteRemitente: '61001', // TODO: change user.idApiChile,
                 CentroRemitente: '',
-                NombreRemitente: user.firstName, // TODO: save in user store name
-                DireccionRemitente: user.address,
+                NombreRemitente: 'Paco', // TODO: change user.firstName, // TODO: save in user store name
+                DireccionRemitente: 'EXPOSICION 221', // TODO: chnage user.address,
                 PaisRemitente: '056',
                 CodigoPostalRemitente: '',
-                ComunaRemitente: user.comuna,
+                ComunaRemitente: 'Coquimbo', // TODO: chnage user.comuna,
                 RutRemitente: '',
                 PersonaContactoRemitente: (
                     user.firstName +
@@ -234,6 +238,55 @@ export class SoapService {
                     if (err) reject(err);
 
                     client.admitirEnvio(args, function(err, obj: any) {
+                        if (err) reject(err);
+
+                        return resolve(obj);
+                    });
+                });
+            },
+        );
+    }
+
+    async processWithdrawal(
+        user: User,
+        createWithdrawalDto: CreateWithdrawalDto,
+    ): Promise<any> {
+        const url =
+            'http://apicert.correos.cl:8008/ServicioRetiroEnvioExterno/cch/ws/retirosCEP/externo/implementacion/ServicioExternoRetiro.asmx?wsdl';
+
+        const args = {
+            // usuario: user.userApiChile,
+            // contrasena: user.passwordApiChile,
+            usuario: this.configService.get('SOAP_USER'),
+            contrasena: this.configService.get('SOAP_PASSWORD'),
+
+            retiroTo: {
+                CodigoAdmision: '9290582385',
+                ClienteRemitente: user.idApiChile,
+                CentroRemitente: '',
+                NombreRemitente: user.firstName, // TODO: save in user store name
+                DireccionRemitente: createWithdrawalDto.address,
+                PaisRemitente: '056',
+                CodigoPostalRemitente: createWithdrawalDto.zip,
+                ComunaRemitente: createWithdrawalDto.comuna,
+                RutRemitente: createWithdrawalDto.rut,
+                PersonaContactoRemitente: createWithdrawalDto.contact,
+                TelefonoContactoRemitente: createWithdrawalDto.contactPhone,
+                FechaRetiro: createWithdrawalDto.date,
+                HoraDesde: createWithdrawalDto.horaDesde,
+                HoraHasta: createWithdrawalDto.horaHasta,
+            },
+        };
+
+        return new Promise(
+            (
+                resolve: (result: any) => void,
+                reject: (reason) => void,
+            ): void => {
+                soap.createClient(url, {}, function(err, client) {
+                    if (err) reject(err);
+
+                    client.registrarRetiro(args, function(err, obj: any) {
                         if (err) reject(err);
 
                         return resolve(obj);

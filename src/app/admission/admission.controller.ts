@@ -4,25 +4,22 @@ import {
     UsePipes,
     ValidationPipe,
     Query,
-    Response,
+    UseGuards,
 } from '@nestjs/common';
-import { AdmissionResponseDto } from './dto/admission-response.dto';
-import { plainToClass } from 'class-transformer';
-import { ManifestDto } from '../manifest/dto/create-manifest.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
 import { UserService } from '../user/user.service';
 import { OrderService } from '../order/order.service';
-import { SoapService } from '../soap/soap.service';
-import { ManifestService } from '../manifest/manifest.service';
-import * as express from 'express';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
 import { AdmissionService } from './admission.service';
 import { IAdmission } from './interfaces/admission.interface';
 import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
+import { Admission } from './admission.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../common/decorator/user.decorator';
 
 @Controller('admission')
+@UseGuards(AuthGuard())
 export class AdmissionController {
     constructor(
         private readonly userService: UserService,
@@ -32,16 +29,12 @@ export class AdmissionController {
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async processAdmission(
-        @Query() query: any,
-        @Response() response: express.Response,
-    ) {
-        let user: User = await this.userService.getUser(query.userId);
+    async processAdmission(@GetUser() user: User, @Query() query: any) {
         let order: Order = await this.orderService.getOrder(query.orderId);
 
         return this.admissionService
             .processAdmission(order, user)
-            .then((admission: AdmissionResponseDto) => {
+            .then((admission: Admission) => {
                 return this.getIAdmission(admission);
             })
             .catch((error: ErrorResult) => {
@@ -85,25 +78,21 @@ export class AdmissionController {
         // }
     }
 
-    getIAdmission(admission: AdmissionResponseDto): IAdmission {
+    getIAdmission(admission: Admission): IAdmission {
         return {
-            cuartel: admission.admitirEnvioResult.Cuartel,
-            sector: admission.admitirEnvioResult.Sector,
-            SDP: admission.admitirEnvioResult.SDP,
-            abreviaturaCentro: admission.admitirEnvioResult.AbreviaturaCentro,
-            codigoDelegacionDestino:
-                admission.admitirEnvioResult.CodigoDelegacionDestino,
-            nombreDelegacionDestino:
-                admission.admitirEnvioResult.NombreDelegacionDestino,
-            direccionDestino: admission.admitirEnvioResult.DireccionDestino,
-            codigoEncaminamiento:
-                admission.admitirEnvioResult.CodigoEncaminamiento,
-            grabarEnvio: admission.admitirEnvioResult.GrabarEnvio,
-            numeroEnvio: admission.admitirEnvioResult.NumeroEnvio,
-            comunaDestino: admission.admitirEnvioResult.ComunaDestino,
-            abreviaturaServicio:
-                admission.admitirEnvioResult.AbreviaturaServicio,
-            codigoAdmision: admission.admitirEnvioResult.CodigoAdmision,
+            cuartel: admission.cuartel,
+            sector: admission.sector,
+            SDP: admission.SDP,
+            abreviaturaCentro: admission.abreviaturaCentro,
+            codigoDelegacionDestino: admission.codigoDelegacionDestino,
+            nombreDelegacionDestino: admission.nombreDelegacionDestino,
+            direccionDestino: admission.direccionDestino,
+            codigoEncaminamiento: admission.codigoEncaminamiento,
+            grabarEnvio: admission.grabarEnvio,
+            numeroEnvio: admission.numeroEnvio,
+            comunaDestino: admission.comunaDestino,
+            abreviaturaServicio: admission.abreviaturaServicio,
+            codigoAdmision: admission.codigoAdmision,
         };
     }
 }

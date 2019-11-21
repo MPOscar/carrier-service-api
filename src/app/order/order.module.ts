@@ -7,19 +7,36 @@ import { UserModule } from '../user/user.module';
 import { Order } from './order.entity';
 import { OrderRepository } from './order.repository';
 import { AuthModule } from '../common/auth/auth.module';
-import { SoapModule } from '../rates/rates.module';
 import { ManifestService } from '../manifest/manifest.service';
+import { FulfillmentService } from '../fulfillment/fulfillment.service';
+import { SoapService } from '../soap/soap.service';
+import { AdmissionService } from '../admission/admission.service';
+import { Manifest } from '../manifest/manifest.entity';
+import { ManifestRepository } from '../manifest/manifest.repository';
+import { ConfigService } from '../common/config/config.service';
+import { GeoResService } from '../geocoder/geores.service';
+import { Admission } from '../admission/admission.entity';
+import { AdmissionRepository } from '../admission/admission.repository';
 
 @Module({
     imports: [
         HttpModule,
         TypeOrmModule.forFeature([Order, OrderRepository]),
+        TypeOrmModule.forFeature([Manifest, ManifestRepository]),
+        TypeOrmModule.forFeature([Admission, AdmissionRepository]),
         AuthModule,
         UserModule,
-        SoapModule,
     ],
     controllers: [OrderController],
-    providers: [OrderService, ManifestService],
+    providers: [
+        OrderService,
+        ManifestService,
+        FulfillmentService,
+        SoapService,
+        AdmissionService,
+        ConfigService,
+        GeoResService,
+    ],
     exports: [OrderService],
 })
 export class OrderModule {}

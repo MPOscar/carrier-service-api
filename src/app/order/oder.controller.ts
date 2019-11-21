@@ -55,10 +55,10 @@ export class OrderController {
                 .create(user, order)
                 .then((order: Order) => {
                     return this.getIOrder(order);
-                }); /*
-            .catch((error: ErrorResult) => {
-                return ErrorManager.manageErrorResult(error);
-            });*/
+                })
+                .catch((error: ErrorResult) => {
+                    return ErrorManager.manageErrorResult(error);
+                });
         });
     }
 
@@ -139,7 +139,7 @@ export class OrderController {
         return {
             id: order.id,
             email: order.email,
-            number: order.number,
+            orderNumber: order.number,
             note: order.note,
             token: order.token,
             gateway: order.gateway,
