@@ -37,7 +37,7 @@ import { plainToClass } from 'class-transformer';
 import { UpdateUserDto } from '../user/dto/update-user.dto';
 
 @Controller('webhook')
-//@UseGuards(AuthGuard(), RolesGuard)
+@UseGuards(AuthGuard())
 export class OrderController {
     constructor(
         private userService: UserService,
