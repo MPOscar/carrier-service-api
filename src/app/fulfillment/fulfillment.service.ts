@@ -56,7 +56,7 @@ export class FulfillmentService {
                                                         locations: LocationDto[],
                                                     ) => {
                                                         // TODO: test fulfillment
-                                                        let locationId = locations.find(
+                                                        let locationId: number = locations.find(
                                                             location =>
                                                                 location.active ==
                                                                 true,
@@ -64,9 +64,8 @@ export class FulfillmentService {
 
                                                         let params = {
                                                             fulfillment: {
-                                                                location_id: locationId,
-                                                                tracking_number:
-                                                                    '123456789',
+                                                                location_id: 35154362448, //locationId,
+                                                                tracking_number: trackingNumber,
                                                                 tracking_urls: [
                                                                     'https://www.correos.cl/web/guest/seguimiento-en-linea',
                                                                 ],
