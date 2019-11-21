@@ -41,7 +41,7 @@ export interface IUser {
 
     readonly hmac?: boolean;
 
-    readonly rut?: boolean;
+    readonly rut?: string;
 
     readonly recharge: number;
 

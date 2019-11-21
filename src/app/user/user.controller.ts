@@ -119,6 +119,7 @@ export class UserController {
             idApiChile: user.idApiChile,
             recharge: user.recharge,
             labelFormat: user.labelFormat,
+            rut: user.rut,
         };
     }
 }
