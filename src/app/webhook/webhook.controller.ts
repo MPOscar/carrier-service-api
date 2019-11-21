@@ -5,10 +5,10 @@ import { CreateOrderDto } from '../order/dto/create-order.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
 import { ErrorResult } from '../common/error-manager/errors';
-import { ErrorManager } from 'dist/app/common/error-manager/error-manager';
 import * as express from 'express';
 import { IOrder } from '../order/interfaces/order.interface';
 import { Request } from 'express';
+import { ErrorManager } from '../common/error-manager/error-manager';
 
 @Controller('webhook')
 export class WebhookController {
