@@ -13,6 +13,7 @@ import { Withdrawal } from './withdrawal.entity';
 import { CreateWithdrawalDto } from './dto/create-withdrawal.dto';
 import { WithdrawalDto } from './dto/withdrawal.dto';
 import { OrderService } from '../order/order.service';
+import { FulfillmentService } from '../fulfillment/fulfillment.service';
 
 @Injectable()
 export class WithdrawalService {
@@ -20,6 +21,7 @@ export class WithdrawalService {
         private readonly soapService: SoapService,
         private readonly withdrawalRepository: WithdrawalRepository,
         private readonly orderService: OrderService,
+        private readonly fulfillmentService: FulfillmentService,
     ) {}
 
     async create(
@@ -36,7 +38,22 @@ export class WithdrawalService {
                     .then((resp: WithdrawalDto) => {
                         this.orderService
                             .getOrdersNoWithdrawal()
-                            .then((orders: Order[]) => {
+                            .then(async (orders: Order[]) => {
+                                for (let i = 0; i < orders.length; i++) {
+                                    const order = orders[i];
+
+                                    try {
+                                        const fulfillment = await this.fulfillmentService.createFulfillment(
+                                            order,
+                                            user,
+                                            order.admission
+                                                .codigoEncaminamiento,
+                                        );
+                                        console.log('Fulfilment processed');
+                                    } catch (error) {
+                                        reject(error);
+                                    }
+                                }
                                 this.withdrawalRepository
                                     .createWithdrawal(resp, orders)
                                     .then((withdrawal: Withdrawal) => {

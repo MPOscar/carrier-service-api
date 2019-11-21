@@ -39,19 +39,9 @@ export class OrderService {
                         this.admissionService
                             .processAdmission(order, user)
                             .then((admission: Admission) => {
-                                this.fulfillmentService
-                                    .createFulfillment(
-                                        order,
-                                        user,
-                                        admission.codigoEncaminamiento,
-                                    )
-                                    .then(fulfillment =>
-                                        console.log(
-                                            'Fulfillment created => ' +
-                                                JSON.stringify(fulfillment),
-                                        ),
-                                    )
-                                    .catch(err => console.log(err));
+                                console.log(
+                                    'Admission created => ' + admission.id,
+                                );
                             })
                             .catch((error: ErrorResult) => {
                                 return ErrorManager.manageErrorResult(error);

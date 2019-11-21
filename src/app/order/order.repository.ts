@@ -110,6 +110,7 @@ export class OrderRepository extends Repository<Order> {
         return this.createQueryBuilder('Order')
             .select()
             .where('Order.id = :OrderId', { OrderId: id })
+            .leftJoinAndSelect('Order.admission', 'admission')
             .getOne();
     }
 
@@ -138,6 +139,7 @@ export class OrderRepository extends Repository<Order> {
     async getOrdersNoWithdrawal() {
         return await this.createQueryBuilder('Order')
             .where('Order.withdrawal_id is null')
+            .leftJoinAndSelect('Order.admission', 'admission')
             .getMany();
     }
 

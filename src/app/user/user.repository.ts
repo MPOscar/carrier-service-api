@@ -16,17 +16,19 @@ export class UserRepository extends Repository<User> {
         //user.password = await bcrypt.hash(userDto.password, salt);
         user.language = userDto.language;
         user.phone = userDto.phone;
-        (user.region = userDto.region),
-            (user.comuna = userDto.comuna),
-            (user.address = userDto.address),
-            (user.zip = userDto.zip),
-            (user.shopUrl = userDto.shopUrl),
-            (user.userApiChile = userDto.userApiChile),
-            (user.passwordApiChile = userDto.passwordApiChile),
-            (user.idApiChile = userDto.idApiChile),
-            (user.profile = userDto.profile),
-            (user.rut = userDto.rut),
-            (user.updatedAt = new Date());
+        user.region = userDto.region;
+        user.comuna = userDto.comuna;
+        user.address = userDto.address;
+        user.zip = userDto.zip;
+        user.shopUrl = userDto.shopUrl;
+        user.userApiChile = userDto.userApiChile;
+        user.passwordApiChile = userDto.passwordApiChile;
+        user.idApiChile = userDto.idApiChile;
+        user.profile = userDto.profile;
+        user.rut = userDto.rut;
+        user.labelFormat = userDto.labelFormat;
+        user.recharge = userDto.recharge;
+        user.updatedAt = new Date();
         user.createdAt = new Date();
         return this.save(user);
     }
