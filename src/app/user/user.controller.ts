@@ -117,6 +117,8 @@ export class UserController {
             userApiChile: user.userApiChile,
             passwordApiChile: user.passwordApiChile,
             idApiChile: user.idApiChile,
+            recharge: user.recharge,
+            labelFormat: user.labelFormat,
         };
     }
 }

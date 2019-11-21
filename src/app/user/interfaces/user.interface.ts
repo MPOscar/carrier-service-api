@@ -43,6 +43,10 @@ export interface IUser {
 
     readonly rut?: boolean;
 
+    readonly recharge: number;
+
+    readonly labelFormat: string;
+
     readonly createdAt?: Date;
 
     readonly updatedAt?: Date;
