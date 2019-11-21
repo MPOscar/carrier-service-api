@@ -9,8 +9,8 @@ import { User } from '../../user/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-
-    constructor(private readonly authService: AuthService,
+    constructor(
+        private readonly authService: AuthService,
         private readonly configService: ConfigService,
     ) {
         super({
@@ -21,13 +21,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     validate(payload: JwtPayload) {
         //console.log(JSON.stringify(payload));
-        return this.authService.validate(payload).then((user: User) => {
-            if (!user || user.id !== payload.userId) {
+        return this.authService
+            .validate(payload)
+            .then((user: User) => {
+                console.log('USERRRRR => ' + JSON.stringify(user));
+                if (!user || user.id !== payload.userId) {
+                    throw new UnauthorizedException();
+                }
+                return user;
+            })
+            .catch(error => {
+                console.log('PAYLOAD => ' + JSON.stringify(payload));
                 throw new UnauthorizedException();
-            }
-            return user;
-        }).catch((error) => {
-            throw new UnauthorizedException();
-        });
+            });
     }
 }
