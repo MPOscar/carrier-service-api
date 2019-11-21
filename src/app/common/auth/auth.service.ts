@@ -67,7 +67,7 @@ export class AuthService {
                 reject: (reason: ErrorResult) => void,
             ): void => {
                 this.userService
-                    .getUserByEmail(payload.email)
+                    .getUser(payload.userId)
                     .then((user: User) => {
                         resolve(user);
                     })

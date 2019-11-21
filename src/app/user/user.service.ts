@@ -124,6 +124,7 @@ export class UserService {
                 this.userRepository
                     .getUser(id)
                     .then((user: User) => {
+                        console.log('USERRRRR => ' + JSON.stringify(user));
                         if (!user) {
                             reject(
                                 new NotFoundResult(
