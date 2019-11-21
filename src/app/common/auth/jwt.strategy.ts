@@ -32,6 +32,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             })
             .catch(error => {
                 console.log('PAYLOAD => ' + JSON.stringify(payload));
+                console.log('ERROR => ' + JSON.stringify(error));
                 throw new UnauthorizedException();
             });
     }
