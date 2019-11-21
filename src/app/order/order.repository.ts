@@ -108,32 +108,17 @@ export class OrderRepository extends Repository<Order> {
 
     getOrder(id: string) {
         return this.createQueryBuilder('Order')
-            .select()
+            .select('Order')
             .where('Order.id = :OrderId', { OrderId: id })
             .leftJoinAndSelect('Order.admission', 'admission')
             .getOne();
     }
 
     getOrders(user: User) {
-        /* let query = this.createQueryBuilder("company")
-             .select()
-             .leftJoinAndSelect("company.activitySector", "activitySector");
- 
-         if (user.role === UserRole.ADVISER) {
-             query = query.where("ownerUser.id = :userId", { userId: user.id });
-         }
- 
-         if (filter) {
-             if (filter.name) {
-                 query = query.andWhere("LOWER(company.name) LIKE LOWER(:name)", { name: '%' + filter.name + '%' });
-             }
-             if (filter.startDate && filter.endDate) {
-                 query = query.andWhere("company.updatedAt BETWEEN :startDate AND :endDate",
-                     { startDate: filter.startDate, endDate: filter.endDate });
-             }
-         }
-         return query.getMany();*/
-        return this.find();
+        return this.createQueryBuilder('Order')
+            .select('Order')
+            .leftJoinAndSelect('Order.admission', 'admission')
+            .getMany();
     }
 
     async getOrdersNoWithdrawal() {

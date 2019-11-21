@@ -168,6 +168,7 @@ export class OrderController {
             volumen: order.volumen,
             admissionProcessed: order.admissionProcessed,
             receiverCountry: order.receiverCountry,
+            admission: order.admission,
         };
     }
 }

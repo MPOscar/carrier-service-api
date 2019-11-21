@@ -1,3 +1,5 @@
+import { Admission } from "src/app/admission/admission.entity";
+
 export interface IOrder {
     readonly id?: string;
     readonly orderId?: number;
@@ -31,6 +33,7 @@ export interface IOrder {
     readonly volumen?: number;
     readonly admissionProcessed?: boolean;
     readonly receiverCountry?: string;
+    readonly admission: Admission;
     readonly created_at?: Date;
     readonly updated_at?: Date;
 }
