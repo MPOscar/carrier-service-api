@@ -66,6 +66,12 @@ export class UpdateUserDto {
     @IsString()
     rut?: string;
 
+    @IsNumber()
+    recharge?: number;
+
+    @IsString()
+    labelFormat?: string;
+
     createdAt: Date;
 
     updatedAt: Date;

@@ -58,6 +58,8 @@ export class UserRepository extends Repository<User> {
             : user.idApiChile;
         user.correlativeNumber = userDto.correlativeNumber;
         user.rut = userDto.rut;
+        user.labelFormat = userDto.labelFormat;
+        user.recharge = userDto.recharge;
         user.updatedAt = new Date();
         return this.save(user);
     }
