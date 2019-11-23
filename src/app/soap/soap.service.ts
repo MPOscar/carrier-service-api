@@ -9,16 +9,12 @@ import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.d
 import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-response.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
-import { GeoResService } from '../geocoder/geores.service';
 import * as dataRegions from './region-comuna-sucursal.json';
 import { CreateWithdrawalDto } from '../withdrawal/dto/create-withdrawal.dto';
 
 @Injectable()
 export class SoapService {
-    constructor(
-        private readonly configService: ConfigService,
-        private readonly geoReService: GeoResService,
-    ) {}
+    constructor(private readonly configService: ConfigService) {}
 
     async getServiceCost(
         ratesDto: ShopifyParentRateDto,
@@ -168,11 +164,6 @@ export class SoapService {
         const url =
             'http://apicert.correos.cl:8008/ServicioAdmisionCEPExterno/cch/ws/enviosCEP/externo/implementacion/ServicioExternoAdmisionCEP.asmx?wsdl';
 
-        let geoItem = await this.geoReService.getGeocodeAddress(
-            order.receiverAddress,
-            'CL',
-        );
-
         const args = {
             usuario: user.userApiChile,
             contrasena: user.passwordApiChile,
@@ -188,7 +179,7 @@ export class SoapService {
                 PaisRemitente: '056',
                 CodigoPostalRemitente: '',
                 ComunaRemitente: user.comuna,
-                RutRemitente: '',
+                RutRemitente: user.rut,
                 PersonaContactoRemitente: (
                     user.firstName +
                     ' ' +
@@ -203,7 +194,7 @@ export class SoapService {
                 DireccionDestinatario: order.receiverAddress,
                 PaisDestinatario: '056',
                 CodigoPostalDestinatario: '',
-                ComunaDestinatario: geoItem.city,
+                ComunaDestinatario: order.receiverCity,
                 RutDestinatario: '',
                 PersonaContactoDestinatario: order.receiverContactName
                     ? order.receiverContactName

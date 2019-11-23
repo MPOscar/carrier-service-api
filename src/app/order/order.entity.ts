@@ -98,6 +98,9 @@ export class Order {
     receiverContactPhone: string;
 
     @Column({ nullable: true })
+    receiverCity: string;
+
+    @Column({ nullable: true })
     serviceCode: string;
 
     @Column({ nullable: true })

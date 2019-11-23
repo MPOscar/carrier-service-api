@@ -27,6 +27,7 @@ export interface IOrder {
     readonly receiverAddress?: string;
     readonly receiverContactName?: string;
     readonly receiverContactPhone?: string;
+    readonly receiverCity?: string;
     readonly serviceCode?: string;
     readonly totalPieces?: number;
     readonly kg?: number;

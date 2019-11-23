@@ -35,6 +35,7 @@ export class OrderRepository extends Repository<Order> {
         order.receiverAddress = orderDto.shipping_address.address1;
         order.receiverContactName = orderDto.shipping_address.name;
         order.receiverContactPhone = orderDto.shipping_address.phone;
+        order.receiverCity = orderDto.shipping_address.city;
         order.serviceCode = orderDto.shipping_lines[0].code;
         order.totalPieces = this.getTotalPieces(orderDto.line_items);
         order.kg = this.getTotalWeight(orderDto.line_items);
