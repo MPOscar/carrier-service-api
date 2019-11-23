@@ -18,6 +18,36 @@ export class Withdrawal {
     withdrawalCode: number;
 
     @Column({ nullable: true })
+    contact: String;
+
+    @Column({ nullable: true })
+    contactPhone: string;
+
+    @Column({ nullable: true })
+    date: Date;
+
+    @Column({ nullable: true })
+    horaDesde: Date;
+
+    @Column({ nullable: true })
+    horaHasta: Date;
+
+    @Column({ nullable: true })
+    rut?: string;
+
+    @Column({ nullable: true })
+    address?: string;
+
+    @Column({ nullable: true })
+    comuna?: string;
+
+    @Column({ nullable: true })
+    region?: string;
+
+    @Column({ nullable: true })
+    zip?: string;
+
+    @Column({ nullable: true })
     createdAt: Date;
 
     @Column({ nullable: true })

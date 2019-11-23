@@ -180,7 +180,7 @@ export class SoapService {
             // contrasena: this.configService.get('SOAP_PASSWORD'),
 
             admisionTo: {
-                CodigoAdmision: '011043183201',
+                CodigoAdmision: '011043183201', // TODO: change admission code strategiy
                 ClienteRemitente: user.idApiChile,
                 CentroRemitente: '',
                 NombreRemitente: user.firstName, // TODO: save in user store name

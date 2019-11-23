@@ -63,6 +63,16 @@ export class WithdrawalController {
             id: withdrawal.id,
             admissionCode: withdrawal.admissionCode,
             withdrawalCode: withdrawal.withdrawalCode,
+            address: withdrawal.address,
+            comuna: withdrawal.comuna,
+            contact: withdrawal.contact,
+            contactPhone: withdrawal.contactPhone,
+            date: withdrawal.date,
+            horaDesde: withdrawal.horaDesde,
+            horaHasta: withdrawal.horaHasta,
+            region: withdrawal.region,
+            rut: withdrawal.rut,
+            zip: withdrawal.zip,
             orders: withdrawal.orders,
         };
     }

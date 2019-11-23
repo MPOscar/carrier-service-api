@@ -55,7 +55,7 @@ export class WithdrawalService {
                                     }
                                 }
                                 this.withdrawalRepository
-                                    .createWithdrawal(resp, orders)
+                                    .createWithdrawal(resp, orders, createWithrawalDto)
                                     .then((withdrawal: Withdrawal) => {
                                         resolve(withdrawal);
                                     })
