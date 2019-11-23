@@ -229,6 +229,9 @@ export class SoapService {
             },
         };
 
+        console.log('USER ADM => ' + JSON.stringify(user));
+        console.log('ARGS ADM => ' + JSON.stringify(args));
+
         return new Promise(
             (
                 resolve: (result: any) => void,
