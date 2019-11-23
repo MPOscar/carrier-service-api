@@ -101,6 +101,9 @@ export class Order {
     receiverCity: string;
 
     @Column({ nullable: true })
+    receiverCityCode: string;
+
+    @Column({ nullable: true })
     serviceCode: string;
 
     @Column({ nullable: true })

@@ -70,6 +70,8 @@ export class ShippingAddress {
     readonly name: string;
 
     readonly country_code: string;
+
+    readonly province_code: string;
 }
 
 export class ShippingLines {

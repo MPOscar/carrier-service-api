@@ -164,6 +164,14 @@ export class SoapService {
         const url =
             'http://apicert.correos.cl:8008/ServicioAdmisionCEPExterno/cch/ws/enviosCEP/externo/implementacion/ServicioExternoAdmisionCEP.asmx?wsdl';
 
+        let comunaDestino = dataRegions
+            .find(reg => reg.rgi == order.receiverCityCode)
+            .comunas.find(
+                comuna =>
+                    comuna.name.includes(order.receiverCity.toUpperCase()) ||
+                    order.receiverCity.toUpperCase().includes(comuna.name),
+            ).name;
+
         const args = {
             usuario: user.userApiChile,
             contrasena: user.passwordApiChile,
@@ -194,7 +202,7 @@ export class SoapService {
                 DireccionDestinatario: order.receiverAddress,
                 PaisDestinatario: '056',
                 CodigoPostalDestinatario: '',
-                ComunaDestinatario: order.receiverCity,
+                ComunaDestinatario: comunaDestino,
                 RutDestinatario: '',
                 PersonaContactoDestinatario: order.receiverContactName
                     ? order.receiverContactName
