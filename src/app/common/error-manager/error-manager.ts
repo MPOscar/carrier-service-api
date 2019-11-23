@@ -57,6 +57,6 @@ export class ErrorManager {
 
     public static internalServerError(error: ErrorResult) {
         // const errorResult: InternalServerErrorResult = new InternalServerErrorResult(ErrorCode.GeneralError, 'Sorry...');
-        throw new InternalServerErrorException(error);
+        throw new InternalServerErrorException(error.code, error.description);
     }
 }

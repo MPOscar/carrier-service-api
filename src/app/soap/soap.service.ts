@@ -239,7 +239,7 @@ export class SoapService {
 
                     client.admitirEnvio(args, function(err, obj: any) {
                         if (err) reject(err);
-
+                        client.describe();
                         return resolve(obj);
                     });
                 });
