@@ -210,7 +210,7 @@ export class SoapService {
                 TelefonoContactoDestinatario: order.receiverContactPhone
                     ? order.receiverContactPhone
                     : '',
-                CodigoServicio: order.serviceCode ? order.serviceCode : '',
+                CodigoServicio: order.serviceCode,
                 NumeroTotalPiezas: order.totalPieces ? order.totalPieces : '',
                 Kilos: order.kg ? order.kg : '',
                 Volumen: order.volumen ? order.volumen : '',
@@ -241,7 +241,7 @@ export class SoapService {
 
                     client.admitirEnvio(args, function(err, obj: any) {
                         if (err) reject(err);
-                        client.describe();
+
                         return resolve(obj);
                     });
                 });

@@ -37,7 +37,11 @@ export class OrderRepository extends Repository<Order> {
         order.receiverContactPhone = orderDto.shipping_address.phone;
         order.receiverCity = orderDto.shipping_address.city;
         order.receiverCityCode = orderDto.shipping_address.province_code;
-        order.serviceCode = orderDto.shipping_lines[0].code;
+        order.serviceCode = orderDto.shipping_lines[0].title.includes(
+            'SUCURSAL',
+        )
+            ? '07'
+            : '24';
         order.totalPieces = this.getTotalPieces(orderDto.line_items);
         order.kg = this.getTotalWeight(orderDto.line_items);
         order.volumen = 0.000001;
