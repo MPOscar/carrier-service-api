@@ -20,6 +20,8 @@ import { Withdrawal } from './withdrawal.entity';
 import { IWithdrawal } from './interfaces/withdrawal.interface';
 import { GetUser } from '../common/decorator/user.decorator';
 import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
+import { IOrder } from '../order/interfaces/order.interface';
+import { Order } from '../order/order.entity';
 
 @Controller('withdrawal')
 @UseGuards(JwtAuthGuard)
@@ -39,7 +41,9 @@ export class WithdrawalController {
         return this.withdrawalService
             .create(user, createWithdrawalDto)
             .then((withdrawal: Withdrawal) => {
-                return this.getIWithdrawal(withdrawal);
+                return withdrawal != null
+                    ? this.getIWithdrawal(withdrawal)
+                    : null;
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -58,7 +62,27 @@ export class WithdrawalController {
             });
     }
 
+    @Get()
+    async getWithdrawals() {
+        return this.withdrawalService
+            .getWithdrawals()
+            .then((withdrawals: Withdrawal[]) => {
+                return withdrawals.map((withdrawal: Withdrawal) => {
+                    return this.getIWithdrawal(withdrawal);
+                });
+            })
+            .catch((error: ErrorResult) => {
+                return ErrorManager.manageErrorResult(error);
+            });
+    }
+
     getIWithdrawal(withdrawal: Withdrawal): IWithdrawal {
+        let orders: IOrder[] = [];
+        if (withdrawal.orders) {
+            orders = withdrawal.orders.map((order: Order) => {
+                return this.getIOrder(order);
+            });
+        }
         return {
             id: withdrawal.id,
             admissionCode: withdrawal.admissionCode,
@@ -73,7 +97,44 @@ export class WithdrawalController {
             region: withdrawal.region,
             rut: withdrawal.rut,
             zip: withdrawal.zip,
-            orders: withdrawal.orders,
+            orders: orders,
+        };
+    }
+
+    getIOrder(order: Order): IOrder {
+        return {
+            id: order.id,
+            email: order.email,
+            orderNumber: order.number,
+            note: order.note,
+            token: order.token,
+            gateway: order.gateway,
+            test: order.test,
+            totalPrice: order.totalPrice,
+            subtotalPrice: order.subtotalPrice,
+            totalWeight: order.totalWeight,
+            totalTax: order.totalTax,
+            taxesIncluded: order.taxesIncluded,
+            currency: order.currency,
+            financialStatus: order.financialStatus,
+            confirmed: order.confirmed,
+            totalDiscounts: order.totalDiscounts,
+            totalLineItemsPrice: order.totalLineItemsPrice,
+            cartToken: order.cartToken,
+            buyerAcceptsMarketing: order.buyerAcceptsMarketing,
+            name: order.name,
+            referringSite: order.referringSite,
+            receiverName: order.receiverName,
+            receiverAddress: order.receiverAddress,
+            receiverContactName: order.receiverContactName,
+            receiverContactPhone: order.receiverContactPhone,
+            serviceCode: order.serviceCode,
+            totalPieces: order.totalPieces,
+            kg: order.kg,
+            volumen: order.volumen,
+            admissionProcessed: order.admissionProcessed,
+            receiverCountry: order.receiverCountry,
+            admission: order.admission,
         };
     }
 }

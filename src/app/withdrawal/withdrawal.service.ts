@@ -39,34 +39,43 @@ export class WithdrawalService {
                         this.orderService
                             .getOrdersNoWithdrawal()
                             .then(async (orders: Order[]) => {
-                                for (let i = 0; i < orders.length; i++) {
-                                    const order = orders[i];
+                                // TODO: Uncomment for fulfillment
+                                // for (let i = 0; i < orders.length; i++) {
+                                //     const order = orders[i];
 
-                                    try {
-                                        const fulfillment = await this.fulfillmentService.createFulfillment(
-                                            order,
-                                            user,
-                                            order.admission
-                                                .codigoEncaminamiento,
-                                        );
-                                        console.log('Fulfilment processed');
-                                    } catch (error) {
-                                        reject(error);
-                                    }
+                                //     try {
+                                //         const fulfillment = await this.fulfillmentService.createFulfillment(
+                                //             order,
+                                //             user,
+                                //             order.admission
+                                //                 .codigoEncaminamiento,
+                                //         );
+                                //         console.log('Fulfilment processed');
+                                //     } catch (error) {
+                                //         reject(error);
+                                //     }
+                                // }
+                                if (orders.length > 0) {
+                                    this.withdrawalRepository
+                                        .createWithdrawal(
+                                            resp,
+                                            orders,
+                                            createWithrawalDto,
+                                        )
+                                        .then((withdrawal: Withdrawal) => {
+                                            resolve(withdrawal);
+                                        })
+                                        .catch(error => {
+                                            reject(
+                                                new InternalServerErrorResult(
+                                                    ErrorCode.GeneralError,
+                                                    error,
+                                                ),
+                                            );
+                                        });
+                                } else {
+                                    resolve(null);
                                 }
-                                this.withdrawalRepository
-                                    .createWithdrawal(resp, orders, createWithrawalDto)
-                                    .then((withdrawal: Withdrawal) => {
-                                        resolve(withdrawal);
-                                    })
-                                    .catch(error => {
-                                        reject(
-                                            new InternalServerErrorResult(
-                                                ErrorCode.GeneralError,
-                                                error,
-                                            ),
-                                        );
-                                    });
                             })
                             .catch(error => {
                                 reject(
@@ -108,6 +117,29 @@ export class WithdrawalService {
                             return;
                         }
                         resolve(withdrawal);
+                    })
+                    .catch(error => {
+                        reject(
+                            new InternalServerErrorResult(
+                                ErrorCode.GeneralError,
+                                error,
+                            ),
+                        );
+                    });
+            },
+        );
+    }
+
+    getWithdrawals(): Promise<Withdrawal[]> {
+        return new Promise(
+            (
+                resolve: (result: Withdrawal[]) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.withdrawalRepository
+                    .getWithdrawals()
+                    .then((withdrawals: Withdrawal[]) => {
+                        resolve(withdrawals);
                     })
                     .catch(error => {
                         reject(

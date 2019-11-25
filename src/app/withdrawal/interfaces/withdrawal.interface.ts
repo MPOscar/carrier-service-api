@@ -1,4 +1,4 @@
-import { Order } from 'src/app/order/order.entity';
+import { IOrder } from 'src/app/order/interfaces/order.interface';
 
 export interface IWithdrawal {
     readonly id: string;
@@ -14,5 +14,5 @@ export interface IWithdrawal {
     readonly comuna?: string;
     readonly region?: string;
     readonly zip?: string;
-    readonly orders: Order[];
+    readonly orders: IOrder[];
 }

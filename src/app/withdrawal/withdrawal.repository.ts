@@ -13,8 +13,10 @@ export class WithdrawalRepository extends Repository<Withdrawal> {
         createWithrawalDto: CreateWithdrawalDto,
     ) {
         let withdrawal: Withdrawal = this.create();
-        withdrawal.admissionCode = withdrawalDto.admissionCode;
-        withdrawal.withdrawalCode = withdrawalDto.withdrawalCode;
+        withdrawal.admissionCode =
+            withdrawalDto.registrarRetiroResult.CodigoAdmision;
+        withdrawal.withdrawalCode =
+            withdrawalDto.registrarRetiroResult.CodigoRetiro;
         (withdrawal.address = createWithrawalDto.address),
             (withdrawal.comuna = createWithrawalDto.comuna),
             (withdrawal.contact = createWithrawalDto.contact),
@@ -33,16 +35,17 @@ export class WithdrawalRepository extends Repository<Withdrawal> {
     }
 
     getWithdrawal(id: string) {
-        return this.createQueryBuilder('Withdrawal')
+        return this.createQueryBuilder('withdrawal')
             .select()
-            .where('Withdrawal.id = :WithdrawalId', { WithdrawalId: id })
-            .leftJoinAndSelect('Withdrawal.orders', 'order')
+            .where('withdrawal.id = :withdrawalId', { withdrawalId: id })
+            .leftJoinAndSelect('withdrawal.orders', 'order')
             .getOne();
     }
 
     getWithdrawals() {
         return this.createQueryBuilder('withdrawal')
             .select()
+            .leftJoinAndSelect('withdrawal.orders', 'order')
             .getMany();
     }
 

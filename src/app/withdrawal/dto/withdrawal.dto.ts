@@ -1,4 +1,8 @@
 export class WithdrawalDto {
-    admissionCode: string;
-    withdrawalCode: number;
+    registrarRetiroResult: WithdrawalResultDto;
+}
+
+export class WithdrawalResultDto {
+    CodigoAdmision: string;
+    CodigoRetiro: number;
 }

@@ -49,44 +49,34 @@ export class FulfillmentService {
                                             .toString(),
                                     })
                                     .then(
-                                        (inventoryLevels: InventoryLevel[]) => {
-                                            this.getLocations(inventoryLevels)
-                                                .then(
-                                                    (
-                                                        locations: LocationDto[],
-                                                    ) => {
-                                                        // TODO: test fulfillment
-                                                        let locationId: number = locations.find(
-                                                            location =>
-                                                                location.active ==
-                                                                true,
-                                                        ).id;
+                                        async (
+                                            inventoryLevels: InventoryLevel[],
+                                        ) => {
+                                            let locations: LocationDto[] = await this.getLocations(
+                                                inventoryLevels,
+                                            );
 
-                                                        let params = {
-                                                            fulfillment: {
-                                                                location_id: 35154362448, //locationId,
-                                                                tracking_number: trackingNumber,
-                                                                tracking_urls: [
-                                                                    'https://www.correos.cl/web/guest/seguimiento-en-linea',
-                                                                ],
-                                                                notify_customer: true,
-                                                            },
-                                                        };
-                                                        shopify.fulfillment
-                                                            .create(
-                                                                orderShop.id,
-                                                                params,
-                                                            )
-                                                            .then(fulfilm => {
-                                                                resolve(
-                                                                    fulfilm,
-                                                                );
-                                                            })
-                                                            .catch(err =>
-                                                                reject(err),
-                                                            );
-                                                    },
-                                                )
+                                            // TODO: test fulfillment
+                                            let locationId: number = locations.find(
+                                                location =>
+                                                    location.active == true,
+                                            ).id;
+
+                                            let params = {
+                                                fulfillment: {
+                                                    location_id: locationId,
+                                                    tracking_number: trackingNumber,
+                                                    tracking_urls: [
+                                                        'https://www.correos.cl/web/guest/seguimiento-en-linea',
+                                                    ],
+                                                    notify_customer: true,
+                                                },
+                                            };
+                                            shopify.fulfillment
+                                                .create(orderShop.id, params)
+                                                .then(fulfilm => {
+                                                    resolve(fulfilm);
+                                                })
                                                 .catch(err => reject(err));
                                         },
                                     )

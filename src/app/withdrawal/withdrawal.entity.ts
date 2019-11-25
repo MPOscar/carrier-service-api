@@ -1,9 +1,4 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Order } from '../order/order.entity';
 
 @Entity()
@@ -26,10 +21,10 @@ export class Withdrawal {
     @Column({ nullable: true })
     date: Date;
 
-    @Column({ nullable: true })
+    @Column({ type: 'timetz', nullable: true })
     horaDesde: Date;
 
-    @Column({ nullable: true })
+    @Column({ type: 'timetz', nullable: true })
     horaHasta: Date;
 
     @Column({ nullable: true })
