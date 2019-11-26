@@ -40,21 +40,24 @@ export class WithdrawalService {
                             .getOrdersNoWithdrawal()
                             .then(async (orders: Order[]) => {
                                 // TODO: Uncomment for fulfillment
-                                // for (let i = 0; i < orders.length; i++) {
-                                //     const order = orders[i];
+                                for (let i = 0; i < orders.length; i++) {
+                                    const order = orders[i];
 
-                                //     try {
-                                //         const fulfillment = await this.fulfillmentService.createFulfillment(
-                                //             order,
-                                //             user,
-                                //             order.admission
-                                //                 .codigoEncaminamiento,
-                                //         );
-                                //         console.log('Fulfilment processed');
-                                //     } catch (error) {
-                                //         reject(error);
-                                //     }
-                                // }
+                                    try {
+                                        const fulfillment = await this.fulfillmentService.createFulfillment(
+                                            order,
+                                            user,
+                                            order.admission
+                                                .codigoEncaminamiento,
+                                        );
+                                        console.log(
+                                            'Fulfilment processed => ' +
+                                                JSON.stringify(fulfillment),
+                                        );
+                                    } catch (error) {
+                                        reject(error);
+                                    }
+                                }
                                 if (orders.length > 0) {
                                     this.withdrawalRepository
                                         .createWithdrawal(
