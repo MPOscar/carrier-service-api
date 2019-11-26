@@ -39,6 +39,7 @@ export class WithdrawalRepository extends Repository<Withdrawal> {
             .select()
             .where('withdrawal.id = :withdrawalId', { withdrawalId: id })
             .leftJoinAndSelect('withdrawal.orders', 'order')
+            .leftJoinAndSelect('order.admission', 'admission')
             .getOne();
     }
 
