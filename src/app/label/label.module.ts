@@ -8,9 +8,10 @@ import { Label } from './label.entity';
 import { LabelRepository } from './label.repository';
 import { AuthModule } from '../common/auth/auth.module';
 import { ConfigService } from '../common/config/config.service';
-import { ManifestService } from '../manifest/manifest.service';
 import { ManifestModule } from '../manifest/manifest.module';
-import { GeoResService } from '../geocoder/geores.service';
+import { OrderService } from '../order/order.service';
+import { AdmissionService } from '../admission/admission.service';
+import { SoapService } from '../soap/soap.service';
 @Module({
     imports: [
         HttpModule,
@@ -20,7 +21,13 @@ import { GeoResService } from '../geocoder/geores.service';
         ManifestModule,
     ],
     controllers: [LabelController],
-    providers: [LabelService, ConfigService, GeoResService],
+    providers: [
+        LabelService,
+        ConfigService,
+        OrderService,
+        AdmissionService,
+        SoapService,
+    ],
     exports: [LabelService],
 })
 export class LabelModule {}

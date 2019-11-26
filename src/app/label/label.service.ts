@@ -15,13 +15,10 @@ import {
 } from '../common/error-manager/errors';
 import { ErrorCode } from '../common/error-manager/error-codes';
 import { User } from '../user/user.entity';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { UserService } from '../user/user.service';
 import axios from 'axios';
 import { ConfigService } from '../common/config/config.service';
-import { ManifestService } from '../manifest/manifest.service';
-import { GeoResService } from '../geocoder/geores.service';
+import * as dataRegions from '../soap/region-comuna-sucursal.json';
+import { OrderService } from '../order/order.service';
 
 @Injectable()
 export class LabelService {
@@ -29,32 +26,35 @@ export class LabelService {
         //@InjectRepository(Label)
         private readonly httpService: HttpService,
         private readonly LabelRepository: LabelRepository,
-        private readonly userService: UserService,
         private readonly configService: ConfigService,
-        private readonly manifestService: ManifestService,
-        private readonly geoResService: GeoResService,
+        private readonly orderService: OrderService,
     ) {}
 
-    async create(manifestId: string, user: User): Promise<any> {
+    async create(orderId: string, user: User): Promise<any> {
         return new Promise(
             (
                 resolve: (result) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.manifestService
-                    .getManifest(manifestId)
-                    .then(async manifest => {
+                this.orderService
+                    .getOrder(orderId)
+                    .then(async order => {
                         try {
-                            let geoItem = await this.geoResService.getGeocodeAddress(
-                                manifest.order.receiverAddress,
-                                'CL',
-                            );
+                            let comunaDestino = dataRegions
+                                .find(reg => reg.rgi == order.receiverCityCode)
+                                .comunas.find(
+                                    comuna =>
+                                        comuna.name.includes(
+                                            order.receiverCity.toUpperCase(),
+                                        ) ||
+                                        order.receiverCity
+                                            .toUpperCase()
+                                            .includes(comuna.name),
+                                ).name;
 
                             let data = {
-                                Usuario: this.configService.get('SOAP_USER'),
-                                Contrasena: this.configService.get(
-                                    'SOAP_PASSWORD',
-                                ),
+                                Usuario: user.userApiChile,
+                                Contrasena: user.passwordApiChile,
                                 AdmisionTo: {
                                     CodigoAdmision: '89465378264', // manifest.admissionCode,
                                     ClienteRemitente: user.idApiChile,
@@ -70,24 +70,23 @@ export class LabelService {
                                     TelefonoContactoRemitente: user.phone,
                                     ClienteDestinatario: '',
                                     CentroDestinatario: '',
-                                    NombreDestinatario:
-                                        manifest.order.receiverName,
+                                    NombreDestinatario: order.receiverName,
                                     DireccionDestinatario:
-                                        manifest.order.receiverAddress,
+                                        order.receiverAddress,
                                     PaisDestinatario: '056',
                                     CodigoPostalDestinatario: '',
-                                    ComunaDestinatario: geoItem.city,
+                                    ComunaDestinatario: comunaDestino,
                                     RutDestinatario: '',
                                     PersonaContactoDestinatario:
-                                        manifest.order.receiverContactName,
+                                        order.receiverContactName,
                                     TelefonoContactoDestinatario:
-                                        manifest.order.receiverContactPhone,
-                                    CodigoServicio: manifest.order.serviceCode,
+                                        order.receiverContactPhone,
+                                    CodigoServicio: order.serviceCode,
                                     NumeroTotalPiezas: 1,
                                     Kilos: 1,
                                     Volumen: 0,
                                     NumeroReferencia:
-                                        manifest.trackingReference,
+                                        order.admission.codigoEncaminamiento,
                                     ImporteReembolso: 0,
                                     ImporteValorDeclarado: 0,
                                     TipoPortes: 'P',
@@ -98,7 +97,9 @@ export class LabelService {
                                     DevolucionConforme: 'N',
                                     NumeroDocumentos: 0,
                                     PagoSeguro: 'N',
-                                    FormatoEtiqueta: 'pdf',
+                                    FormatoEtiqueta: user.labelFormat
+                                        ? user.labelFormat
+                                        : 'pdf',
                                 },
                             };
 

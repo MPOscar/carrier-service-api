@@ -26,15 +26,20 @@ export class LabelController {
     constructor(private readonly labelService: LabelService) {}
 
     @Post()
-    @Header('Content-Type', 'application/pdf')
-    @Header('Content-Disposition', 'attachment; filename=label.pdf')
+    // @Header('Content-Type', 'application/pdf')
+    // @Header('Content-Disposition', 'attachment; filename=label.pdf')
     async create(
         @GetUser() user: User,
         @Query() query: any,
         @Response() response: express.Response,
     ) {
+        response.setHeader('Content-Type', 'application/' + user.labelFormat);
+        response.setHeader(
+            'Content-Disposition',
+            'attachment; filename=label.' + user.labelFormat,
+        );
         return this.labelService
-            .create(query.manifestId, user)
+            .create(query.orderId, user)
             .then(label => {
                 label.pipe(response);
             })

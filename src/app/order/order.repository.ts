@@ -120,7 +120,7 @@ export class OrderRepository extends Repository<Order> {
             .getOne();
     }
 
-    getOrders(user: User) {
+    getOrders() {
         return this.createQueryBuilder('Order')
             .select('Order')
             .leftJoinAndSelect('Order.admission', 'admission')

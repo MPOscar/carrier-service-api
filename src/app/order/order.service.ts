@@ -144,7 +144,7 @@ export class OrderService {
                 reject: (reason: ErrorResult) => void,
             ): void => {
                 this.orderRepository
-                    .getOrders(user)
+                    .getOrdersNoWithdrawal()
                     .then((orders: Order[]) => {
                         resolve(orders);
                     })
