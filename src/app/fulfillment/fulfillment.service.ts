@@ -63,14 +63,12 @@ export class FulfillmentService {
                     ).id;
 
                     let params = {
-                        fulfillment: {
-                            location_id: locationId,
-                            tracking_number: trackingNumber,
-                            tracking_urls: [
-                                'https://www.correos.cl/web/guest/seguimiento-en-linea',
-                            ],
-                            notify_customer: true,
-                        },
+                        location_id: locationId,
+                        tracking_number: trackingNumber,
+                        tracking_urls: [
+                            'https://www.correos.cl/web/guest/seguimiento-en-linea',
+                        ],
+                        notify_customer: true,
                     };
 
                     let fulfilm = await shopify.fulfillment.create(
