@@ -39,7 +39,6 @@ export class WithdrawalService {
                         this.orderService
                             .getOrdersNoWithdrawal()
                             .then(async (orders: Order[]) => {
-                                // TODO: Uncomment for fulfillment
                                 for (let i = 0; i < orders.length; i++) {
                                     const order = orders[i];
 

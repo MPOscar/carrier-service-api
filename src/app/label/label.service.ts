@@ -56,7 +56,8 @@ export class LabelService {
                                 Usuario: user.userApiChile,
                                 Contrasena: user.passwordApiChile,
                                 AdmisionTo: {
-                                    CodigoAdmision: '89465378264', // manifest.admissionCode,
+                                    CodigoAdmision:
+                                        order.admission.codigoAdmision,
                                     ClienteRemitente: user.idApiChile,
                                     CentroRemitente: '',
                                     NombreRemitente: user.shopUrl,
@@ -104,7 +105,6 @@ export class LabelService {
                             };
 
                             axios.interceptors.request.use(req => {
-                                console.log(req);
                                 return req;
                             });
 
@@ -122,16 +122,13 @@ export class LabelService {
                                     resolve(response.data);
                                 })
                                 .catch(error => {
-                                    console.log(error.response.data);
                                     reject(error);
                                 });
                         } catch (error) {
-                            console.log(JSON.stringify(error));
                             reject(error);
                         }
                     })
                     .catch(error => {
-                        console.log(error.response);
                         reject(error);
                     });
             },
