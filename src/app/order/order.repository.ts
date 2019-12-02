@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, FindManyOptions } from 'typeorm';
 
 import { CreateOrderDto, LineItems } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -128,7 +128,10 @@ export class OrderRepository extends Repository<Order> {
     }
 
     async getOrdersByIds(ids: string[]) {
-        return this.findByIds(ids);
+        const options: FindManyOptions = {
+            relations: ['admission'],
+        };
+        return this.findByIds(ids, options);
     }
 
     async getOrdersNoWithdrawal() {
