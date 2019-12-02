@@ -21,16 +21,19 @@ export class WebhookController {
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
         console.log('ORDER =>', order);
         let shop: any = request.headers['x-shopify-shop-domain'];
-        this.userService.findUserByShop(shop).then((user: User) => {
-            return this.orderService
-                .create(user, order)
-                .then((order: Order) => {
-                    return this.getIOrder(order);
-                })
-                .catch((error: ErrorResult) => {
-                    return ErrorManager.manageErrorResult(error);
-                });
-        });
+
+        if (order.shipping_lines[0].source === 'Correos Chile') {
+            this.userService.findUserByShop(shop).then((user: User) => {
+                return this.orderService
+                    .create(user, order)
+                    .then((order: Order) => {
+                        return this.getIOrder(order);
+                    })
+                    .catch((error: ErrorResult) => {
+                        return ErrorManager.manageErrorResult(error);
+                    });
+            });
+        }
     }
 
     @Post('uninstalled-app')

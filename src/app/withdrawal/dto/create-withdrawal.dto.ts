@@ -9,4 +9,5 @@ export class CreateWithdrawalDto {
     comuna?: string;
     region?: string;
     zip?: string;
+    orderIds: string[];
 }

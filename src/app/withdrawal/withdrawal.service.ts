@@ -37,7 +37,7 @@ export class WithdrawalService {
                     .processWithdrawal(user, createWithrawalDto)
                     .then((resp: WithdrawalDto) => {
                         this.orderService
-                            .getOrdersNoWithdrawal()
+                            .getOrdersByIds(createWithrawalDto.orderIds)
                             .then(async (orders: Order[]) => {
                                 for (let i = 0; i < orders.length; i++) {
                                     const order = orders[i];

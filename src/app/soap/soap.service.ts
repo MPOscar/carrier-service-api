@@ -1,9 +1,8 @@
+import { RateResponse } from './../rates/dto/chile/rate-respose.dto';
 'use strict';
 import { Injectable } from '@nestjs/common';
 import * as soap from 'soap';
 import { ConfigService } from '../common/config/config.service';
-import { RateProductResponse } from '../rates/dto/chile/rate-product-respose.dto';
-import { Sucursal } from '../rates/dto/chile/sucursal.dto';
 import { ShopifyItemDto } from '../rates/dto/shopify/shopify-item.dto';
 import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.dto';
 import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-response.dto';
@@ -49,7 +48,7 @@ export class SoapService {
 
                     consultaCobertura: {
                         CodigoPostalDestinatario: '',
-                        CodigoPostalRemitente: user.zip,
+                        CodigoPostalRemitente: '',
                         ComunaDestino: comunaDestino,
                         ComunaRemitente: user.comuna,
                         CodigoServicio: '24',
@@ -66,7 +65,7 @@ export class SoapService {
                     },
                 };
 
-                let sucursalCarrier: ShopifyRateResponseDto[] = await this.getSucursals(
+                let sucursalCarriers: ShopifyRateResponseDto[] = await this.getSucursals(
                     ratesDto,
                 );
 
@@ -75,9 +74,9 @@ export class SoapService {
                 soap.createClient(url, {}, function(err, client) {
                     if (err) reject(err);
 
-                    client.consultaCoberturaPorProducto(args, function(
+                    client.consultaCobertura(args, function(
                         err,
-                        obj: RateProductResponse,
+                        obj: RateResponse,
                     ) {
                         if (err) {
                             throw err;
@@ -86,29 +85,45 @@ export class SoapService {
                             'CARRIERRR CHILE => ' + JSON.stringify(obj),
                         );
 
+                        let residenceCarrier = obj.consultaCoberturaResult.ServicioTO.find(
+                            serv => serv.CodigoServicio === '24',
+                        );
+                        let sucursalCarrier = obj.consultaCoberturaResult.ServicioTO.find(
+                            serv => serv.CodigoServicio === '07',
+                        );
+
                         let recharge: number =
                             user.recharge != null ? user.recharge : 0;
+
+                        const getTotalPrice = (
+                            total: string,
+                            recharge: number,
+                        ): number => {
+                            return (parseFloat(total) + recharge) * 100;
+                        };
+
                         let date = new Date();
-                        let totalPrice =
-                            (parseFloat(
-                                obj.consultaCoberturaPorProductoResult
-                                    .TotalTasacion.Total,
-                            ) +
-                                recharge) *
-                            100;
+                        let residenceTotalPrice: number = getTotalPrice(
+                            residenceCarrier.TotalTasacion.Total,
+                            recharge,
+                        );
+                        let sucursalTotalPrice = getTotalPrice(
+                            sucursalCarrier.TotalTasacion.Total,
+                            recharge,
+                        );
 
                         res.push({
-                            service_name: 'OFICINA DE CORREOS',
-                            service_code: '24',
-                            total_price: totalPrice.toString(),
+                            service_name: 'ENVIO DOMICILIO - Correos de Chile',
+                            service_code: residenceCarrier.CodigoServicio,
+                            total_price: residenceTotalPrice.toString(),
                             currency: ratesDto.rate.currency,
                             min_delivery_date: date.toDateString(),
                             max_delivery_date: (date.getDate() + 30).toString(),
                         });
 
-                        for (let i = 0; i < sucursalCarrier.length; i++) {
-                            const element = sucursalCarrier[i];
-                            element.total_price = totalPrice.toString();
+                        for (let i = 0; i < sucursalCarriers.length; i++) {
+                            const element = sucursalCarriers[i];
+                            element.total_price = sucursalTotalPrice.toString();
 
                             res.push(element);
                         }
@@ -268,7 +283,7 @@ export class SoapService {
                 NombreRemitente: user.firstName, // TODO: save in user store name
                 DireccionRemitente: createWithdrawalDto.address,
                 PaisRemitente: '056',
-                CodigoPostalRemitente: createWithdrawalDto.zip,
+                CodigoPostalRemitente: '',
                 ComunaRemitente: createWithdrawalDto.comuna,
                 RutRemitente: createWithdrawalDto.rut,
                 PersonaContactoRemitente: createWithdrawalDto.contact,

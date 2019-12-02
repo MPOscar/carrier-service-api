@@ -183,6 +183,29 @@ export class OrderService {
         );
     }
 
+    getOrdersByIds(ids: string[]): Promise<Order[]> {
+        return new Promise(
+            (
+                resolve: (result: Order[]) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.orderRepository
+                    .getOrdersByIds(ids)
+                    .then((orders: Order[]) => {
+                        resolve(orders);
+                    })
+                    .catch(error => {
+                        reject(
+                            new InternalServerErrorResult(
+                                ErrorCode.GeneralError,
+                                error,
+                            ),
+                        );
+                    });
+            },
+        );
+    }
+
     delete(id: string): Promise<Order> {
         return new Promise(
             (
