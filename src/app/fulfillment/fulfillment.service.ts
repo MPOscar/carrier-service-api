@@ -66,7 +66,8 @@ export class FulfillmentService {
                         location_id: locationId,
                         tracking_number: trackingNumber,
                         tracking_urls: [
-                            'https://www.correos.cl/web/guest/seguimiento-en-linea',
+                            'https://www.correos.cl/web/guest/seguimiento-en-linea?codigos=' +
+                                trackingNumber,
                         ],
                         tracking_company: 'Correos de Chile',
                         notify_customer: true,
