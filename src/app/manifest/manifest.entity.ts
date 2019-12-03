@@ -44,7 +44,7 @@ export class Manifest {
     @Column()
     updatedAt?: Date;
 
-    @OneToOne(type => Order, order => order.manifest)
+    @OneToOne(() => Order, order => order.manifest, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     order: Order;
 }

@@ -48,6 +48,6 @@ export class Withdrawal {
     @Column({ nullable: true })
     updatedAt: Date;
 
-    @OneToMany(() => Order, order => order.withdrawal)
+    @OneToMany(() => Order, order => order.withdrawal, { cascade: true })
     orders: Order[];
 }

@@ -16,7 +16,7 @@ import { Withdrawal } from '../withdrawal/withdrawal.entity';
 export const bigint: ValueTransformer = {
     to: (entityValue: bigint) => entityValue,
     from: (databaseValue: string): bigint => BigInt(databaseValue),
-}
+};
 
 @Entity()
 export class Order {
@@ -130,16 +130,18 @@ export class Order {
     @Column({ nullable: true })
     updatedAt: Date;
 
-    @ManyToOne(type => User)
+    @ManyToOne(() => User, user => user.orders, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user: User;
 
-    @OneToOne(type => Manifest, manifest => manifest.order)
+    @OneToOne(() => Manifest, manifest => manifest.order, { cascade: true })
     manifest: Manifest;
 
-    @OneToOne(type => Admission, admission => admission.order)
+    @OneToOne(() => Admission, admission => admission.order, { cascade: true })
     admission: Admission;
 
-    @ManyToOne(type => Withdrawal, withdrawal => withdrawal.orders)
+    @ManyToOne(() => Withdrawal, withdrawal => withdrawal.orders, {
+        onDelete: 'CASCADE',
+    })
     withdrawal: Withdrawal;
 }

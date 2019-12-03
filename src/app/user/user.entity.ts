@@ -1,5 +1,5 @@
+import { Order } from './../order/order.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Order } from '../order/order.entity';
 
 @Entity()
 export class User {
@@ -80,4 +80,9 @@ export class User {
 
     @Column()
     updatedAt: Date;
+
+    @OneToMany(() => Order, order => order.user, {
+        cascade: true,
+    })
+    orders: Order[];
 }

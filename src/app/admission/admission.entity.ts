@@ -57,7 +57,7 @@ export class Admission {
     @Column({ nullable: true })
     updatedAt: Date;
 
-    @OneToOne(() => Order, order => order.admission)
+    @OneToOne(() => Order, order => order.admission, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     order: Order;
 }
