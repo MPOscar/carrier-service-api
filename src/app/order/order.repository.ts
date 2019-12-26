@@ -134,9 +134,10 @@ export class OrderRepository extends Repository<Order> {
         return this.findByIds(ids, options);
     }
 
-    async getOrdersNoWithdrawal() {
+    async getOrdersNoWithdrawal(user: User) {
         return await this.createQueryBuilder('Order')
             .where('Order.withdrawal_id is null')
+            .andWhere('Order.user_id = :userId', { userId: user.id })
             .leftJoinAndSelect('Order.admission', 'admission')
             .getMany();
     }
