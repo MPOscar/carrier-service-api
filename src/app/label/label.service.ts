@@ -108,8 +108,7 @@ export class LabelService {
                                 return req;
                             });
 
-                            const url =
-                                'http://201.238.220.46:8082/api/ServicioAdmisionCEP/postEtiqueta';
+                            const url = this.configService.get('LABEL_URL');
 
                             axios
                                 .post(url, data, {

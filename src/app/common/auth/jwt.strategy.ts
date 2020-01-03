@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     validate(payload: JwtPayload) {
-        //console.log(JSON.stringify(payload));
         return this.authService
             .validate(payload)
             .then((user: User) => {
@@ -30,8 +29,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
                 return user;
             })
             .catch(error => {
-                console.log('PAYLOAD => ' + JSON.stringify(payload));
-                console.log('ERROR => ' + JSON.stringify(error));
                 throw new UnauthorizedException();
             });
     }

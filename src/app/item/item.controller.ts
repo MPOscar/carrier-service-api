@@ -40,8 +40,6 @@ export class ItemController {
     @Post("order-create")
     @UsePipes(new ValidationPipe())
     async create(@Body() createItemDto: any) {
-        console.log(createItemDto)
-        console.log(createItemDto.items)
         //return this.carrierService.getQuotes();
         /*return this.carrierService.create(createItemDto)
             .then((carrier: Item) => {
@@ -102,13 +100,10 @@ export class ItemController {
                 }
                 return request.post(apiRequestUrl, { json: data, headers: apiRequestHeader })
                     .then((accessTokenResponce) => {
-                        console.log(accessTokenResponce);
-                        console.log(data);
                     })
                 /*this.httpService.post(apiRequestUrl, {}, { headers:  apiRequestHeader })
                     .pipe(
                         map(response => {
-                            console.log(response.data);
                             return accessToken
                         })
                     );*/
@@ -124,7 +119,7 @@ export class ItemController {
         /*return this.httpService.post(accessTokenRequestUrl,{json: accessTokenPayload})
             .pipe(
                 map(response => {
-                    console.log(response.data);
+                    (response.data);
                 })
             );
         /*return this.carrierService.create(createItemDto)

@@ -65,7 +65,6 @@ export class CarrierController {
                 createCarrierDto,
                 user,
             );
-            console.log('CARRIER CONTROLLER => ' + JSON.stringify(resp));
             return response.json({ rates: resp });
         } catch (error) {
             throw error;
@@ -132,8 +131,6 @@ export class CarrierController {
                 .post(accessTokenRequestUrl, { json: accessTokenPayload })
                 .then(response => {
                     const accessToken = response.access_token;
-
-                    console.log(accessToken);
 
                     let user: CreateUserDto = {
                         accessToken: accessToken,
@@ -213,9 +210,6 @@ export class CarrierController {
                                             })
                                             .then(() => {})
                                             .catch(error => {
-                                                console.log(
-                                                    'ERROR 1 => ' + error.error,
-                                                );
                                                 res.status(400).send({
                                                     error: error.error,
                                                 });
@@ -238,10 +232,6 @@ export class CarrierController {
                                         });
                                     })
                                     .catch(error => {
-                                        console.log(
-                                            'ERROR 2 => ' +
-                                                JSON.stringify(error.error),
-                                        );
                                         return res.status(400).send({
                                             user: user,
                                             token: this.authService.createToken(

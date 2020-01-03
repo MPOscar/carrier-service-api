@@ -24,8 +24,7 @@ export class SoapService {
                 resolve: (result: ShopifyRateResponseDto[]) => void,
                 reject: (reason) => void,
             ): Promise<void> => {
-                const url =
-                    'http://apicert.correos.cl:8008/ServicioTarificacionCEPEmpresasExterno/cch/ws/tarificacionCEP/externo/implementacion/ExternoTarificacion.asmx?wsdl';
+                const url = this.configService.get('TARIF_URL');
 
                 let comunaDestino = dataRegions
                     .find(reg => reg.rgi == ratesDto.rate.destination.province)
@@ -81,9 +80,6 @@ export class SoapService {
                         if (err) {
                             throw err;
                         }
-                        console.log(
-                            'CARRIERRR CHILE => ' + JSON.stringify(obj),
-                        );
 
                         let residenceCarrier = obj.consultaCoberturaResult.ServicioTO.find(
                             serv => serv.CodigoServicio === '24',
@@ -127,7 +123,6 @@ export class SoapService {
 
                             res.push(element);
                         }
-                        console.log('CARRIERRR => ' + JSON.stringify(res));
                         resolve(res);
                     });
                 });
@@ -180,8 +175,7 @@ export class SoapService {
     }
 
     async processAdmission(order: Order, user: User): Promise<any> {
-        const url =
-            'http://apicert.correos.cl:8008/ServicioAdmisionCEPExterno/cch/ws/enviosCEP/externo/implementacion/ServicioExternoAdmisionCEP.asmx?wsdl';
+        const url = this.configService.get('ADMISSION_URL');
 
         let comunaDestino = dataRegions
             .find(reg => reg.rgi == order.receiverCityCode)
@@ -201,7 +195,7 @@ export class SoapService {
                 CodigoAdmision: '011043183201', // TODO: change admission code strategiy
                 ClienteRemitente: user.idApiChile,
                 CentroRemitente: '',
-                NombreRemitente: user.firstName, // TODO: save in user store name
+                NombreRemitente: user.firstName,
                 DireccionRemitente: user.address,
                 PaisRemitente: '056',
                 CodigoPostalRemitente: '',
@@ -247,9 +241,6 @@ export class SoapService {
             },
         };
 
-        console.log('USER ADM => ' + JSON.stringify(user));
-        console.log('ARGS ADM => ' + JSON.stringify(args));
-
         return new Promise(
             (
                 resolve: (result: any) => void,
@@ -272,8 +263,7 @@ export class SoapService {
         user: User,
         createWithdrawalDto: CreateWithdrawalDto,
     ): Promise<any> {
-        const url =
-            'http://apicert.correos.cl:8008/ServicioRetiroEnvioExterno/cch/ws/retirosCEP/externo/implementacion/ServicioExternoRetiro.asmx?wsdl';
+        const url = this.configService.get('RETIRO_URL');
 
         const args = {
             retiroTO: {

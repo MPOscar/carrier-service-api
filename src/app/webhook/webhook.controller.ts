@@ -19,7 +19,6 @@ export class WebhookController {
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
-        console.log('ORDER =>', order);
         let shop: any = request.headers['x-shopify-shop-domain'];
 
         if (order.shipping_lines[0].source === 'Correos Chile') {
@@ -42,12 +41,10 @@ export class WebhookController {
         @Response() res: express.Response,
     ) {
         let shop: any = request.headers['x-shopify-shop-domain'];
-        console.log(shop);
         this.userService.findUserByShop(shop).then((user: User) => {
             user.shopUrl = user.shopUrl + user.id;
             user.isDeleted = true;
             this.userService.delete(user.id).then((user: User) => {
-                console.log(user);
                 res.status(200).send({
                     data: {
                         user: user,

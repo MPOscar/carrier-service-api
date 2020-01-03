@@ -34,7 +34,6 @@ export class AuthService {
                 this.userService
                     .signIn(hmac, shop, timestamp)
                     .then((user: LoginUserDto) => {
-                        console.log(user);
                         const response: ILogin = {
                             user: this.getUserDto(user),
                             token: this.createToken(user),

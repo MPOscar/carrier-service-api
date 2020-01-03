@@ -32,6 +32,10 @@ export class ConfigService {
             SOAP_USER: Joi.string(),
             SOAP_PASSWORD: Joi.string(),
             MAPQUEST_API_KEY: Joi.string(),
+            TARIF_URL: Joi.string(),
+            ADMISSION_URL: Joi.string(),
+            RETIRO_URL: Joi.string(),
+            LABEL_URL: Joi.string(),
 
             DATABASE_HOST: Joi.string(),
             DATABASE_PORT: Joi.number().default(5432),
