@@ -1,6 +1,6 @@
+import { User } from './../user/user.entity';
 import { Injectable } from '@nestjs/common';
 import { Order } from '../order/order.entity';
-import { User } from '../user/user.entity';
 import {
     ErrorResult,
     InternalServerErrorResult,
@@ -132,14 +132,14 @@ export class WithdrawalService {
         );
     }
 
-    getWithdrawals(): Promise<Withdrawal[]> {
+    getWithdrawals(user: User): Promise<Withdrawal[]> {
         return new Promise(
             (
                 resolve: (result: Withdrawal[]) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
                 this.withdrawalRepository
-                    .getWithdrawals()
+                    .getWithdrawals(user)
                     .then((withdrawals: Withdrawal[]) => {
                         resolve(withdrawals);
                     })

@@ -160,14 +160,14 @@ export class OrderService {
         );
     }
 
-    getOrdersNoWithdrawal(): Promise<Order[]> {
+    getOrdersNoWithdrawal(user: User): Promise<Order[]> {
         return new Promise(
             (
                 resolve: (result: Order[]) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
                 this.orderRepository
-                    .getOrdersNoWithdrawal()
+                    .getOrdersNoWithdrawal(user)
                     .then((orders: Order[]) => {
                         resolve(orders);
                     })

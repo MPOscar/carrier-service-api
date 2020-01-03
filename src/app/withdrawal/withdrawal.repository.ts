@@ -1,3 +1,4 @@
+import { User } from './../user/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { Order } from '../order/order.entity';
@@ -43,10 +44,12 @@ export class WithdrawalRepository extends Repository<Withdrawal> {
             .getOne();
     }
 
-    getWithdrawals() {
+    getWithdrawals(user: User) {
         return this.createQueryBuilder('withdrawal')
             .select()
             .leftJoinAndSelect('withdrawal.orders', 'order')
+            .andWhere('order.user_id = :userId', { userId: user.id })
+            .addOrderBy('withdrawal.createdAt', 'DESC')
             .getMany();
     }
 

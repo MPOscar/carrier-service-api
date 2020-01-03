@@ -49,7 +49,7 @@ export class Order {
     @Column({ nullable: true })
     subtotalPrice: string;
 
-    @Column('decimal', { precision: 5, scale: 2, nullable: true })
+    @Column('decimal', { precision: 7, scale: 2, nullable: true })
     totalWeight: number;
 
     @Column({ nullable: true })

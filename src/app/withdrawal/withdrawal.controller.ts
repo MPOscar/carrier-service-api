@@ -63,9 +63,9 @@ export class WithdrawalController {
     }
 
     @Get()
-    async getWithdrawals() {
+    async getWithdrawals(@GetUser() user: User) {
         return this.withdrawalService
-            .getWithdrawals()
+            .getWithdrawals(user)
             .then((withdrawals: Withdrawal[]) => {
                 return withdrawals.map((withdrawal: Withdrawal) => {
                     return this.getIWithdrawal(withdrawal);
