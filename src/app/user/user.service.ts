@@ -16,11 +16,9 @@ import { ErrorCode } from '../common/error-manager/error-codes';
 
 import { ConfigService } from '../common/config/config.service';
 const configService = new ConfigService();
-const crypto = require('crypto');
-const cookie = require('cookie');
-const querystring = require('querystring');
+import * as crypto from 'crypto';
+import * as querystring from 'querystring';
 const nonce = require('nonce')();
-const request = require('request-promise');
 
 const apiKey = configService.get('SHOPIFY_API_KEY');
 const apiSecret = configService.get('SHOPIFY_API_SECRET_KEY');
@@ -252,32 +250,39 @@ export class UserService {
                         if (shop && hmac) {
                             let loginUserDto: LoginUserDto = user;
                             //Validate request is from Shopify
-                            let query: any = {
-                                shop: shop,
-                                timestamp: timestamp,
-                            };
-                            const map = Object.assign({}, query);
-                            const message = querystring.stringify(map);
-                            const providedHmac = Buffer.from(hmac, 'utf-8');
-                            const generatedHash = Buffer.from(
-                                crypto
-                                    .createHmac('sha256', apiSecret)
-                                    .update(message)
-                                    .digest('hex'),
-                                'utf-8',
-                            );
-                            let hashEquals = false;
+                            // let query: any = {
+                            //     shop: shop,
+                            //     timestamp: timestamp,
+                            // };
+                            // const map = Object.assign({}, query);
+                            // const message = querystring.stringify(map);
+                            // const providedHmac = Buffer.from(hmac, 'utf-8');
+                            // const generatedHash = Buffer.from(
+                            //     crypto
+                            //         .createHmac('sha256', apiSecret)
+                            //         .update(message)
+                            //         .digest('hex'),
+                            //     'utf-8',
+                            // );
+                            // let hashEquals = false;
 
-                            try {
-                                hashEquals = crypto.timingSafeEqual(
-                                    generatedHash,
-                                    providedHmac,
-                                );
-                            } catch (e) {
-                                hashEquals = false;
-                            }
+                            // try {
+                            //     hashEquals = crypto.timingSafeEqual(
+                            //         generatedHash,
+                            //         providedHmac,
+                            //     );
+                            // } catch (e) {
+                            //     hashEquals = false;
+                            // }
 
-                            if (!hashEquals) {
+                            if (
+                                !this.isHMACValid(apiSecret, {
+                                    hmac,
+                                    shop,
+                                    code,
+                                    timestamp,
+                                })
+                            ) {
                                 console.log('hmac failed');
                                 let loginUserDto: LoginUserDto = user;
                                 loginUserDto.newUser = false;
@@ -314,6 +319,16 @@ export class UserService {
             });*/
             },
         );
+    }
+
+    isHMACValid(secret, { hmac, shop, code, timestamp }) {
+        let input = querystring.stringify({ code, shop, timestamp });
+        let generatedHash = crypto
+            .createHmac('sha256', secret)
+            .update(input)
+            .digest('hex');
+
+        return generatedHash !== hmac;
     }
 
     getUserByEmail(email: string): Promise<User> {
