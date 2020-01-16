@@ -63,7 +63,7 @@ export class WithdrawalService {
                                             this.orderService
                                                 .delete(order.id)
                                                 .then((order: Order) => {
-                                                    error.order = order;
+                                                    orders.splice(i, 1);
                                                     reject(error);
                                                 })
                                                 .catch(error => {
