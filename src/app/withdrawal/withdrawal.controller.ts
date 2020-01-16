@@ -51,7 +51,7 @@ export class WithdrawalController {
                     error.response.body.errors.base[0] ===
                         'Line items are already fulfilled'
                 ) {
-                    return new Error('La orden ya fue tramitada');
+                    return error;
                 }
                 return error;
             });
