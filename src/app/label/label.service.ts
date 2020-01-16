@@ -63,7 +63,7 @@ export class LabelService {
                                     NombreRemitente: user.shopUrl,
                                     DireccionRemitente: user.address,
                                     PaisRemitente: '056',
-                                    CodigoPostalRemitente: user.zip,
+                                    CodigoPostalRemitente: '',
                                     ComunaRemitente: user.comuna,
                                     RutRemitente: user.rut,
                                     PersonaContactoRemitente:

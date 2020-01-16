@@ -131,7 +131,7 @@ export class CarrierController {
                 .post(accessTokenRequestUrl, { json: accessTokenPayload })
                 .then(response => {
                     const accessToken = response.access_token;
-
+                    console.log(accessToken);
                     let user: CreateUserDto = {
                         accessToken: accessToken,
                         shopUrl: shop,

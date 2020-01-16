@@ -45,8 +45,15 @@ export class WithdrawalController {
                     ? this.getIWithdrawal(withdrawal)
                     : null;
             })
-            .catch((error: ErrorResult) => {
-                return ErrorManager.manageErrorResult(error);
+            .catch(error => {
+                if (
+                    error.statusCode == 422 &&
+                    error.response.body.errors.base[0] ===
+                        'Line items are already fulfilled'
+                ) {
+                    return 'Error: Line items are already fulfilled';
+                }
+                return error;
             });
     }
 

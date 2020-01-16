@@ -54,6 +54,21 @@ export class WithdrawalService {
                                                 JSON.stringify(fulfillment),
                                         );
                                     } catch (error) {
+                                        if (
+                                            error.statusCode == 422 &&
+                                            error.response.body.errors
+                                                .base[0] ===
+                                                'Line items are already fulfilled'
+                                        ) {
+                                            this.orderService
+                                                .delete(order.id)
+                                                .then((order: Order) => {
+                                                    reject(error);
+                                                })
+                                                .catch(error => {
+                                                    reject(error);
+                                                });
+                                        }
                                         reject(error);
                                     }
                                 }
