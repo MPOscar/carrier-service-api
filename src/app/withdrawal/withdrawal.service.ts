@@ -63,6 +63,7 @@ export class WithdrawalService {
                                             this.orderService
                                                 .delete(order.id)
                                                 .then((order: Order) => {
+                                                    error.order = order;
                                                     reject(error);
                                                 })
                                                 .catch(error => {
