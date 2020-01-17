@@ -33,7 +33,13 @@ export class LabelController {
         @Query() query: any,
         @Response() response: express.Response,
     ) {
-        response.setHeader('Content-Type', 'application/' + user.labelFormat);
+        const formats = ['PDF', 'PDFS', 'PDFSMALL', 'pdf', 'pdfs', 'pdfsmall'];
+        const labelFormat = formats.some(format =>
+            user.labelFormat.includes(format),
+        )
+            ? 'pdf'
+            : user.labelFormat;
+        response.setHeader('Content-Type', 'application/' + labelFormat);
         response.setHeader(
             'Content-Disposition',
             'attachment; filename=label.' + user.labelFormat,
