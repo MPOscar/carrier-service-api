@@ -33,16 +33,14 @@ export class LabelController {
         @Query() query: any,
         @Response() response: express.Response,
     ) {
-        const formats = ['PDF', 'PDFS', 'PDFSMALL', 'pdf', 'pdfs', 'pdfsmall'];
-        const labelFormat = formats.some(format =>
-            user.labelFormat.includes(format),
-        )
-            ? 'pdf'
-            : user.labelFormat;
+        const labelFormat =
+            user.labelFormat === 'pdf' || user.labelFormat === 'pdfs'
+                ? 'pdf'
+                : user.labelFormat;
         response.setHeader('Content-Type', 'application/' + labelFormat);
         response.setHeader(
             'Content-Disposition',
-            'attachment; filename=label.' + user.labelFormat,
+            'attachment; filename=label.' + labelFormat,
         );
         return this.labelService
             .create(query.orderId, user)
