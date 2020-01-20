@@ -86,8 +86,7 @@ export class LabelService {
                                     NumeroTotalPiezas: 1,
                                     Kilos: 1,
                                     Volumen: 0,
-                                    NumeroReferencia:
-                                        order.admission.codigoEncaminamiento,
+                                    NumeroReferencia: order.number,
                                     ImporteReembolso: 0,
                                     ImporteValorDeclarado: 0,
                                     TipoPortes: 'P',
