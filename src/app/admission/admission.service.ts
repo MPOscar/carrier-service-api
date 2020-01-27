@@ -13,6 +13,7 @@ import { AdmissionRepository } from './admission.repository';
 import { Admission } from './admission.entity';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { OrderService } from '../order/order.service';
+import { OrderIdDto } from './dto/order-id.dto';
 
 @Injectable()
 export class AdmissionService {

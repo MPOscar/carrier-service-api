@@ -3,8 +3,8 @@ import {
     Post,
     UsePipes,
     ValidationPipe,
-    Query,
     UseGuards,
+    Body,
 } from '@nestjs/common';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -15,20 +15,18 @@ import { ErrorManager } from '../common/error-manager/error-manager';
 import { Admission } from './admission.entity';
 import { GetUser } from '../common/decorator/user.decorator';
 import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
+import { OrderIdDto } from './dto/order-id.dto';
 
 @Controller('admission')
 @UseGuards(JwtAuthGuard)
 export class AdmissionController {
-    constructor(
-        private readonly userService: UserService,
-        private readonly admissionService: AdmissionService,
-    ) {}
+    constructor(private readonly admissionService: AdmissionService) {}
 
     @Post()
     @UsePipes(new ValidationPipe())
-    async processAdmission(@GetUser() user: User, @Query() query: any) {
+    async processAdmission(@GetUser() user: User, @Body() orderId: OrderIdDto) {
         return this.admissionService
-            .processAdmission(query.orderId, user)
+            .processAdmission(orderId.orderId, user)
             .then((admission: Admission) => {
                 return this.getIAdmission(admission);
             })
