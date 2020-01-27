@@ -206,7 +206,9 @@ export class SoapService {
                     ' ' +
                     user.lastName
                 ).toString(),
-                TelefonoContactoRemitente: user.phone ? user.phone : '',
+                TelefonoContactoRemitente: user.phone
+                    ? user.phone.split(' ').join('')
+                    : '',
                 ClienteDestinatario: '',
                 CentroDestinatario: '',
                 NombreDestinatario: order.receiverName
@@ -221,7 +223,7 @@ export class SoapService {
                     ? order.receiverContactName
                     : '',
                 TelefonoContactoDestinatario: order.receiverContactPhone
-                    ? order.receiverContactPhone
+                    ? order.receiverContactPhone.split(' ').join('')
                     : '',
                 CodigoServicio: order.serviceCode,
                 NumeroTotalPiezas: order.totalPieces ? order.totalPieces : '',
@@ -277,7 +279,9 @@ export class SoapService {
                 ComunaRemitente: createWithdrawalDto.comuna,
                 RutRemitente: createWithdrawalDto.rut,
                 PersonaContactoRemitente: createWithdrawalDto.contact,
-                TelefonoContactoRemitente: createWithdrawalDto.contactPhone,
+                TelefonoContactoRemitente: createWithdrawalDto.contactPhone
+                    .split(' ')
+                    .join(''),
                 FechaRetiro: createWithdrawalDto.date.toString(),
                 HoraDesde: createWithdrawalDto.horaDesde.toString(),
                 HoraHasta: createWithdrawalDto.horaHasta.toString(),
