@@ -35,11 +35,43 @@ export class AdmissionRepository extends Repository<Admission> {
         return this.getAdmission(admission.id);
     }
 
+    async updateAdmission(admissionDto: AdmissionResponseDto, admission: Admission) {
+        admission.abreviaturaCentro =
+            admissionDto.admitirEnvioResult.AbreviaturaCentro;
+        admission.abreviaturaServicio =
+            admissionDto.admitirEnvioResult.AbreviaturaServicio;
+        admission.codigoAdmision =
+            admissionDto.admitirEnvioResult.CodigoAdmision;
+        admission.codigoDelegacionDestino =
+            admissionDto.admitirEnvioResult.CodigoDelegacionDestino;
+        admission.codigoEncaminamiento =
+            admissionDto.admitirEnvioResult.CodigoEncaminamiento;
+        admission.comunaDestino = admissionDto.admitirEnvioResult.ComunaDestino;
+        admission.cuartel = admissionDto.admitirEnvioResult.Cuartel;
+        admission.direccionDestino =
+            admissionDto.admitirEnvioResult.DireccionDestino;
+        admission.grabarEnvio = admissionDto.admitirEnvioResult.GrabarEnvio;
+        admission.nombreDelegacionDestino =
+            admissionDto.admitirEnvioResult.NombreDelegacionDestino;
+        admission.numeroEnvio = admissionDto.admitirEnvioResult.NumeroEnvio;
+        admission.SDP = admissionDto.admitirEnvioResult.SDP;
+        admission.sector = admissionDto.admitirEnvioResult.Sector;
+        admission.updatedAt = new Date();
+        return await this.save(admission);
+    }
+
     getAdmission(id: string) {
         return this.createQueryBuilder('Admission')
             .select()
             .where('Admission.id = :AdmissionId', { AdmissionId: id })
             .innerJoinAndSelect('Admission.order', 'order')
+            .getOne();
+    }
+
+    getAdmissionByOrderId(orderId: string) {
+        return this.createQueryBuilder('admission')
+            .select()
+            .where('admission.order_id = :orderId', { orderId })
             .getOne();
     }
 

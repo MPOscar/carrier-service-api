@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Order } from './order.entity';
@@ -22,6 +22,7 @@ export class OrderService {
     constructor(
         @InjectRepository(Order)
         private readonly orderRepository: OrderRepository,
+        @Inject(forwardRef(() => AdmissionService))
         private readonly admissionService: AdmissionService,
     ) {}
 
@@ -35,7 +36,7 @@ export class OrderService {
                     .createOrder(user, orderDto)
                     .then((order: Order) => {
                         this.admissionService
-                            .processAdmission(order, user)
+                            .processAdmission(order.id, user)
                             .then((admission: Admission) => {
                                 console.log(
                                     'Admission created => ' + admission.id,

@@ -10,13 +10,14 @@ import { AuthModule } from '../common/auth/auth.module';
 import { ManifestService } from '../manifest/manifest.service';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { SoapService } from '../soap/soap.service';
-import { AdmissionService } from '../admission/admission.service';
 import { Manifest } from '../manifest/manifest.entity';
 import { ManifestRepository } from '../manifest/manifest.repository';
 import { ConfigService } from '../common/config/config.service';
 import { GeoResService } from '../geocoder/geores.service';
 import { Admission } from '../admission/admission.entity';
 import { AdmissionRepository } from '../admission/admission.repository';
+import { AdmissionModule } from '../admission/admission.module';
+import { AdmissionService } from '../admission/admission.service';
 
 @Module({
     imports: [

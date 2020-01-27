@@ -1,12 +1,9 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 
-import { InjectRepository } from '@nestjs/typeorm';
-
 import { Manifest } from './manifest.entity';
 import { ManifestRepository } from './manifest.repository';
 import { ManifestDto } from './dto/create-manifest.dto';
-import { UpdateManifestDto } from './dto/update-manifest.dto';
 import {
     ErrorResult,
     NotFoundResult,
@@ -14,21 +11,13 @@ import {
     InternalServerErrorResult,
 } from '../common/error-manager/errors';
 import { ErrorCode } from '../common/error-manager/error-codes';
-import { User } from '../user/user.entity';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { UserService } from '../user/user.service';
-import { OrderService } from '../order/order.service';
 import { Order } from '../order/order.entity';
 
 @Injectable()
 export class ManifestService {
     constructor(
-        //@InjectRepository(Manifest)
         private readonly httpService: HttpService,
         private readonly manifestRepository: ManifestRepository,
-        private readonly userService: UserService,
-        private readonly orderService: OrderService,
     ) {}
 
     async create(manifestDto: ManifestDto, order: Order): Promise<Manifest> {
