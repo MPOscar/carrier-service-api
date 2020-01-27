@@ -31,6 +31,7 @@ export class AdmissionController {
                 return this.getIAdmission(admission);
             })
             .catch((error: ErrorResult) => {
+                console.log(JSON.stringify(error));
                 return ErrorManager.manageErrorResult(error);
             });
     }
