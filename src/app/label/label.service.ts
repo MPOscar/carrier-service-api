@@ -63,6 +63,8 @@ export class LabelService {
                                     order.orderId,
                                 );
 
+                                console.log(JSON.stringify('ORDER => ' + orderShop));
+
                                 const data = {
                                     Usuario: user.userApiChile,
                                     Contrasena: user.passwordApiChile,
