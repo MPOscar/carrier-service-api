@@ -63,8 +63,6 @@ export class LabelService {
                                     order.orderId,
                                 );
 
-                                console.log('ORDER => ' + JSON.stringify(orderShop));
-
                                 const data = {
                                     Usuario: user.userApiChile,
                                     Contrasena: user.passwordApiChile,
@@ -104,8 +102,8 @@ export class LabelService {
                                         ImporteReembolso: 0,
                                         ImporteValorDeclarado: 0,
                                         TipoPortes: 'P',
-                                        Observaciones2: orderShop.shipping_address.address2 ? orderShop.shipping_address.address2 : '',
-                                        Observaciones: orderShop.note ? orderShop.note : '',
+                                        Observaciones: orderShop.shipping_address.address2 ? orderShop.shipping_address.address2 : '',
+                                        Observaciones2: orderShop.note ? orderShop.note : '',
                                         EmailDestino: '',
                                         TipoMercancia: '',
                                         DevolucionConforme: 'N',
