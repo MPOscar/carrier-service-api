@@ -102,7 +102,7 @@ export class LabelService {
                                         ImporteReembolso: 0,
                                         ImporteValorDeclarado: 0,
                                         TipoPortes: 'P',
-                                        Observaciones: orderShop.shipping_address.address2 ? orderShop.destination.address2 : '',
+                                        Observaciones: orderShop.shipping_address.address2 ? orderShop.shipping_address.address2 : '',
                                         Observaciones2: orderShop.note ? orderShop.note : '',
                                         EmailDestino: '',
                                         TipoMercancia: '',
