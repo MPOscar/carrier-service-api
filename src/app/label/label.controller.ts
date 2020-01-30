@@ -10,14 +10,10 @@ import { GetUser } from '../common/decorator/user.decorator';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { ErrorResult } from '../common/error-manager/errors';
 import { User } from '../user/user.entity';
-//
 import { Label } from './label.entity';
 import { LabelService } from './label.service';
 import { ILabel } from './interfaces/label.interface';
 import * as express from 'express';
-//
-
-import { ConfigService } from '../common/config/config.service';
 import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 
 @Controller('label')
@@ -26,8 +22,6 @@ export class LabelController {
     constructor(private readonly labelService: LabelService) {}
 
     @Post()
-    // @Header('Content-Type', 'application/pdf')
-    // @Header('Content-Disposition', 'attachment; filename=label.pdf')
     async create(
         @GetUser() user: User,
         @Query() query: any,
@@ -48,7 +42,6 @@ export class LabelController {
                 label.pipe(response);
             })
             .catch((error: ErrorResult) => {
-                console.log(JSON.stringify(error));
                 return ErrorManager.manageErrorResult(error);
             });
     }
