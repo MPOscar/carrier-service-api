@@ -48,6 +48,7 @@ export class LabelController {
                 label.pipe(response);
             })
             .catch((error: ErrorResult) => {
+                console.log(JSON.stringify(error));
                 return ErrorManager.manageErrorResult(error);
             });
     }
