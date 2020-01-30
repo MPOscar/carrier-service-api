@@ -63,7 +63,7 @@ export class LabelService {
                                     order.orderId,
                                 );
 
-                                console.log(JSON.stringify('ORDER => ' + orderShop));
+                                console.log('ORDER => ' + JSON.stringify(orderShop));
 
                                 const data = {
                                     Usuario: user.userApiChile,
