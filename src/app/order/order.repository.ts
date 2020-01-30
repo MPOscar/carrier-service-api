@@ -47,6 +47,11 @@ export class OrderRepository extends Repository<Order> {
         order.volumen = 0.000001;
         order.receiverCountry = orderDto.shipping_address.country;
         order.closedAt = orderDto.closed_at;
+        order.sucursal = orderDto.shipping_lines[0].title.includes(
+            'SUCURSAL',
+        )
+            ? orderDto.shipping_lines[0].title
+            : '';
         order.user = <any>{ id: user.id };
         // order.status = orderDto.status;
         // order.service = orderDto.service;

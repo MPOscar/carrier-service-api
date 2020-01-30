@@ -1,11 +1,8 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 
-import { InjectRepository } from '@nestjs/typeorm';
-
 import { Label } from './label.entity';
 import { LabelRepository } from './label.repository';
-import { CreateLabelDto } from './dto/create-label.dto';
 import { UpdateLabelDto } from './dto/update-label.dto';
 import {
     ErrorResult,
@@ -19,16 +16,20 @@ import axios from 'axios';
 import { ConfigService } from '../common/config/config.service';
 import * as dataRegions from '../soap/region-comuna-sucursal.json';
 import { OrderService } from '../order/order.service';
+import * as Shopify from 'shopify-api-node';
+import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
+
+let shopify = null;
 
 @Injectable()
 export class LabelService {
     constructor(
-        //@InjectRepository(Label)
+        // @InjectRepository(Label)
         private readonly httpService: HttpService,
-        private readonly LabelRepository: LabelRepository,
+        private readonly labelRepository: LabelRepository,
         private readonly configService: ConfigService,
         private readonly orderService: OrderService,
-    ) {}
+    ) { }
 
     async create(orderId: string, user: User): Promise<any> {
         return new Promise(
@@ -40,8 +41,8 @@ export class LabelService {
                     .getOrder(orderId)
                     .then(async order => {
                         try {
-                            let comunaDestino = dataRegions
-                                .find(reg => reg.rgi == order.receiverCityCode)
+                            const comunaDestino = dataRegions
+                                .find(reg => reg.rgi === order.receiverCityCode)
                                 .comunas.find(
                                     comuna =>
                                         comuna.name.includes(
@@ -52,76 +53,90 @@ export class LabelService {
                                             .includes(comuna.name),
                                 ).name;
 
-                            let data = {
-                                Usuario: user.userApiChile,
-                                Contrasena: user.passwordApiChile,
-                                AdmisionTo: {
-                                    CodigoAdmision:
-                                        order.admission.codigoAdmision,
-                                    ClienteRemitente: user.idApiChile,
-                                    CentroRemitente: '',
-                                    NombreRemitente: user.shopUrl,
-                                    DireccionRemitente: user.address,
-                                    PaisRemitente: '056',
-                                    CodigoPostalRemitente: '',
-                                    ComunaRemitente: user.comuna,
-                                    RutRemitente: user.rut,
-                                    PersonaContactoRemitente:
-                                        user.firstName + ' ' + user.lastName,
-                                    TelefonoContactoRemitente: user.phone,
-                                    ClienteDestinatario: '',
-                                    CentroDestinatario: '',
-                                    NombreDestinatario: order.receiverName,
-                                    DireccionDestinatario:
-                                        order.receiverAddress,
-                                    PaisDestinatario: '056',
-                                    CodigoPostalDestinatario: '',
-                                    ComunaDestinatario: comunaDestino,
-                                    RutDestinatario: '',
-                                    PersonaContactoDestinatario:
-                                        order.receiverContactName,
-                                    TelefonoContactoDestinatario:
-                                        order.receiverContactPhone,
-                                    CodigoServicio: order.serviceCode,
-                                    NumeroTotalPiezas: 1,
-                                    Kilos: 1,
-                                    Volumen: 0,
-                                    NumeroReferencia: order.number,
-                                    ImporteReembolso: 0,
-                                    ImporteValorDeclarado: 0,
-                                    TipoPortes: 'P',
-                                    Observaciones: '',
-                                    Observaciones2: '',
-                                    EmailDestino: '',
-                                    TipoMercancia: '',
-                                    DevolucionConforme: 'N',
-                                    NumeroDocumentos: 0,
-                                    PagoSeguro: 'N',
-                                    FormatoEtiqueta: user.labelFormat
-                                        ? user.labelFormat
-                                        : 'pdf',
-                                },
-                            };
-
-                            axios.interceptors.request.use(req => {
-                                return req;
+                            shopify = new Shopify({
+                                shopName: user.shopUrl,
+                                accessToken: user.accessToken,
                             });
 
-                            const url = this.configService.get('LABEL_URL');
+                            try {
+                                const orderShop: ShopifyOrderDto = await shopify.order.get(
+                                    order.orderId,
+                                );
 
-                            axios
-                                .post(url, data, {
-                                    responseType: 'stream',
-                                    headers: {
-                                        'Content-Type': 'application/json',
+                                const data = {
+                                    Usuario: user.userApiChile,
+                                    Contrasena: user.passwordApiChile,
+                                    AdmisionTo: {
+                                        CodigoAdmision:
+                                            order.admission.codigoAdmision,
+                                        ClienteRemitente: user.idApiChile,
+                                        CentroRemitente: '',
+                                        NombreRemitente: user.shopUrl,
+                                        DireccionRemitente: user.address,
+                                        PaisRemitente: '056',
+                                        CodigoPostalRemitente: '',
+                                        ComunaRemitente: user.comuna,
+                                        RutRemitente: user.rut,
+                                        PersonaContactoRemitente:
+                                            user.firstName +
+                                            ' ' +
+                                            user.lastName,
+                                        TelefonoContactoRemitente: user.phone,
+                                        ClienteDestinatario: '',
+                                        CentroDestinatario: '',
+                                        NombreDestinatario: order.receiverName,
+                                        DireccionDestinatario: order.sucursal !== '' ? order.sucursal : order.receiverAddress,
+                                        PaisDestinatario: '056',
+                                        CodigoPostalDestinatario: '',
+                                        ComunaDestinatario: comunaDestino,
+                                        RutDestinatario: '',
+                                        PersonaContactoDestinatario:
+                                            order.receiverContactName,
+                                        TelefonoContactoDestinatario:
+                                            order.receiverContactPhone,
+                                        CodigoServicio: order.serviceCode,
+                                        NumeroTotalPiezas: 1,
+                                        Kilos: 1,
+                                        Volumen: 0,
+                                        NumeroReferencia: order.number,
+                                        ImporteReembolso: 0,
+                                        ImporteValorDeclarado: 0,
+                                        TipoPortes: 'P',
+                                        Observaciones: orderShop.destination.address2 ? orderShop.destination.address2 : '',
+                                        Observaciones2: orderShop.note ? orderShop.note : '',
+                                        EmailDestino: '',
+                                        TipoMercancia: '',
+                                        DevolucionConforme: 'N',
+                                        NumeroDocumentos: 0,
+                                        PagoSeguro: 'N',
+                                        FormatoEtiqueta: user.labelFormat
+                                            ? user.labelFormat
+                                            : 'pdf',
                                     },
-                                })
-                                .then(response => {
-                                    resolve(response.data);
-                                })
-                                .catch(error => {
-                                    reject(error);
+                                };
+
+                                axios.interceptors.request.use(req => {
+                                    return req;
                                 });
+
+                                const url = this.configService.get('LABEL_URL');
+
+                                axios
+                                    .post(url, data, {
+                                        responseType: 'stream',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                    })
+                                    .then(response => {
+                                        resolve(response.data);
+                                    })
+                                    .catch(error => {
+                                        reject(error);
+                                    });
+                            } catch (error) {
+                                reject(error);
+                            }
                         } catch (error) {
                             reject(error);
                         }
@@ -151,7 +166,7 @@ export class LabelService {
                 resolve: (result: Label) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.LabelRepository.getLabel(id)
+                this.labelRepository.getLabel(id)
                     .then((Label: Label) => {
                         if (!Label) {
                             reject(
@@ -162,7 +177,7 @@ export class LabelService {
                             );
                             return;
                         }
-                        this.LabelRepository.updateLabel(id, LabelDto)
+                        this.labelRepository.updateLabel(id, LabelDto)
                             .then((Label: Label) => {
                                 resolve(Label);
                             })
@@ -193,7 +208,7 @@ export class LabelService {
                 resolve: (result: Label) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.LabelRepository.getLabel(id)
+                this.labelRepository.getLabel(id)
                     .then((Label: Label) => {
                         if (!Label) {
                             reject(
@@ -224,7 +239,7 @@ export class LabelService {
                 resolve: (result: Label) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
-                this.LabelRepository.getLabel(id)
+                this.labelRepository.getLabel(id)
                     .then((Label: Label) => {
                         if (!Label) {
                             reject(
@@ -235,7 +250,7 @@ export class LabelService {
                             );
                             return;
                         }
-                        this.LabelRepository.remove(Label).then(
+                        this.labelRepository.remove(Label).then(
                             (Label: Label) => {
                                 if (!Label) {
                                     reject(

@@ -19,6 +19,7 @@ export class ShopifyOrderDto {
     tracking_url: string;
     tracking_urls: string[];
     name: string;
+    note: string;
     line_items: Item[];
 }
 

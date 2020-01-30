@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '../common/config/config.service';
 import { Order } from '../order/order.entity';
 import { User } from '../user/user.entity';
 import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
 import { InventoryItemDto } from '../order/dto/inventory-item.dto';
-import { InventoryLvelsDto, InventoryLevel } from './dto/inventory-levels.dto';
+import { InventoryLevel } from './dto/inventory-levels.dto';
 import { LocationDto } from './dto/location.dto';
-import Shopify = require('shopify-api-node');
+import * as Shopify from 'shopify-api-node';
 import { ErrorResult } from '../common/error-manager/errors';
 
 let shopify = null;
@@ -28,25 +27,25 @@ export class FulfillmentService {
 
                 try {
                     // Query the order to see its line items
-                    let orderShop: ShopifyOrderDto = await shopify.order.get(
+                    const orderShop: ShopifyOrderDto = await shopify.order.get(
                         order.orderId,
                     );
 
-                    let variantsId: number[] = orderShop.line_items.map(
+                    const variantsId: number[] = orderShop.line_items.map(
                         item => item.variant_id,
                     );
 
                     // Query the variant for its inventory item
-                    let inventoryItems = await this.getInventoryItems(
+                    const inventoryItems = await this.getInventoryItems(
                         variantsId,
                     );
 
-                    let inventoryItemsId = inventoryItems.map(
+                    const inventoryItemsId = inventoryItems.map(
                         item => item.inventory_item_id,
                     );
 
                     // Get the inventory levels
-                    let inventoryLevels: InventoryLevel[] = await shopify.inventoryLevel.list(
+                    const inventoryLevels: InventoryLevel[] = await shopify.inventoryLevel.list(
                         {
                             inventory_item_ids: inventoryItemsId
                                 .join(',')
@@ -54,15 +53,15 @@ export class FulfillmentService {
                         },
                     );
 
-                    let locations: LocationDto[] = await this.getLocations(
+                    const locations: LocationDto[] = await this.getLocations(
                         inventoryLevels,
                     );
 
-                    let locationId: number = locations.find(
-                        location => location.active == true,
+                    const locationId: number = locations.find(
+                        location => location.active === true,
                     ).id;
 
-                    let params = {
+                    const params = {
                         location_id: locationId,
                         tracking_number: trackingNumber,
                         tracking_urls: [
@@ -73,7 +72,7 @@ export class FulfillmentService {
                         notify_customer: true,
                     };
 
-                    let fulfilm = await shopify.fulfillment.create(
+                    const fulfilm = await shopify.fulfillment.create(
                         orderShop.id,
                         params,
                     );
@@ -89,7 +88,7 @@ export class FulfillmentService {
     private async getLocations(
         inventoryLevels: InventoryLevel[],
     ): Promise<LocationDto[]> {
-        let locationsId: number[] = inventoryLevels.map(
+        const locationsId: number[] = inventoryLevels.map(
             (inventoryLvl: InventoryLevel) => inventoryLvl.location_id,
         );
         return Promise.all(

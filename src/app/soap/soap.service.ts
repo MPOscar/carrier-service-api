@@ -13,7 +13,7 @@ import { CreateWithdrawalDto } from '../withdrawal/dto/create-withdrawal.dto';
 
 @Injectable()
 export class SoapService {
-    constructor(private readonly configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) { }
 
     async getServiceCost(
         ratesDto: ShopifyParentRateDto,
@@ -70,10 +70,10 @@ export class SoapService {
 
                 let res: ShopifyRateResponseDto[] = [];
 
-                soap.createClient(url, {}, function(err, client) {
+                soap.createClient(url, {}, function (err, client) {
                     if (err) reject(err);
 
-                    client.consultaCobertura(args, function(
+                    client.consultaCobertura(args, function (
                         err,
                         obj: RateResponse,
                     ) {
@@ -142,7 +142,7 @@ export class SoapService {
                 let date = new Date();
 
                 let sucursales = dataRegions
-                    .find(reg => reg.rgi == ratesDto.rate.destination.province)
+                    .find(reg => reg.rgi === ratesDto.rate.destination.province)
                     .comunas.find(
                         comuna =>
                             comuna.name.includes(
@@ -248,10 +248,10 @@ export class SoapService {
                 resolve: (result: any) => void,
                 reject: (reason) => void,
             ): void => {
-                soap.createClient(url, {}, function(err, client) {
+                soap.createClient(url, {}, function (err, client) {
                     if (err) reject(err);
 
-                    client.admitirEnvio(args, function(err, obj: any) {
+                    client.admitirEnvio(args, function (err, obj: any) {
                         if (err) reject(err);
 
                         return resolve(obj);
@@ -297,10 +297,10 @@ export class SoapService {
                 resolve: (result: any) => void,
                 reject: (reason) => void,
             ): void => {
-                soap.createClient(url, {}, function(err, client) {
+                soap.createClient(url, {}, function (err, client) {
                     if (err) reject(err);
 
-                    client.registrarRetiro(args, function(err, obj: any) {
+                    client.registrarRetiro(args, function (err, obj: any) {
                         if (err) reject(err);
 
                         return resolve(obj);

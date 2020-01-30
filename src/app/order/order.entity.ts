@@ -125,6 +125,9 @@ export class Order {
     closedAt: Date;
 
     @Column({ nullable: true })
+    sucursal: string;
+
+    @Column({ nullable: true })
     createdAt: Date;
 
     @Column({ nullable: true })
