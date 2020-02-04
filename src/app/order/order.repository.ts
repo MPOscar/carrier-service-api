@@ -4,10 +4,14 @@ import { CreateOrderDto, LineItems } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
+import * as dataSucursales from '../soap/sucursales.json';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
     async createOrder(user: User, orderDto: CreateOrderDto) {
+        const sucursal = dataSucursales
+            .find(suc => orderDto.shipping_lines[0].title.toUpperCase().includes(suc.SUCURSAL))
+            .SUCURSAL;
 
         let order: Order = this.create();
         order.name = orderDto.name;
@@ -50,7 +54,7 @@ export class OrderRepository extends Repository<Order> {
         order.sucursal = orderDto.shipping_lines[0].title.includes(
             'SUCURSAL',
         )
-            ? orderDto.shipping_lines[0].title
+            ? sucursal
             : '';
         order.user = <any>{ id: user.id };
         // order.status = orderDto.status;
