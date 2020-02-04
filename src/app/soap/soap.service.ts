@@ -162,6 +162,7 @@ export class SoapService {
                         service_name: 'SUCURSAL ' + sucursal.address,
                         service_code: ('0' + serviceCode++).slice(-3),
                         total_price: '0',
+                        description: sucursal.name,
                         currency: ratesDto.rate.currency,
                         min_delivery_date: date.toDateString(),
                         max_delivery_date: (date.getDate() + 30).toString(),
