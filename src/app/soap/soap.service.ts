@@ -159,10 +159,10 @@ export class SoapService {
                     const sucursal = sucursales[i];
 
                     let res: ShopifyRateResponseDto = {
-                        service_name: 'SUCURSAL ' + sucursal.address,
+                        service_name: 'SUCURSAL ' + sucursal.name,
                         service_code: ('0' + serviceCode++).slice(-3),
                         total_price: '0',
-                        description: sucursal.name,
+                        description: sucursal.address,
                         currency: ratesDto.rate.currency,
                         min_delivery_date: date.toDateString(),
                         max_delivery_date: (date.getDate() + 30).toString(),
