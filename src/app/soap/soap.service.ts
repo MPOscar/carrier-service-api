@@ -26,8 +26,8 @@ export class SoapService {
             ): Promise<void> => {
                 const url = this.configService.get('TARIF_URL');
 
-                let comunaDestino = dataRegions
-                    .find(reg => reg.rgi == ratesDto.rate.destination.province)
+                const comunaDestino = dataRegions
+                    .find(reg => reg.rgi === ratesDto.rate.destination.province)
                     .comunas.find(
                         comuna =>
                             comuna.name.includes(
@@ -179,7 +179,7 @@ export class SoapService {
         const url = this.configService.get('ADMISSION_URL');
 
         let comunaDestino = dataRegions
-            .find(reg => reg.rgi == order.receiverCityCode)
+            .find(reg => reg.rgi === order.receiverCityCode)
             .comunas.find(
                 comuna =>
                     comuna.name.includes(order.receiverCity.toUpperCase()) ||
