@@ -5,7 +5,7 @@ import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
 import { InventoryItemDto } from '../order/dto/inventory-item.dto';
 import { InventoryLevel } from './dto/inventory-levels.dto';
 import { LocationDto } from './dto/location.dto';
-import * as Shopify from 'shopify-api-node';
+import Shopify from 'shopify-api-node';
 import { ErrorResult } from '../common/error-manager/errors';
 
 let shopify = null;
