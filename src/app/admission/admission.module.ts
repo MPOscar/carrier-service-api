@@ -3,12 +3,10 @@ import { AuthModule } from '../common/auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { SoapModule } from '../soap/soap.module';
 import { AdmissionController } from './admission.controller';
-import { ManifestService } from '../manifest/manifest.service';
 import { AdmissionService } from './admission.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admission } from './admission.entity';
 import { AdmissionRepository } from './admission.repository';
-import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { OrderModule } from '../order/order.module';
 
 @Module({
@@ -17,9 +15,10 @@ import { OrderModule } from '../order/order.module';
         AuthModule,
         UserModule,
         SoapModule,
+        forwardRef(() => OrderModule),
     ],
     controllers: [AdmissionController],
-    providers: [ManifestService, AdmissionService, FulfillmentService],
+    providers: [AdmissionService],
     exports: [AdmissionService],
 })
 export class AdmissionModule {}

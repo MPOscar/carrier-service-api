@@ -9,8 +9,8 @@ import { ItemRepository } from './item.repository';
 import { AuthModule } from '../common/auth/auth.module';
 
 @Module({
-    imports: [  
-        HttpModule,     
+    imports: [
+        HttpModule,
         TypeOrmModule.forFeature([Item, ItemRepository]),
         AuthModule,
         UserModule,

@@ -25,7 +25,6 @@ import { WebhookModule } from './app/webhook/webhook.module';
         OrderModule,
         ItemModule,
         LabelModule,
-        OrderModule,
         ManifestModule,
         LabelModule,
         GeoResModule,
