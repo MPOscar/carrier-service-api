@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class setUpCascadeOnEntities1575406296068 implements MigrationInterface {
+export class setupCascadeOnEntities1583776168001 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`ALTER TABLE "manifest" DROP CONSTRAINT "FK_f42819c4ec27db7ae945e6ae209"`);
