@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class changeWithdrawalEntityTimeType1574717645650 implements MigrationInterface {
+export class changeWithdrawalTimeType1583776007086 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`ALTER TABLE "withdrawal" DROP COLUMN "horaDesde"`);
