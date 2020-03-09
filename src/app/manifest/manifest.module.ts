@@ -1,4 +1,4 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ManifestController } from './manifest.controller';
@@ -15,7 +15,7 @@ import { OrderModule } from '../order/order.module';
         TypeOrmModule.forFeature([Manifest, ManifestRepository]),
         AuthModule,
         UserModule,
-        OrderModule,
+        forwardRef(() => OrderModule),
     ],
     controllers: [ManifestController],
     providers: [ManifestService],

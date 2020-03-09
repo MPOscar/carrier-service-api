@@ -11,6 +11,8 @@ import { WithdrawalController } from './withdrawal.controller';
 import { WithdrawalService } from './withdrawal.service';
 import { AdmissionService } from '../admission/admission.service';
 import { FulfillmentService } from '../fulfillment/fulfillment.service';
+import { OrderModule } from '../order/order.module';
+import { ManifestModule } from '../manifest/manifest.module';
 
 @Module({
     imports: [
@@ -18,6 +20,8 @@ import { FulfillmentService } from '../fulfillment/fulfillment.service';
         AuthModule,
         UserModule,
         SoapModule,
+        OrderModule,
+        ManifestModule,
     ],
     controllers: [WithdrawalController],
     providers: [

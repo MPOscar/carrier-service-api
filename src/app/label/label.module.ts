@@ -12,6 +12,9 @@ import { ManifestModule } from '../manifest/manifest.module';
 import { OrderService } from '../order/order.service';
 import { AdmissionService } from '../admission/admission.service';
 import { SoapService } from '../soap/soap.service';
+import { OrderModule } from '../order/order.module';
+import { AdmissionModule } from '../admission/admission.module';
+import { SoapModule } from '../soap/soap.module';
 @Module({
     imports: [
         HttpModule,
@@ -19,14 +22,14 @@ import { SoapService } from '../soap/soap.service';
         AuthModule,
         UserModule,
         ManifestModule,
+        OrderModule,
+        AdmissionModule,
+        SoapModule,
     ],
     controllers: [LabelController],
     providers: [
         LabelService,
         ConfigService,
-        OrderService,
-        AdmissionService,
-        SoapService,
     ],
     exports: [LabelService],
 })

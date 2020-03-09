@@ -1,4 +1,4 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CarrierController } from './carrier-service.controller';
@@ -15,7 +15,7 @@ import { SoapModule } from '../soap/soap.module';
         TypeOrmModule.forFeature([Carrier, CarrierRepository]),
         AuthModule,
         UserModule,
-        SoapModule,
+        forwardRef(() => SoapModule),
     ],
     controllers: [CarrierController],
     providers: [CarrierService],
