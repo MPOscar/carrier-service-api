@@ -1,8 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+} from 'typeorm';
 
 @Entity()
 export class Carrier {
-
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
@@ -38,5 +45,4 @@ export class Carrier {
 
     @Column()
     updatedAt?: Date;
-
 }

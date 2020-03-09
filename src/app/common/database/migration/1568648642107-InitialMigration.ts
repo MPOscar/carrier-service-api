@@ -1,0 +1,25 @@
+import {MigrationInterface, QueryRunner} from "typeorm";
+
+export class InitialMigration1568648642107 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query(`CREATE TABLE "carrier" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "phone" character varying NOT NULL, "email" character varying NOT NULL, "address" character varying NOT NULL, "city" character varying NOT NULL, "state" character varying NOT NULL, "language" character varying NOT NULL, "driverAssignRadius" integer NOT NULL, "zip" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL, "updatedAt" TIMESTAMP NOT NULL, CONSTRAINT "PK_f615ebd1906f0270d41b3a5a8b0" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "item" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "sku" character varying NOT NULL, "quantity" integer NOT NULL, "grams" integer NOT NULL, "price" integer NOT NULL, "vendor" character varying NOT NULL, "requires_shipping" boolean NOT NULL, "taxable" boolean NOT NULL, "fulfillment_service" character varying NOT NULL, "properties" character varying NOT NULL, "product_id" character varying NOT NULL, "variant_id" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL, "updatedAt" TIMESTAMP NOT NULL, CONSTRAINT "PK_d3c0c71f23e7adcf952a1d13423" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "label" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "phone" character varying NOT NULL, "email" character varying NOT NULL, "address" character varying NOT NULL, "city" character varying NOT NULL, "state" character varying NOT NULL, "language" character varying NOT NULL, "driverAssignRadius" integer NOT NULL, "zip" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL, "updatedAt" TIMESTAMP NOT NULL, CONSTRAINT "PK_5692ac5348861d3776eb5843672" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "manifest" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "phone" character varying NOT NULL, "email" character varying NOT NULL, "address" character varying NOT NULL, "city" character varying NOT NULL, "state" character varying NOT NULL, "language" character varying NOT NULL, "driverAssignRadius" integer NOT NULL, "zip" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL, "updatedAt" TIMESTAMP NOT NULL, CONSTRAINT "PK_c3196a2394e46f459c708f78bff" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "accessToken" character varying, "isDeleted" boolean NOT NULL DEFAULT false, "email" character varying, "firstName" character varying, "language" character varying, "lastLogin" TIMESTAMP, "lastName" character varying, "password" character varying, "phone" character varying, "verificationCode" character varying, "region" character varying, "comuna" character varying, "address" character varying, "zip" character varying, "shopUrl" character varying, "userApiChile" character varying, "passwordApiChile" character varying, "idApiChile" character varying, "createdAt" TIMESTAMP NOT NULL, "updatedAt" TIMESTAMP NOT NULL, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "order" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "order_id" integer NOT NULL, "email" character varying NOT NULL, "number" integer NOT NULL, "token" character varying NOT NULL, "gateway" character varying NOT NULL, "test" boolean NOT NULL, "total_price" character varying NOT NULL, "subtotal_price" character varying NOT NULL, "total_weight" integer NOT NULL, "total_tax" character varying NOT NULL, "taxes_included" boolean NOT NULL, "currency" character varying NOT NULL, "financial_status" character varying NOT NULL, "confirmed" boolean NOT NULL, "total_discounts" character varying NOT NULL, "total_line_items_price" character varying NOT NULL, "cart_token" character varying NOT NULL, "buyer_accepts_marketing" boolean NOT NULL, "name" character varying NOT NULL, "referring_site" character varying NOT NULL, "closed_at" TIMESTAMP, "created_at" TIMESTAMP NOT NULL, "updated_at" TIMESTAMP NOT NULL, "user_id" uuid, CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_199e32a02ddc0f47cd93181d8fd" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query(`ALTER TABLE "order" DROP CONSTRAINT "FK_199e32a02ddc0f47cd93181d8fd"`);
+        await queryRunner.query(`DROP TABLE "order"`);
+        await queryRunner.query(`DROP TABLE "user"`);
+        await queryRunner.query(`DROP TABLE "manifest"`);
+        await queryRunner.query(`DROP TABLE "label"`);
+        await queryRunner.query(`DROP TABLE "item"`);
+        await queryRunner.query(`DROP TABLE "carrier"`);
+    }
+
+}

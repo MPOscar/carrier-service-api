@@ -1,12 +1,16 @@
 import { IsString, IsEmail } from 'class-validator';
 
 export class LoginDto {
+    shop: string;
+    queryParams: QueryParams;
+}
+
+export class QueryParams {
+    @IsString()
+    readonly hmac: string;
 
     @IsString()
-    @IsEmail()
-    readonly email: string;
+    readonly shop: string;
 
-    @IsString()
-    readonly password: string;
-
+    readonly timestamp: any;
 }

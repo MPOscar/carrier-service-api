@@ -3,21 +3,17 @@ import {
     Get,
     Post,
     Body,
-    UseGuards,
     Put,
     Param,
     Delete,
     UsePipes,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IUser } from './interfaces/user.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationPipe } from '../common/pipes/validation.pipe';
-import { RolesGuard } from '../common/auth/guards/roles.guard';
-import { Roles } from '../common/decorator/roles.decorator';
 import { ErrorResult } from '../common/error-manager/errors';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { User } from './user.entity';
@@ -25,15 +21,25 @@ import { User } from './user.entity';
 @Controller('users')
 //@UseGuards(AuthGuard(), RolesGuard)
 export class UserController {
-
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserService) {}
 
     @Post()
-    //@Roles('expert')
-    //@UsePipes(new ValidationPipe())
-    async create(@Body() user: CreateUserDto, @Body() companyId: string) {
-        return this.userService.create(user, companyId)
+    async create(@Body() user: CreateUserDto) {
+        return this.userService
+            .create(user)
             .then((user: User) => {
+                /*if (user.shopUrl) {
+                    const state = nonce();
+                    const redirectUrl = forwardingAddress + '/carrier-service/callback';
+                    const installUrl = 'https://' + user.shopUrl + '/admin/oauth/authorize?client_id='
+                        + apiKey +
+                        '&scope=' + scopes +
+                        '&state=' + state +
+                        '&redirect_uri=' + redirectUrl;
+                    return response.redirect(303, installUrl);
+                } else {
+                    console.log('please add a valid shop parameter');
+                }*/
                 return this.getIUser(user);
             })
             .catch((error: ErrorResult) => {
@@ -42,10 +48,10 @@ export class UserController {
     }
 
     @Put(':id')
-    @Roles('expert')
     @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
     async update(@Param('id') id: string, @Body() user: UpdateUserDto) {
-        return this.userService.update(id, user)
+        return this.userService
+            .update(id, user)
             .then((user: User) => {
                 return this.getIUser(user);
             })
@@ -56,7 +62,8 @@ export class UserController {
 
     @Get(':id')
     async getUser(@Param('id') id: string) {
-        return this.userService.getUser(id)
+        return this.userService
+            .getUser(id)
             .then((user: User) => {
                 return this.getIUser(user);
             })
@@ -66,9 +73,9 @@ export class UserController {
     }
 
     @Get()
-    @Roles('expert')
     async getUsers() {
-        return this.userService.getUsers()
+        return this.userService
+            .getUsers()
             .then((users: User[]) => {
                 return users.map((user: User) => {
                     return this.getIUser(user);
@@ -80,9 +87,9 @@ export class UserController {
     }
 
     @Delete(':id')
-    @Roles('expert')
     async delete(@Param('id') id: string) {
-        return this.userService.delete(id)
+        return this.userService
+            .delete(id)
             .then((user: User) => {
                 return this.getIUser(user);
             })
@@ -94,15 +101,25 @@ export class UserController {
     getIUser(user: User): IUser {
         return {
             id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
             email: user.email,
+            firstName: user.firstName,
             language: user.language,
+            lastLogin: user.lastLogin,
+            lastName: user.lastName,
+            password: user.password,
             phone: user.phone,
-            //lastLogin: user.lastLogin,
-            role: user.role,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
+            verificationCode: user.id,
+            region: user.region,
+            comuna: user.comuna,
+            address: user.address,
+            zip: user.zip,
+            shopUrl: user.shopUrl,
+            userApiChile: user.userApiChile,
+            passwordApiChile: user.passwordApiChile,
+            idApiChile: user.idApiChile,
+            recharge: user.recharge,
+            labelFormat: user.labelFormat,
+            rut: user.rut,
         };
     }
 }

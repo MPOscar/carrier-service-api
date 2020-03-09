@@ -10,19 +10,15 @@ import { AuthModule } from '../common/auth/auth.module';
 import { SoapModule } from '../soap/soap.module';
 
 @Module({
-    imports: [  
-        HttpModule,     
+    imports: [
+        HttpModule,
         TypeOrmModule.forFeature([Carrier, CarrierRepository]),
         AuthModule,
         UserModule,
-        SoapModule
+        SoapModule,
     ],
     controllers: [CarrierController],
-    providers: [
-        CarrierService,
-    ],
-    exports: [
-        CarrierService,
-    ],
+    providers: [CarrierService],
+    exports: [CarrierService],
 })
-export class CarrierModule { }
+export class CarrierModule {}

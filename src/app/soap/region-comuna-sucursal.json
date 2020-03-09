@@ -1,0 +1,2494 @@
+[
+    {
+        "id": 1,
+        "name": "Arica y Parinacota",
+        "code": "XV",
+        "rgi": "AP",
+        "comunas": [
+            {
+                "id": 1,
+                "name": "ARICA",
+                "sucursales": [
+                    {
+                        "id": 1,
+                        "name": "ARICA",
+                        "address": "ARTURO PRAT 305",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Tarapacá",
+        "code": "I",
+        "rgi": "TA",
+        "comunas": [
+            {
+                "id": 2,
+                "name": "ALTO HOSPICIO",
+                "sucursales": [
+                    {
+                        "id": 2,
+                        "name": "ALTO HOSPICIO",
+                        "address": "PASAJE ESLAVONIA 974",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "name": "IQUIQUE",
+                "sucursales": [
+                    {
+                        "id": 3,
+                        "name": "IQUIQUE - CENTRO",
+                        "address": "BOLIVAR 458",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Antofagasta",
+        "code": "II",
+        "rgi": "AN",
+        "comunas": [
+            {
+                "id": 4,
+                "name": "ANTOFAGASTA",
+                "sucursales": [
+                    {
+                        "id": 4,
+                        "name": "ANTOFAGASTA - MALL PLAZA",
+                        "address": "AV. JOSE BALMACEDA 2355, LOCAL Q1",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 5,
+                        "name": "ANTOFAGASTA - NORTE",
+                        "address": "AV. PEDRO AGUIRRE CERDA 5301",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 6,
+                        "name": "ANTOFAGASTA - PLAZA DE ARMAS",
+                        "address": "WASHINGTON 2601",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 7,
+                        "name": "ANTOFAGASTA - U.C.N.",
+                        "address": "AV. ANGAMOS 0610, INTERIOR UNIVERSIDAD",
+                        "status": "ABIERT"
+                    },
+                    {
+                        "id": 8,
+                        "name": "ANTOFAGASTA PARQUE BRASIL",
+                        "address": "AV. JOSE MIGUEL CARRERA 1527 LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "name": "CALAMA",
+                "sucursales": [
+                    {
+                        "id": 9,
+                        "name": "CALAMA - CENTRO",
+                        "address": "VICUÑA MACKENNA 2197",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 10,
+                        "name": "CALAMA - MALL",
+                        "address": "BALMACEDA 3242, LOCAL S 07",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 11,
+                "name": "MEJILLONES",
+                "sucursales": [
+                    {
+                        "id": 11,
+                        "name": "MEJILLONES",
+                        "address": "ONGOLMO 601",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 12,
+                "name": "SAN PEDRO DE ATACAMA",
+                "sucursales": [
+                    {
+                        "id": 12,
+                        "name": "SAN PEDRO DE ATACAMA",
+                        "address": "GUSTAVO LE PAIGE 365",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 13,
+                "name": "TALTAL",
+                "sucursales": [
+                    {
+                        "id": 13,
+                        "name": "TAL-TAL",
+                        "address": "ARTURO PRAT 525 (INTERIOR MUNICIPALIDAD)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 14,
+                "name": "TOCOPILLA",
+                "sucursales": [
+                    {
+                        "id": 14,
+                        "name": "TOCOPILLA",
+                        "address": "AV. 21 DE MAYO 1653 (EDIFICIO GOBERNACION)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Atacama",
+        "code": "III",
+        "rgi": "AT",
+        "comunas": [
+            {
+                "id": 15,
+                "name": "CALDERA",
+                "sucursales": [
+                    {
+                        "id": 15,
+                        "name": "CALDERA",
+                        "address": "TOCORNAL S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 16,
+                "name": "CHAÑARAL",
+                "sucursales": [
+                    {
+                        "id": 16,
+                        "name": "CHAÑARAL",
+                        "address": "COMERCIO 172 (ESQ. LAS HERAS)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 17,
+                "name": "COPIAPO",
+                "sucursales": [
+                    {
+                        "id": 17,
+                        "name": "COPIAPO",
+                        "address": "LOS CARRERAS 691",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 18,
+                "name": "DIEGO DE ALMAGRO",
+                "sucursales": [
+                    {
+                        "id": 18,
+                        "name": "DIEGO DE ALMAGRO",
+                        "address": "JUAN MARTINEZ 808",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 19,
+                "name": "EL SALVADOR",
+                "sucursales": [
+                    {
+                        "id": 19,
+                        "name": "EL SALVADOR",
+                        "address": "AV. 4 DE JULIO 692",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 20,
+                "name": "HUASCO",
+                "sucursales": [
+                    {
+                        "id": 20,
+                        "name": "HUASCO",
+                        "address": "LATORRE 115 (ESQ. GRAIG)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 21,
+                "name": "TIERRA AMARILLA",
+                "sucursales": [
+                    {
+                        "id": 21,
+                        "name": "TIERRA AMARILLA",
+                        "address": "MONSEÑOR MIGUEL LEMEUR S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 22,
+                "name": "VALLENAR",
+                "sucursales": [
+                    {
+                        "id": 22,
+                        "name": "VALLENAR",
+                        "address": "JOSE JOAQUIN VALLEJOS S/Nº",
+                        "status": "CERRADO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Coquimbo",
+        "code": "IV",
+        "rgi": "CO",
+        "comunas": [
+            {
+                "id": 23,
+                "name": "COMBARBALA",
+                "sucursales": [
+                    {
+                        "id": 23,
+                        "name": "COMBARBALA",
+                        "address": "AV. ORIENTE 673",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 24,
+                "name": "COQUIMBO",
+                "sucursales": [
+                    {
+                        "id": 24,
+                        "name": "COQUIMBO - PLAZA DE ARMAS",
+                        "address": "ALDUNATE 951",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 25,
+                "name": "ILLAPEL",
+                "sucursales": [
+                    {
+                        "id": 25,
+                        "name": "ILLAPEL",
+                        "address": "AV. IGNACIO SILVA 231",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 26,
+                "name": "LA SERENA",
+                "sucursales": [
+                    {
+                        "id": 26,
+                        "name": "LA PAMPA",
+                        "address": "LAS LOMAS 108",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 27,
+                        "name": "LA SERENA - MALL PLAZA",
+                        "address": "ALBERTO SOLARI 1400, LOCAL 6, BOULEVARD DE SERVICIOS",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 28,
+                        "name": "LA SERENA - PLAZA DE ARMAS",
+                        "address": "MATTA (ESQ. ARTURO PRAT)",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 29,
+                        "name": "EL MILAGRO LA SERENA",
+                        "address": "AV. CUATRO ESQUINAS N° 1617LOCAL 102",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 30,
+                "name": "LOS VILOS",
+                "sucursales": [
+                    {
+                        "id": 30,
+                        "name": "LOS VILOS",
+                        "address": "LINCOYAN (ESQ. GALVARINO)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 31,
+                "name": "OVALLE",
+                "sucursales": [
+                    {
+                        "id": 31,
+                        "name": "OVALLE",
+                        "address": "VICUÑA MACKENNA 330",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 32,
+                "name": "SALAMANCA",
+                "sucursales": [
+                    {
+                        "id": 32,
+                        "name": "SALAMANCA",
+                        "address": "BULNES 498, LOCAL 7",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 33,
+                "name": "VICUÑA",
+                "sucursales": [
+                    {
+                        "id": 33,
+                        "name": "VICUÑA",
+                        "address": "GABRIELA MISTRAL 270",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Valparaiso",
+        "code": "V",
+        "rgi": "VS",
+        "comunas": [
+            {
+                "id": 34,
+                "name": "ALGARROBO",
+                "sucursales": [
+                    {
+                        "id": 34,
+                        "name": "ALGARROBO",
+                        "address": "PEÑABLANCA 407",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 35,
+                "name": "CARTAGENA",
+                "sucursales": [
+                    {
+                        "id": 35,
+                        "name": "CARTAGENA",
+                        "address": "COVADONGA 456",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 36,
+                "name": "CON-CON",
+                "sucursales": [
+                    {
+                        "id": 36,
+                        "name": "NUEVA CON CON",
+                        "address": "AV. MANANTIALES N 955, LOCAL 107 A, STRIP CENTER TOTTUS",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 37,
+                "name": "ISLA DE PASCUA",
+                "sucursales": [
+                    {
+                        "id": 37,
+                        "name": "ISLA DE PASCUA",
+                        "address": "TE PITO O TE HENUA S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 38,
+                "name": "JUAN FERNANDEZ",
+                "sucursales": [
+                    {
+                        "id": 38,
+                        "name": "ISLA ROBINSON CRUSOE",
+                        "address": "ALFRED VON RODT # 325",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 39,
+                "name": "VIÑA DEL MAR",
+                "sucursales": [
+                    {
+                        "id": 39,
+                        "name": "REÑACA",
+                        "address": "ANGAMOS 242, LOCAL 8, STRIP CENTER, ARAUCO EXPRESS PALMARE",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 46,
+                        "name": "VIÑA DEL MAR - ARCADIA",
+                        "address": "ARLEGUI 440, LOCAL 108 Y 109",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 47,
+                        "name": "VIÑA DEL MAR - LIBERTAD",
+                        "address": "AV. LIBERTAD 741",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 48,
+                        "name": "VIÑA DEL MAR - MALL MARINA",
+                        "address": "AV. LIBERTAD 1348, MALL MARINA ARAUCO, LOCAL E-14, ENTRE PISO",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 49,
+                        "name": "VIÑA DEL MAR - PLAZA",
+                        "address": "PLAZA LATORRE 32",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 40,
+                "name": "SAN ANTONIO",
+                "sucursales": [
+                    {
+                        "id": 40,
+                        "name": "SAN ANTONIO - BARRANCA",
+                        "address": "BARROS LUCO 2048",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 41,
+                        "name": "SAN ANTONIO - CENTENARIO",
+                        "address": "AV.CENTENARIO 296",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 42,
+                "name": "VALPARAISO",
+                "sucursales": [
+                    {
+                        "id": 42,
+                        "name": "VALPARAISO - CONGRESO",
+                        "address": "AV. PEDRO MONTT S/Nº, INTERIOR CONGRESO NACIONAL",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 43,
+                        "name": "VALPARAISO - PEDRO MONTT",
+                        "address": "PEDRO MONTT 2413 - 2415",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 44,
+                        "name": "VALPARAISO - PLAYA ANCHA",
+                        "address": "AV. PLAYA ANCHA 187",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 45,
+                        "name": "VALPARAISO - PRAT",
+                        "address": "PRAT 856",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 50,
+                "name": "CABILDO",
+                "sucursales": [
+                    {
+                        "id": 50,
+                        "name": "CABILDO",
+                        "address": "PLAZA LOS HEROES S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 51,
+                "name": "CASABLANCA",
+                "sucursales": [
+                    {
+                        "id": 51,
+                        "name": "CASABLANCA",
+                        "address": "PORTALES 60",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 52,
+                "name": "LA CALERA",
+                "sucursales": [
+                    {
+                        "id": 52,
+                        "name": "LA CALERA",
+                        "address": "ALDUNATE 162",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 53,
+                "name": "LA LIGUA",
+                "sucursales": [
+                    {
+                        "id": 53,
+                        "name": "LA LIGUA",
+                        "address": "ESMERALDA 460",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 54,
+                "name": "LLAY-LLAY",
+                "sucursales": [
+                    {
+                        "id": 54,
+                        "name": "LLAY-LLAY",
+                        "address": "AGUSTIN EDWARDS 143",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 55,
+                "name": "LOS ANDES",
+                "sucursales": [
+                    {
+                        "id": 55,
+                        "name": "LOS ANDES",
+                        "address": "ESMERALDA 387",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 56,
+                "name": "QUILLOTA",
+                "sucursales": [
+                    {
+                        "id": 56,
+                        "name": "QUILLOTA",
+                        "address": "LA CONCEPCION 301 (ESQ. BERNARDO O'HIGGINS)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 57,
+                "name": "QUILPUE",
+                "sucursales": [
+                    {
+                        "id": 57,
+                        "name": "QUILPUE - BLANCO ENCALADA",
+                        "address": "BLANCO ENCALADA 1015",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 58,
+                        "name": "QUILPUE - CENTRO",
+                        "address": "MANUEL BULNES N° 920, LOCAL 4",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 59,
+                "name": "QUINTERO",
+                "sucursales": [
+                    {
+                        "id": 59,
+                        "name": "QUINTERO",
+                        "address": "CABO ORTIZ 160",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 60,
+                "name": "SAN FELIPE",
+                "sucursales": [
+                    {
+                        "id": 60,
+                        "name": "SAN FELIPE",
+                        "address": "SALINAS 1392",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 61,
+                "name": "LIMACHE",
+                "sucursales": [
+                    {
+                        "id": 61,
+                        "name": "SAN FRANCISCO DE LIMACHE",
+                        "address": "CONDELL 90 B Y C",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 62,
+                "name": "VILLA ALEMANA",
+                "sucursales": [
+                    {
+                        "id": 62,
+                        "name": "VILLA ALEMANA",
+                        "address": "MATURANA 115, LOCAL 1",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Metropolitana de Santiago",
+        "code": "RM",
+        "rgi": "RM",
+        "comunas": [
+            {
+                "id": 63,
+                "name": "PUDAHUEL",
+                "sucursales": [
+                    {
+                        "id": 63,
+                        "name": "AEROPUERTO C.A.M.B.",
+                        "address": "ROTONDA PONIENTE PUERTA 4, NIVEL 1",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 64,
+                "name": "COLINA",
+                "sucursales": [
+                    {
+                        "id": 64,
+                        "name": "COLINA",
+                        "address": "GENERAL SAN MARTIN 068",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 65,
+                "name": "CONCHALI",
+                "sucursales": [
+                    {
+                        "id": 65,
+                        "name": "CONCHALI",
+                        "address": "INDEPENDENCIA 4553 H",
+                        "status": "CERRADO"
+                    }
+                ]
+            },
+            {
+                "id": 66,
+                "name": "CURACAVI",
+                "sucursales": [
+                    {
+                        "id": 66,
+                        "name": "CURACAVI",
+                        "address": "AV. AMBROSIO O'HIGGINS 1414",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 67,
+                "name": "HUECHURABA",
+                "sucursales": [
+                    {
+                        "id": 67,
+                        "name": "HUECHURABA",
+                        "address": "SANTA CLARA 354, LOCAL 111, CUIDAD EMPRESARIAL",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 71,
+                        "name": "MALL PLAZA NORTE",
+                        "address": "AV. AMERICO VESPUCIO 1737, LOCAL BS 1096, MALL PLAZA NORTE",
+                        "status": "CERRADO"
+                    }
+                ]
+            },
+            {
+                "id": 68,
+                "name": "INDEPENDENCIA",
+                "sucursales": [
+                    {
+                        "id": 68,
+                        "name": "VIVACETA",
+                        "address": "AV. FERMIN VIVACETA 957 - LOCAL 4",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 69,
+                "name": "LAMPA",
+                "sucursales": [
+                    {
+                        "id": 69,
+                        "name": "LAMPA",
+                        "address": "ARTURO PRAT 1377",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 70,
+                "name": "MAIPU",
+                "sucursales": [
+                    {
+                        "id": 70,
+                        "name": "MAIPU PAJARITOS",
+                        "address": "AVDA. PAJARITOS 2229",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 72,
+                "name": "MELIPILLA",
+                "sucursales": [
+                    {
+                        "id": 72,
+                        "name": "MELIPILLA",
+                        "address": "SAN AGUSTIN 418, LOCAL 1",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 73,
+                "name": "PEÑAFLOR",
+                "sucursales": [
+                    {
+                        "id": 73,
+                        "name": "PEÑAFLOR",
+                        "address": "DOCTOR ERNESTO PRADO TAGLE 156",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 74,
+                "name": "QUILICURA",
+                "sucursales": [
+                    {
+                        "id": 74,
+                        "name": "QUILICURA",
+                        "address": "JOSE FRANCISCO VERGARA 252 LOCAL B",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 75,
+                "name": "QUINTA NORMAL",
+                "sucursales": [
+                    {
+                        "id": 75,
+                        "name": "QUINTA NORMAL",
+                        "address": "WALKER MARTINEZ 1681",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 76,
+                "name": "RENCA",
+                "sucursales": [
+                    {
+                        "id": 76,
+                        "name": "RENCA",
+                        "address": "DOMINGO SANTA MARIA 4084, LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 77,
+                "name": "TALAGANTE",
+                "sucursales": [
+                    {
+                        "id": 77,
+                        "name": "TALAGANTE",
+                        "address": "BERNARDO O'HIGGINS 1198",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 78,
+                "name": "SANTIAGO",
+                "sucursales": [
+                    {
+                        "id": 78,
+                        "name": "AV. MATTA",
+                        "address": "AV. MANUEL ANTONIO MATTA 1034",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 82,
+                        "name": "GABRIELA MISTRAL",
+                        "address": "AV. BERNARDO O'HIGGINS 254",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 83,
+                        "name": "METRO UNIVERSIDAD DE CHILE",
+                        "address": "METRO ESTACION UNIVERSIDAD DE CHILE, LOCAL 25",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 84,
+                        "name": "MONEDA",
+                        "address": "MONEDA 1170",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 88,
+                        "name": "PLAZA DE ARMAS",
+                        "address": "CATEDRAL 989",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 89,
+                        "name": "SANTIAGO SAN MARTIN",
+                        "address": "SAN MARTIN 29",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 91,
+                        "name": "TENDERINI",
+                        "address": "MONEDA 748, LOCAL 10",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 93,
+                        "name": "TRIBUNALES",
+                        "address": "COMPAÑIA 1140, TRIBUNALES DE JUSTICIA (INTERIOR)",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 94,
+                        "name": "AMUNATEGUI",
+                        "address": "AMUNATEGUI 518",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 95,
+                        "name": "MAC-IVER",
+                        "address": "MAC-IVER N° 440, LOCAL 102",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 79,
+                "name": "ESTACION CENTRAL",
+                "sucursales": [
+                    {
+                        "id": 79,
+                        "name": "CARGA EXPOSICION",
+                        "address": "EXPOSICION 221, PISO 1",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 86,
+                        "name": "PASEO ESTACION",
+                        "address": "AVDA. LIBERTADOR BDO. OHIGGINS3156, LOCAL 1159",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 80,
+                "name": "LAS CONDES",
+                "sucursales": [
+                    {
+                        "id": 80,
+                        "name": "EL GOLF",
+                        "address": "APOQUINDO 3291",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 81,
+                        "name": "ESCUELA MILITAR",
+                        "address": "APOQUINDO 4499, LOCAL 102",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 98,
+                        "name": "APOQUINDO",
+                        "address": "APOQUINDO 6554 B",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 99,
+                        "name": "APUMANQUE",
+                        "address": "MAR DE LOS SARGAZOS 5879, LOCAL 8",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 101,
+                        "name": "CANTAGALLO",
+                        "address": "AV. NUEVA LAS CONDES 12243, LOCAL 61",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 105,
+                        "name": "FLEMING (EX PADRE HURTADO)",
+                        "address": "PADRE HURTADO 1621 LOCAL 7",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 106,
+                        "name": "PARQUE ARAUCO",
+                        "address": "AV. PRESIDENTE KENNEDY 5413",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 85,
+                "name": "PROVIDENCIA",
+                "sucursales": [
+                    {
+                        "id": 85,
+                        "name": "PANORAMICO",
+                        "address": "AV. NUEVA PROVIDENCIA2092",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 90,
+                        "name": "TAJAMAR",
+                        "address": "PROVIDENCIA 1466",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 92,
+                        "name": "NUEVA TOBALABA",
+                        "address": "AV. Nueva Providencia 2530Local 102",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 96,
+                        "name": "LOS LEONES",
+                        "address": "AV SUECIA 26",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 108,
+                        "name": "PLAZA PEDRO DE VALDIVIA",
+                        "address": "PEDRO DE VALDIVIA 1781, LOCAL 52",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 87,
+                "name": "RECOLETA",
+                "sucursales": [
+                    {
+                        "id": 87,
+                        "name": "PATRONATO",
+                        "address": "PATRONATO 95",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 97,
+                "name": "VITACURA",
+                "sucursales": [
+                    {
+                        "id": 97,
+                        "name": "ALONSO DE CORDOVA",
+                        "address": "ALONSO DE CORDOVA 3772",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 100,
+                        "name": "AV. VITACURA",
+                        "address": "CERRADA TEMPORALMENTE",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 114,
+                        "name": "VITACURA",
+                        "address": "AV. VITACURA 6780, LOCAL 13 D",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 102,
+                "name": "ÑUÑOA",
+                "sucursales": [
+                    {
+                        "id": 102,
+                        "name": "GRECIA",
+                        "address": "AV. GRECIA 3232, LOCAL 4",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 103,
+                        "name": "IRARRAZAVAL",
+                        "address": "IRARRAZAVAL 4949 LOC.1",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 111,
+                        "name": "SUECIA",
+                        "address": "SUECIA 3624",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 112,
+                        "name": "VICUÑA MACKENNA",
+                        "address": "VICUÑA MACKENNA 886 A",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 104,
+                "name": "LO BARNECHEA",
+                "sucursales": [
+                    {
+                        "id": 104,
+                        "name": "LA DEHESA",
+                        "address": "EL RODEO 12540",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 110,
+                        "name": "SAN ENRIQUE",
+                        "address": "SAN ENRIQUE 14915",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 107,
+                "name": "PEÑALOLEN",
+                "sucursales": [
+                    {
+                        "id": 107,
+                        "name": "PEÑALOLEN",
+                        "address": "AV. GRECIA 5536, LOCAL A",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 109,
+                "name": "LA REINA",
+                "sucursales": [
+                    {
+                        "id": 109,
+                        "name": "PRINCIPE DE GALES",
+                        "address": "PRINCIPE DE GALES 7010",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 113,
+                        "name": "VILLA LA REINA",
+                        "address": "AV. LARRAIN 6116",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 115,
+                "name": "BUIN",
+                "sucursales": [
+                    {
+                        "id": 115,
+                        "name": "BUIN",
+                        "address": "CONDELL 421",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 116,
+                "name": "EL BOSQUE",
+                "sucursales": [
+                    {
+                        "id": 116,
+                        "name": "EL BOSQUE",
+                        "address": "GRAN AVENIDA JOSE MIGUEL CARRERA 10226",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 117,
+                "name": "SAN MIGUEL",
+                "sucursales": [
+                    {
+                        "id": 117,
+                        "name": "GRAN AVENIDA",
+                        "address": "GRAN AVENIDA JOSE MIGUEL CARRERA 4901",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 118,
+                "name": "LA CISTERNA",
+                "sucursales": [
+                    {
+                        "id": 118,
+                        "name": "INTERMODAL LA CISTERNA",
+                        "address": "AV. OSSA 36, LOCAL 11 A, INTERMODAL LA CISTERNA (interior)",
+                        "status": "CERRADO"
+                    }
+                ]
+            },
+            {
+                "id": 119,
+                "name": "LA FLORIDA",
+                "sucursales": [
+                    {
+                        "id": 119,
+                        "name": "LA FLORIDA",
+                        "address": "VICUÑA MACKENNA ORIENTE 7110, LOCAL 44 Y 45, SECTOR BOULEVARD",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 120,
+                "name": "LA GRANJA",
+                "sucursales": [
+                    {
+                        "id": 120,
+                        "name": "LA GRANJA",
+                        "address": "ERNESTO RIQUELME 010",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 121,
+                "name": "LA PINTANA",
+                "sucursales": [
+                    {
+                        "id": 121,
+                        "name": "LA PINTANA",
+                        "address": "BALDOMERO LILLO 1721",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 122,
+                "name": "CERRILLOS",
+                "sucursales": [
+                    {
+                        "id": 122,
+                        "name": "LOS CERRILLOS",
+                        "address": "DOCTOR CARLOS ARANDA 6099",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 124,
+                        "name": "MALL PLAZA OESTE",
+                        "address": "AV. AMERICO VESPUCIO 1501, LOCAL BT 119",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 123,
+                "name": "MACUL",
+                "sucursales": [
+                    {
+                        "id": 123,
+                        "name": "MACUL",
+                        "address": "AV. MACUL 3344, LOCAL 9",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 125,
+                "name": "PUENTE ALTO",
+                "sucursales": [
+                    {
+                        "id": 125,
+                        "name": "MALL PLAZA TOBALABA",
+                        "address": "AV. CAMILO HENRIQUEZ 3692, LOCAL BS 118",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 129,
+                        "name": "PUENTE ALTO",
+                        "address": "AV. CONCHA Y TORO 26 PISO 2, MALL PLAZA PUENTE ALTO",
+                        "status": "CERRADO"
+                    },
+                    {
+                        "id": 130,
+                        "name": "PLAZA PUENTE ALTO",
+                        "address": "Sergio Roubillar #62 (ex. Santa Josefina)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 126,
+                "name": "PAINE",
+                "sucursales": [
+                    {
+                        "id": 126,
+                        "name": "PAINE",
+                        "address": "GENERAL BAQUEDANO 890, LOCAL 5",
+                        "status": "CERRADO"
+                    }
+                ]
+            },
+            {
+                "id": 127,
+                "name": "PEDRO AGUIRRE CERDA",
+                "sucursales": [
+                    {
+                        "id": 127,
+                        "name": "PEDRO AGUIRRE CERDA",
+                        "address": "ALHUE 2609",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 128,
+                "name": "PIRQUE",
+                "sucursales": [
+                    {
+                        "id": 128,
+                        "name": "PIRQUE",
+                        "address": "AV. CONCHA Y TORO 02548",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 131,
+                "name": "SAN BERNARDO",
+                "sucursales": [
+                    {
+                        "id": 131,
+                        "name": "SAN BERNARDO",
+                        "address": "COVADONGA 493",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 132,
+                "name": "SAN JOAQUIN",
+                "sucursales": [
+                    {
+                        "id": 132,
+                        "name": "SAN JOAQUIN",
+                        "address": "SANTA ROSA 5320 LOCAL 5",
+                        "status": "CERRADO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Libertador General Bernardo O'Higgins",
+        "code": "VI",
+        "rgi": "LI",
+        "comunas": [
+            {
+                "id": 133,
+                "name": "CHIMBARONGO",
+                "sucursales": [
+                    {
+                        "id": 133,
+                        "name": "CHIMBARONGO",
+                        "address": "MIRAFLORES 403, LOCAL 6",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 134,
+                "name": "GRANEROS",
+                "sucursales": [
+                    {
+                        "id": 134,
+                        "name": "GRANEROS",
+                        "address": "SANTA LUCIA 183",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 135,
+                "name": "PICHILEMU",
+                "sucursales": [
+                    {
+                        "id": 135,
+                        "name": "PICHILEMU",
+                        "address": "ANIBAL PINTO 45",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 136,
+                "name": "RANCAGUA",
+                "sucursales": [
+                    {
+                        "id": 136,
+                        "name": "RANCAGUA",
+                        "address": "CAMPOS 322",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 137,
+                        "name": "RANCAGUA PLAZA AMERICA",
+                        "address": "AV. ALBERTO EINSTEIN 290, LOCAL 205",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 138,
+                "name": "RENGO",
+                "sucursales": [
+                    {
+                        "id": 138,
+                        "name": "RENGO",
+                        "address": "URRIOLA 17",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 139,
+                "name": "SAN FERNANDO",
+                "sucursales": [
+                    {
+                        "id": 139,
+                        "name": "SAN FERNANDO",
+                        "address": "AV. BERNARDO O'HIGGINS 545",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 140,
+                "name": "SAN VICENTE TAGUA-TAGU",
+                "sucursales": [
+                    {
+                        "id": 140,
+                        "name": "SAN VICENTE DE TAGUA-TAGUA",
+                        "address": "GERMAN RIESCO 664",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 141,
+                "name": "SANTA CRUZ",
+                "sucursales": [
+                    {
+                        "id": 141,
+                        "name": "SANTA CRUZ",
+                        "address": "CLAUDIO CANCINO 65",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Maule",
+        "code": "VII",
+        "rgi": "ML",
+        "comunas": [
+            {
+                "id": 142,
+                "name": "CAUQUENES",
+                "sucursales": [
+                    {
+                        "id": 142,
+                        "name": "CAUQUENES",
+                        "address": "ANTONIO VARAS S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 143,
+                "name": "CONSTITUCION",
+                "sucursales": [
+                    {
+                        "id": 143,
+                        "name": "CONSTITUCION",
+                        "address": "MONTT 425",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 144,
+                "name": "CURICO",
+                "sucursales": [
+                    {
+                        "id": 144,
+                        "name": "CURICO - CENTRO",
+                        "address": "CARMEN 556",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 145,
+                "name": "LINARES",
+                "sucursales": [
+                    {
+                        "id": 145,
+                        "name": "LINARES",
+                        "address": "MANUEL RODRIGUEZ 610",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 146,
+                "name": "MOLINA",
+                "sucursales": [
+                    {
+                        "id": 146,
+                        "name": "MOLINA",
+                        "address": "QUECHEREGUAS 1748, LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 147,
+                "name": "PARRAL",
+                "sucursales": [
+                    {
+                        "id": 147,
+                        "name": "PARRAL",
+                        "address": "DIECIOCHO 720",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 148,
+                "name": "SAN JAVIER",
+                "sucursales": [
+                    {
+                        "id": 148,
+                        "name": "SAN JAVIER",
+                        "address": "ARTURO PRAT 2486",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 149,
+                "name": "TALCA",
+                "sucursales": [
+                    {
+                        "id": 149,
+                        "name": "TALCA",
+                        "address": "1 ORIENTE 1150",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Ñuble",
+        "code": "XVI",
+        "rgi": "NB",
+        "comunas": [
+            {
+                "id": 165,
+                "name": "BULNES",
+                "sucursales": [
+                    {
+                        "id": 165,
+                        "name": "BULNES",
+                        "address": "VICTOR BIANCHI 411",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 167,
+                "name": "CHILLAN",
+                "sucursales": [
+                    {
+                        "id": 167,
+                        "name": "CHILLAN",
+                        "address": "LIBERTAD 501",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 169,
+                        "name": "CHILLAN 5 DE ABRIL",
+                        "address": "5 DE ABRIL 638 - A",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 168,
+                "name": "CHILLAN VIEJO",
+                "sucursales": [
+                    {
+                        "id": 168,
+                        "name": "CHILLAN VIEJO",
+                        "address": "ANGEL PARRA 493-A",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 170,
+                "name": "COELEMU",
+                "sucursales": [
+                    {
+                        "id": 170,
+                        "name": "COELEMU",
+                        "address": "FRANCISCO BARROS 229",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 175,
+                "name": "QUIRIHUE",
+                "sucursales": [
+                    {
+                        "id": 175,
+                        "name": "QUIRIHUE",
+                        "address": "ESMERALDA 698",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 176,
+                "name": "SAN CARLOS",
+                "sucursales": [
+                    {
+                        "id": 176,
+                        "name": "SAN CARLOS",
+                        "address": "MAIPU 694",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 178,
+                "name": "YUNGAY",
+                "sucursales": [
+                    {
+                        "id": 178,
+                        "name": "YUNGAY",
+                        "address": "ESMERALDA 380",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Biobío",
+        "code": "VIII",
+        "rgi": "BI",
+        "comunas": [
+            {
+                "id": 150,
+                "name": "ARAUCO",
+                "sucursales": [
+                    {
+                        "id": 150,
+                        "name": "ARAUCO",
+                        "address": "CAUPOLICAN 340, LOCAL 3 Y 5",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 151,
+                "name": "CAÑETE",
+                "sucursales": [
+                    {
+                        "id": 151,
+                        "name": "CAÑETE",
+                        "address": "CORNELIO SAAVEDRA 781",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 152,
+                "name": "CHIGUAYANTE",
+                "sucursales": [
+                    {
+                        "id": 152,
+                        "name": "CHIGUAYANTE",
+                        "address": "COCHRANE 120 LOCAL 4",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 153,
+                "name": "CONCEPCION",
+                "sucursales": [
+                    {
+                        "id": 153,
+                        "name": "CONCEPCION - BOULEVARD",
+                        "address": "JORGE ALESSANDRI 3177, LOCAL 20, MALL PLAZA EL TREBOL",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 154,
+                        "name": "CONCEPCION - CENTRO",
+                        "address": "COLO COLO 417",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 155,
+                        "name": "CONCEPCION - UNIVERSIDAD",
+                        "address": "GALERIA EL FORO, LOCAL 3, UNIVERSIDAD DE CONCEPCION",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 156,
+                        "name": "CONCEPCION CHACABUCO",
+                        "address": "CHACABUCO 70",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 157,
+                "name": "CORONEL",
+                "sucursales": [
+                    {
+                        "id": 157,
+                        "name": "CORONEL",
+                        "address": "MANUEL MONTT 798",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 158,
+                "name": "CURANILAHUE",
+                "sucursales": [
+                    {
+                        "id": 158,
+                        "name": "CURANILAHUE",
+                        "address": "CARDENIO AVELLO 720",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 159,
+                "name": "LEBU",
+                "sucursales": [
+                    {
+                        "id": 159,
+                        "name": "LEBU",
+                        "address": "ANDRES BELLO 215 (ESQ. PEREZ)",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 160,
+                "name": "LOTA",
+                "sucursales": [
+                    {
+                        "id": 160,
+                        "name": "LOTA",
+                        "address": "PEDRO AGUIRRE CERDA 457",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 161,
+                "name": "PENCO",
+                "sucursales": [
+                    {
+                        "id": 161,
+                        "name": "PENCO",
+                        "address": "O'HIGGINS 500",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 162,
+                "name": "TALCAHUANO",
+                "sucursales": [
+                    {
+                        "id": 162,
+                        "name": "TALCAHUANO",
+                        "address": "AVENIDACRISTOBAL COLON553- LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 163,
+                "name": "TOME",
+                "sucursales": [
+                    {
+                        "id": 163,
+                        "name": "TOME",
+                        "address": "IGNACIO SERRANO 1055",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 164,
+                "name": "SAN PEDRO DE LA PAZ",
+                "sucursales": [
+                    {
+                        "id": 164,
+                        "name": "VILLA SAN PEDRO",
+                        "address": "MICHIMALONCO 1021",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 166,
+                "name": "CABRERO",
+                "sucursales": [
+                    {
+                        "id": 166,
+                        "name": "CABRERO",
+                        "address": "AV. VIAL S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 171,
+                "name": "LAJA",
+                "sucursales": [
+                    {
+                        "id": 171,
+                        "name": "LAJA",
+                        "address": "BALMACEDA 280, LOCAL 7 Y 8",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 172,
+                "name": "LOS ANGELES",
+                "sucursales": [
+                    {
+                        "id": 172,
+                        "name": "LOS ANGELES",
+                        "address": "CAUPOLICAN 464",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 173,
+                "name": "MULCHEN",
+                "sucursales": [
+                    {
+                        "id": 173,
+                        "name": "MULCHEN",
+                        "address": "ANIBAL PINTO 473",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 174,
+                "name": "NACIMIENTO",
+                "sucursales": [
+                    {
+                        "id": 174,
+                        "name": "NACIMIENTO",
+                        "address": "ANIBAL PINTO 477",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 177,
+                "name": "YUMBEL",
+                "sucursales": [
+                    {
+                        "id": 177,
+                        "name": "YUMBEL",
+                        "address": "OHIGGINS 899",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "La Araucanía",
+        "code": "IX",
+        "rgi": "AR",
+        "comunas": [
+            {
+                "id": 179,
+                "name": "ANGOL",
+                "sucursales": [
+                    {
+                        "id": 179,
+                        "name": "ANGOL",
+                        "address": "LAUTARO 226",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 180,
+                "name": "CARAHUE",
+                "sucursales": [
+                    {
+                        "id": 180,
+                        "name": "CARAHUE",
+                        "address": "VILLAGRAN 391",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 181,
+                "name": "COLLIPULLI",
+                "sucursales": [
+                    {
+                        "id": 181,
+                        "name": "COLLIPULLI",
+                        "address": "O'CARROL 785",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 182,
+                "name": "CUNCO",
+                "sucursales": [
+                    {
+                        "id": 182,
+                        "name": "CUNCO",
+                        "address": "SANTA MARÍA 182",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 183,
+                "name": "CURACAUTIN",
+                "sucursales": [
+                    {
+                        "id": 183,
+                        "name": "CURACAUTIN",
+                        "address": "YUNGAY 265",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 184,
+                "name": "FREIRE",
+                "sucursales": [
+                    {
+                        "id": 184,
+                        "name": "FREIRE",
+                        "address": "CAMALEZ 113",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 185,
+                "name": "GORBEA",
+                "sucursales": [
+                    {
+                        "id": 185,
+                        "name": "GORBEA",
+                        "address": "FREIRE 799 LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 186,
+                "name": "LAUTARO",
+                "sucursales": [
+                    {
+                        "id": 186,
+                        "name": "LAUTARO",
+                        "address": "O'HIGGINS 1050",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 187,
+                "name": "LONCOCHE",
+                "sucursales": [
+                    {
+                        "id": 187,
+                        "name": "LONCOCHE",
+                        "address": "PRAT 590",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 188,
+                "name": "NUEVA IMPERIAL",
+                "sucursales": [
+                    {
+                        "id": 188,
+                        "name": "NUEVA IMPERIAL",
+                        "address": "PEDRO LAGOS 339",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 189,
+                "name": "PITRUFQUEN",
+                "sucursales": [
+                    {
+                        "id": 189,
+                        "name": "PITRUFQUEN",
+                        "address": "FRANCISCO BILBAO 593",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 190,
+                "name": "PUCON",
+                "sucursales": [
+                    {
+                        "id": 190,
+                        "name": "PUCON",
+                        "address": "FRESIA 183",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 191,
+                "name": "TEMUCO",
+                "sucursales": [
+                    {
+                        "id": 191,
+                        "name": "TEMUCO - CENTRO",
+                        "address": "PORTALES 801",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 192,
+                        "name": "TEMUCO - PORTAL",
+                        "address": "AV. ALEMANIA 0671, LOCAL 1061",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 193,
+                "name": "TRAIGUEN",
+                "sucursales": [
+                    {
+                        "id": 193,
+                        "name": "TRAIGUEN",
+                        "address": "CORONEL URRUTIA 467",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 194,
+                "name": "VICTORIA",
+                "sucursales": [
+                    {
+                        "id": 194,
+                        "name": "VICTORIA",
+                        "address": "CALAMA 1208",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 195,
+                "name": "VILLARRICA",
+                "sucursales": [
+                    {
+                        "id": 195,
+                        "name": "VILLARRICA",
+                        "address": "ANFION MUÑOZ 315",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Los Ríos",
+        "code": "XIV",
+        "rgi": "LR",
+        "comunas": [
+            {
+                "id": 196,
+                "name": "LA UNION",
+                "sucursales": [
+                    {
+                        "id": 196,
+                        "name": "LA UNION",
+                        "address": "ARTURO PRAT 680",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 197,
+                "name": "LANCO",
+                "sucursales": [
+                    {
+                        "id": 197,
+                        "name": "LANCO",
+                        "address": "UNIÓN 187, LOCAL 2",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 198,
+                "name": "LOS LAGOS",
+                "sucursales": [
+                    {
+                        "id": 198,
+                        "name": "LOS LAGOS",
+                        "address": "PATRICIO LYNCH 174",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 200,
+                "name": "PAILLACO",
+                "sucursales": [
+                    {
+                        "id": 200,
+                        "name": "PAILLACO",
+                        "address": "CAMILO HENRIQUEZ 403",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 201,
+                "name": "PANGUIPULLI",
+                "sucursales": [
+                    {
+                        "id": 201,
+                        "name": "PANGUIPULLI",
+                        "address": "ARTURO ALESSANDRI S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 202,
+                "name": "RIO BUENO",
+                "sucursales": [
+                    {
+                        "id": 202,
+                        "name": "RIO BUENO",
+                        "address": "PEDRO LAGOS 470",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 203,
+                "name": "SAN JOSE DE LA MARIQUINA",
+                "sucursales": [
+                    {
+                        "id": 203,
+                        "name": "SAN JOSE DE LA MARIQUINA",
+                        "address": "MARIQUINA 1202",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 204,
+                "name": "VALDIVIA",
+                "sucursales": [
+                    {
+                        "id": 204,
+                        "name": "VALDIVIA - CENTRO",
+                        "address": "BERNARDO O'HIGGINS 575",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 205,
+                        "name": "VALDIVIA - PLANTA CORREOS",
+                        "address": "BUERAS 1931",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Los Lagos",
+        "code": "X",
+        "rgi": "LL",
+        "comunas": [
+            {
+                "id": 199,
+                "name": "OSORNO",
+                "sucursales": [
+                    {
+                        "id": 199,
+                        "name": "OSORNO",
+                        "address": "O'HIGGINS 645",
+                        "status": "CERRADO"
+                    }
+                ]
+            },
+            {
+                "id": 206,
+                "name": "ANCUD",
+                "sucursales": [
+                    {
+                        "id": 206,
+                        "name": "ANCUD",
+                        "address": "PUDETO 201",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 207,
+                "name": "CALBUCO",
+                "sucursales": [
+                    {
+                        "id": 207,
+                        "name": "CALBUCO",
+                        "address": "ERNESTO RIQUELME 28",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 208,
+                "name": "CASTRO",
+                "sucursales": [
+                    {
+                        "id": 208,
+                        "name": "CASTRO",
+                        "address": "BERNARDO O'HIGGINS 338",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 209,
+                "name": "FRESIA",
+                "sucursales": [
+                    {
+                        "id": 209,
+                        "name": "FRESIA",
+                        "address": "IRARRAZABAL 401",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 210,
+                "name": "FRUTILLAR",
+                "sucursales": [
+                    {
+                        "id": 210,
+                        "name": "FRUTILLAR ALTO",
+                        "address": "AV. ALESSANDRI 430, LOCAL 1",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 211,
+                "name": "LLANQUIHUE",
+                "sucursales": [
+                    {
+                        "id": 211,
+                        "name": "LLANQUIHUE",
+                        "address": "BERNARDO OHIGGINS 426",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 212,
+                "name": "PUERTO MONTT",
+                "sucursales": [
+                    {
+                        "id": 212,
+                        "name": "PUERTO MONTT - CENTRO",
+                        "address": "RANCAGUA 126",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 213,
+                        "name": "PUERTO MONTT - POLPAICO",
+                        "address": "POLPAICO 17",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 214,
+                        "name": "PUERTO MONTT - COSTANERA",
+                        "address": "ILLAPEL N° 10 LOCAL 5 EDIFICIO MALL COSTANERA",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 215,
+                        "name": "PUERTO MONTT-ALERCE",
+                        "address": "CALLE GABRIELA MISTRAL 957 LOCAL 1 CENTRO COMERCIAL ALERCE",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 216,
+                "name": "PUERTO VARAS",
+                "sucursales": [
+                    {
+                        "id": 216,
+                        "name": "PUERTO VARAS",
+                        "address": "SAN JOSE 242",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 217,
+                "name": "PURRANQUE",
+                "sucursales": [
+                    {
+                        "id": 217,
+                        "name": "PURRANQUE",
+                        "address": "PEDRO MONTT 196",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 218,
+                "name": "QUELLON",
+                "sucursales": [
+                    {
+                        "id": 218,
+                        "name": "QUELLON",
+                        "address": "22 DE MAYO 397",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Aisén del General Carlos Ibáñez del Campo",
+        "code": "XI",
+        "rgi": "AI",
+        "comunas": [
+            {
+                "id": 219,
+                "name": "COYHAIQUE",
+                "sucursales": [
+                    {
+                        "id": 219,
+                        "name": "COYHAIQUE",
+                        "address": "COCHRANE 226",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 220,
+                "name": "PUERTO AYSEN",
+                "sucursales": [
+                    {
+                        "id": 220,
+                        "name": "PUERTO AYSEN",
+                        "address": "SARGENTO ALDEA 1265 A",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Magallanes y de la Antártica Chilena",
+        "code": "XII",
+        "rgi": "MA",
+        "comunas": [
+            {
+                "id": 221,
+                "name": "ANTARTICA",
+                "sucursales": [
+                    {
+                        "id": 221,
+                        "name": "BASE EDUARDO FREI",
+                        "address": "BASE PRESIDENTE EDUARDO FREI MONTALVA",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 222,
+                "name": "PUERTO NATALES",
+                "sucursales": [
+                    {
+                        "id": 222,
+                        "name": "PUERTO NATALES",
+                        "address": "EBERHARD 429",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 223,
+                "name": "PORVENIR",
+                "sucursales": [
+                    {
+                        "id": 223,
+                        "name": "PUERTO PORVENIR",
+                        "address": "BERNARDO PHILLIPI 183",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 224,
+                "name": "CABO DE HORNOS",
+                "sucursales": [
+                    {
+                        "id": 224,
+                        "name": "PUERTO WILLIAMS",
+                        "address": "CENTRO COMERCIAL S/Nº",
+                        "status": "ABIERTO"
+                    }
+                ]
+            },
+            {
+                "id": 225,
+                "name": "PUNTA ARENAS",
+                "sucursales": [
+                    {
+                        "id": 225,
+                        "name": "PUNTA ARENAS - CENTRO",
+                        "address": "BORIES 911",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 226,
+                        "name": "PUNTA ARENAS - ZONA FRANCA",
+                        "address": "AV. PRESIDENTE MANUEL BULNES S/Nº, ZONA FRANCA",
+                        "status": "ABIERTO"
+                    },
+                    {
+                        "id": 227,
+                        "name": "PUNTA ARENAS - AUSTRAL",
+                        "address": "AV. ESPAÑA 01375 LOCAL 07",
+                        "status": "ABIERTO"
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -9,20 +9,21 @@ import { ErrorManager } from '../error-manager/error-manager';
 
 @Controller('auth')
 export class AuthController {
-
-    constructor(private readonly authService: AuthService) { }
+    constructor(private readonly authService: AuthService) {}
 
     @Post('login')
     @UsePipes(new ValidationPipe())
     signIn(@Body() loginDto: LoginDto) {
-        const email: string = loginDto.email;
-        const password: string = loginDto.password;
-        return this.authService.signIn(email, password)
+        const shop: string = loginDto.shop;
+        const hmac: string = loginDto.queryParams.hmac;
+        const timestamp: string = loginDto.queryParams.timestamp;
+        return this.authService
+            .signIn(hmac, shop, timestamp)
             .then((result: ILogin) => {
                 return result;
-            })
-            .catch((error: ErrorResult) => {
-                return ErrorManager.manageErrorResult(error);
             });
+        /*.catch((error: ErrorResult) => {
+                return ErrorManager.manageErrorResult(error);
+            });*/
     }
 }

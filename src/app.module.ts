@@ -4,23 +4,49 @@ import { ConfigService } from './app/common/config/config.service';
 import { UserModule } from './app/user/user.module';
 import { CarrierModule } from './app/carrier-service/carrier-service.module';
 import { SoapModule } from './app/soap/soap.module';
-import { OrderModule } from './app/oder/order.module';
-
+import { ItemModule } from './app/item/item.module';
+import { LabelModule } from './app/label/label.module';
+import { OrderModule } from './app/order/order.module';
+import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
+import { HttpErrorFilter } from './app/common/shared/http-error.filter';
+import { LoggingInterceptor } from './app/common/shared/logging.interceptor';
+import { ManifestModule } from './app/manifest/manifest.module';
+import { GeoResModule } from './app/geocoder/geores.module';
+import { AdmissionModule } from './app/admission/admission.module';
+import { WithdrawalModule } from './app/withdrawal/withdrawal.module';
+import { WebhookModule } from './app/webhook/webhook.module';
 
 @Module({
-  imports: [
-    HttpModule,
-    UserModule,
-    CarrierModule,
-    SoapModule,
-    OrderModule
-  ],
-  controllers: [],
-  providers: [
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(),
-    },
-  ],
+    imports: [
+        HttpModule,
+        UserModule,
+        CarrierModule,
+        SoapModule,
+        OrderModule,
+        ItemModule,
+        LabelModule,
+        OrderModule,
+        ManifestModule,
+        LabelModule,
+        GeoResModule,
+        AdmissionModule,
+        WithdrawalModule,
+        WebhookModule,
+    ],
+    controllers: [],
+    providers: [
+        {
+            provide: ConfigService,
+            useValue: new ConfigService(),
+        },
+        {
+            provide: APP_FILTER,
+            useClass: HttpErrorFilter,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: LoggingInterceptor,
+        },
+    ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,34 +1,78 @@
-import { IsString, IsIn, IsByteLength, IsEmail, MinLength } from 'class-validator';
+import {
+    IsString,
+    IsIn,
+    IsByteLength,
+    IsEmail,
+    MinLength,
+    IsNumber,
+} from 'class-validator';
 
 export class UpdateUserDto {
-    @IsString()
-    @IsByteLength(1, 100, {
-        message: "Invalid First Name length"
-    })
-    readonly firstName: string;
+    @IsEmail()
+    email: string;
 
     @IsString()
-    @IsByteLength(1, 100, {
-        message: "Invalid Last Name length"
-    })
-    readonly lastName?: string;
-
-    @IsEmail({}, {
-        message: "Invalid email format"
-    })
-    readonly email: string;
-
-    @IsString()   
-    readonly phone: string;
+    firstName: string;
 
     @IsString()
-    @MinLength(5, {
-        message: "Invalid password length"
-    })
-    readonly password?: string;
+    language: string;
 
-    @IsIn(['expert', 'adviser', 'company'], {
-        message: "Invalid role value, should be adviser or company"
-    })
-    readonly role?: string;
+    @IsString()
+    lastLogin?: Date;
+
+    @IsString()
+    lastName: string;
+
+    @IsString()
+    password: string;
+
+    @IsString()
+    phone: string;
+
+    @IsString()
+    verificationCode: string;
+
+    @IsString()
+    region: string;
+
+    @IsString()
+    comuna: string;
+
+    @IsString()
+    address: string;
+
+    @IsString()
+    zip: string;
+
+    @IsString()
+    shopUrl: string;
+
+    @IsString()
+    userApiChile: string;
+
+    @IsString()
+    passwordApiChile: string;
+
+    @IsString()
+    idApiChile: string;
+
+    @IsNumber()
+    correlativeNumber?: number;
+
+    isDeleted?: boolean;
+
+    profile?: boolean;
+
+    @IsString()
+    rut?: string;
+
+    @IsNumber()
+    recharge?: number;
+
+    @IsString()
+    labelFormat?: string;
+
+    createdAt: Date;
+
+    updatedAt: Date;
 }

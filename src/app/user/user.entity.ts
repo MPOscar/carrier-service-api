@@ -1,55 +1,88 @@
-import { Column, Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
-
-export enum UserRole {
-    SUPER_ADMIN = 'root',
-    EXPERT = 'expert',
-    ADVISER = 'adviser',
-    COMPANY = 'company',
-}
+import { Order } from './../order/order.entity';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
-
     @PrimaryGeneratedColumn('uuid')
     id: string;
-    
+
+    @Column({ nullable: true })
+    accessToken: string;
+
     @Column({ default: false })
     isDeleted?: boolean;
 
-    @Column()
+    @Column({ nullable: true })
     email: string;
 
-    @Column({ length: 50 })
+    @Column({ nullable: true })
     firstName: string;
 
-    @Column()
+    @Column({ nullable: true })
     language: string;
-    
-    @Column({nullable: true})
+
+    @Column({ nullable: true })
     lastLogin?: Date;
-    
-    @Column({ length: 50 })
+
+    @Column({ nullable: true })
     lastName: string;
-    
-    @Column()
+
+    @Column({ nullable: true })
     password: string;
 
-    @Column()
+    @Column({ nullable: true })
     phone: string;
-    
-    @Column({
-        type: 'enum',
-        enum: UserRole,
-        default: UserRole.ADVISER,
-    })
-    role: UserRole;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     verificationCode: string;
+
+    @Column({ nullable: true })
+    region: string;
+
+    @Column({ nullable: true })
+    comuna: string;
+
+    @Column({ nullable: true })
+    address: string;
+
+    @Column({ nullable: true })
+    zip: string;
+
+    @Column({ nullable: true })
+    shopUrl: string;
+
+    @Column({ nullable: true })
+    userApiChile: string;
+
+    @Column({ nullable: true })
+    passwordApiChile: string;
+
+    @Column({ nullable: true })
+    idApiChile: string;
+
+    @Column({ nullable: true })
+    profile?: boolean;
+
+    @Column({ nullable: false, default: 0 })
+    correlativeNumber?: number;
+
+    @Column({ nullable: true })
+    rut?: string;
+
+    @Column({ nullable: true })
+    labelFormat?: string;
+
+    @Column({ nullable: true })
+    recharge?: number;
 
     @Column()
     createdAt: Date;
 
     @Column()
     updatedAt: Date;
+
+    @OneToMany(() => Order, order => order.user, {
+        cascade: true,
+    })
+    orders: Order[];
 }
