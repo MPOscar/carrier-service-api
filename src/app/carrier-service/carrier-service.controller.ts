@@ -140,7 +140,7 @@ export class CarrierController {
 
                     this.userService.createUser(user).then((user: User) => {
                         const apiRequestUrl =
-                            'https://' + shop + '/admin/carrier_services';
+                            'https://' + shop + '/admin/api/2019-07/carrier_services';
 
                         const apiRequestHeader = {
                             'X-Shopify-Access-Token': accessToken,
@@ -158,7 +158,7 @@ export class CarrierController {
                         };
 
                         const apiRequestUrlWebhook =
-                            'https://' + shop + '/admin/webhooks';
+                            'https://' + shop + '/admin/api/2019-07/webhooks';
 
                         const apiRequestHeaderWebhook = {
                             'X-Shopify-Access-Token': accessToken,
