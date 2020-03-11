@@ -49,6 +49,7 @@ export class OrderService {
                         resolve(order);
                     })
                     .catch(error => {
+                        console.log("OError => " + JSON.stringify(error));
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,
@@ -148,6 +149,7 @@ export class OrderService {
                         resolve(orders);
                     })
                     .catch(error => {
+                        console.log("GetOError => " + JSON.stringify(error));
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,
