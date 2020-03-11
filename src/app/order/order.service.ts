@@ -43,6 +43,7 @@ export class OrderService {
                                 );
                             })
                             .catch((error: ErrorResult) => {
+                                console.log("AError => " + JSON.stringify(error));
                                 return ErrorManager.manageErrorResult(error);
                             });
                         resolve(order);
