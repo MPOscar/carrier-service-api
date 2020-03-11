@@ -75,7 +75,7 @@ export class OrderRepository extends Repository<Order> {
         order.name = orderDto.name ? orderDto.name : Order.name;
         order.email = orderDto.email ? orderDto.email : order.email;
         order.orderId = orderDto.orderId ? orderDto.orderId : order.orderId;
-        order.number = orderDto.orderId ? orderDto.orderId : order.orderId;
+        order.number = orderDto.number ? orderDto.number : order.number;
         order.note = orderDto.note ? orderDto.note : order.note;
         order.token = orderDto.token ? orderDto.token : order.token;
         order.gateway = orderDto.gateway ? orderDto.gateway : order.gateway;

@@ -2,7 +2,7 @@ import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
 export class UpdateOrderDto {
 
-    readonly orderId?: number;
+    readonly orderId?: bigint;
 
     readonly email: string;
 

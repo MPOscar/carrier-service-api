@@ -1,7 +1,7 @@
 import { IsString, IsInt, IsEmail, IsUUID } from 'class-validator';
 
 export class CreateOrderDto {
-    readonly id?: number;
+    readonly id?: bigint;
 
     readonly email: string;
 
