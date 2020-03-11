@@ -26,8 +26,8 @@ export class Order {
     // @Column({ type: 'bigint', nullable: true, transformer: bigInt })
     // orderId: number;
 
-    @Column({ nullable: true })
-    orderId: number;
+    @Column({ type: 'bigint', nullable: true })
+    orderId: bigint;
 
     @Column({ nullable: true })
     email: string;
