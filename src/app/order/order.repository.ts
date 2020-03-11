@@ -4,7 +4,7 @@ import { CreateOrderDto, LineItems } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
-import * as dataSucursales from '../soap/sucursales.json';
+import dataSucursales from '../soap/sucursales.json';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
