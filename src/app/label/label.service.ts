@@ -14,7 +14,7 @@ import { ErrorCode } from '../common/error-manager/error-codes';
 import { User } from '../user/user.entity';
 import axios from 'axios';
 import { ConfigService } from '../common/config/config.service';
-import * as dataRegions from '../soap/region-comuna-sucursal.json';
+import dataRegions from '../soap/region-comuna-sucursal.json';
 import { OrderService } from '../order/order.service';
 import Shopify from 'shopify-api-node';
 import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
