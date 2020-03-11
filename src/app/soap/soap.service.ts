@@ -8,7 +8,7 @@ import { ShopifyParentRateDto } from '../rates/dto/shopify/shopify-parent-rate.d
 import { ShopifyRateResponseDto } from '../rates/dto/shopify/shopify-rate-response.dto';
 import { User } from '../user/user.entity';
 import { Order } from '../order/order.entity';
-import * as dataRegions from './region-comuna-sucursal.json';
+import dataRegions from './region-comuna-sucursal.json';
 import { CreateWithdrawalDto } from '../withdrawal/dto/create-withdrawal.dto';
 
 @Injectable()
