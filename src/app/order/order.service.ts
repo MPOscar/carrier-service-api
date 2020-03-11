@@ -42,14 +42,14 @@ export class OrderService {
                                     'Admission created => ' + admission.id,
                                 );
                             })
-                            .catch((error: ErrorResult) => {
+                            .catch((error) => {
                                 console.log("AError => " + JSON.stringify(error));
-                                return ErrorManager.manageErrorResult(error);
+                                return error;//ErrorManager.manageErrorResult(error);
                             });
                         resolve(order);
                     })
                     .catch(error => {
-                        console.log("OError => " + JSON.stringify(error));
+                        console.log("OError => " + error);
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,
@@ -149,7 +149,7 @@ export class OrderService {
                         resolve(orders);
                     })
                     .catch(error => {
-                        console.log("GetOError => " + JSON.stringify(error));
+                        console.log("GetOError => " + error);
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,
