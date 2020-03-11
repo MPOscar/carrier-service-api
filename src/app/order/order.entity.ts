@@ -13,7 +13,7 @@ import { Manifest } from '../manifest/manifest.entity';
 import { Admission } from '../admission/admission.entity';
 import { Withdrawal } from '../withdrawal/withdrawal.entity';
 
-export const bigint: ValueTransformer = {
+export const bigInt: ValueTransformer = {
     to: (entityValue: bigint) => entityValue,
     from: (databaseValue: string): bigint => BigInt(databaseValue),
 };
@@ -23,7 +23,10 @@ export class Order {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @Column({ type: 'bigint', nullable: true, transformer: bigint })
+    // @Column({ type: 'bigint', nullable: true, transformer: bigInt })
+    // orderId: number;
+
+    @Column({ nullable: true })
     orderId: number;
 
     @Column({ nullable: true })
