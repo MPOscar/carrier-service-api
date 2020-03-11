@@ -16,7 +16,7 @@ const configService = new ConfigService();
         DatabaseModule,
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register({
-            secretOrPrivateKey: configService.get('JWT_SECRET_KEY'),
+            secret: configService.get('JWT_SECRET_KEY'),
             signOptions: {
                 expiresIn: configService.get('JWT_EXPIRES_IN'),
             },
