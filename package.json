@@ -6,11 +6,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "NODE_ENV=staging ts-node -r tsconfig-paths/register src/main.ts",
+    "start": "SET NODE_ENV=staging ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "NODE_ENV=staging nodemon",
     "start:debug": "NODE_ENV=staging nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
-    "start:prod": "NODE_ENV=production node dist/main.js",
+    "start:prod": "SET NODE_ENV=production node dist/main.js",
     "start:pm2": "npx pm2 start pm2.yaml",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
@@ -18,9 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate": "NODE_ENV=staging ts-node ./node_modules/.bin/typeorm migration:run",
+	"migrate": "SET NODE_ENV=production&& ts-node ./node_modules/typeorm/cli.js migration:run",
     "migrate:generate": "NODE_ENV=staging ts-node ./node_modules/.bin/typeorm migration:generate -n",
-    "migrate:prod": "NODE_ENV=production ts-node ./node_modules/.bin/typeorm migration:run"
+    "migrate:prod": "SET NODE_ENV=production&& ts-node ./node_modules/.bin/typeorm migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^6.6.4",
