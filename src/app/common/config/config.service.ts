@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as Joi from 'joi';
+import * as path from 'path';
 
 export interface EnvConfig {
     [key: string]: string;
@@ -10,7 +11,7 @@ export class ConfigService {
     private readonly envConfig: EnvConfig;
 
     constructor() {
-        const config = dotenv.parse(fs.readFileSync(__dirname + '/../../../../.env.' + process.env.NODE_ENV));
+        const config = dotenv.parse(fs.readFileSync(path.resolve(__dirname + '/../../../../.env.' + process.env.NODE_ENV)));
         //const config = dotenv.parse(fs.readFileSync(__dirname + '/../../../../.env.staging' ));
         this.envConfig = this.validateInput(config);
     }

@@ -63,7 +63,6 @@ export class SoapService {
                         Volumen: 0.000001,
                     },
                 };
-
                 let sucursalCarriers: ShopifyRateResponseDto[] = await this.getSucursals(
                     ratesDto,
                 );
@@ -99,19 +98,27 @@ export class SoapService {
                         };
 
                         let date = new Date();
-                        let residenceTotalPrice: number = getTotalPrice(
-                            residenceCarrier.TotalTasacion.Total,
-                            recharge,
-                        );
-                        let sucursalTotalPrice = getTotalPrice(
-                            sucursalCarrier.TotalTasacion.Total,
-                            recharge,
-                        );
 
+                        let residenceTotalPrice = 0;
+                        if (typeof residenceCarrier !== 'undefined') {
+                            residenceTotalPrice = getTotalPrice(
+                                residenceCarrier.TotalTasacion.Total,
+                                recharge,
+                            );
+                        }
+                        
+                        let sucursalTotalPrice = 0;
+                        if (typeof sucursalCarrier !== 'undefined') {
+                            sucursalTotalPrice = getTotalPrice(
+                                sucursalCarrier.TotalTasacion.Total,
+                                recharge,
+                            );
+                        }
+                       
                         res.push({
                             service_name: 'ENVIO DOMICILIO - Correos de Chile',
                             service_code: residenceCarrier.CodigoServicio,
-                            total_price: residenceTotalPrice.toString(),
+                            total_price: residenceTotalPrice !== 0 && residenceTotalPrice.toString(),
                             currency: ratesDto.rate.currency,
                             min_delivery_date: date.toDateString(),
                             max_delivery_date: (date.getDate() + 30).toString(),
@@ -119,7 +126,7 @@ export class SoapService {
 
                         for (let i = 0; i < sucursalCarriers.length; i++) {
                             const element = sucursalCarriers[i];
-                            element.total_price = sucursalTotalPrice.toString();
+                            element.total_price = sucursalTotalPrice !== 0 && sucursalTotalPrice.toString();
 
                             res.push(element);
                         }
