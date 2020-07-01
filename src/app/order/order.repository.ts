@@ -10,8 +10,8 @@ import dataSucursales from '../soap/sucursales.json';
 export class OrderRepository extends Repository<Order> {
     async createOrder(user: User, orderDto: CreateOrderDto) {
         const sucursal = dataSucursales
-            .find(suc => orderDto.shipping_lines[0].title.toUpperCase().includes(suc.SUCURSAL))
-            .SUCURSAL;
+            .find(suc => orderDto.shipping_lines[0].title.toUpperCase().includes(suc.SUCURSAL) || {})
+            .SUCURSAL || null;
 
         let order: Order = this.create();
         order.name = orderDto.name;
@@ -51,12 +51,8 @@ export class OrderRepository extends Repository<Order> {
         order.volumen = 0.000001;
         order.receiverCountry = orderDto.shipping_address.country;
         order.closedAt = orderDto.closed_at;
-        order.sucursal = orderDto.shipping_lines[0].title.includes(
-            'SUCURSAL',
-        )
-            ? sucursal
-            : '';
-        order.user = <any>{ id: user.id };
+        order.sucursal = sucursal;
+        order.user = { id: user.id } as any;
         // order.status = orderDto.status;
         // order.service = orderDto.service;
         // order.tracking_company = orderDto.tracking_company;
@@ -153,9 +149,9 @@ export class OrderRepository extends Repository<Order> {
     }
 
     async deleteOrder(id: string) {
-        let Order: Order = await this.getOrder(id);
-        await this.remove(Order);
-        return Order;
+        const order: Order = await this.getOrder(id);
+        await this.remove(order);
+        return order;
     }
 
     getTotalPieces(items: LineItems[]): number {

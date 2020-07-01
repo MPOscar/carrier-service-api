@@ -49,13 +49,9 @@ export class WithdrawalService {
                                             order.admission
                                                 .codigoEncaminamiento,
                                         );
-                                        console.log(
-                                            'Fulfilment processed => ' +
-                                                JSON.stringify(fulfillment),
-                                        );
                                     } catch (error) {
                                         if (
-                                            error.statusCode == 422 &&
+                                            error.statusCode === 422 &&
                                             error.response.body.errors
                                                 .base[0] ===
                                                 'Line items are already fulfilled'
