@@ -18,6 +18,13 @@ export const bigInt: ValueTransformer = {
     from: (databaseValue: string): bigint => BigInt(databaseValue),
 };
 
+export enum FinancialStatus {
+    PENDING = 'pending',
+    AUTHORIZED = 'authorized',
+    PAID = 'paid',
+    VOIDED = 'voided',
+}
+
 @Entity()
 export class Order {
     @PrimaryGeneratedColumn('uuid')
@@ -64,8 +71,12 @@ export class Order {
     @Column({ nullable: true })
     currency: string;
 
-    @Column({ nullable: true })
-    financialStatus: string;
+    @Column({
+        type: 'enum',
+        enum: FinancialStatus,
+        nullable: true,
+    })
+    financialStatus: FinancialStatus;
 
     @Column({ nullable: true })
     confirmed: boolean;
