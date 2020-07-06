@@ -2,7 +2,7 @@ import { EntityRepository, Repository, FindManyOptions } from 'typeorm';
 
 import { CreateOrderDto, LineItems } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { Order } from './order.entity';
+import { Order, FinancialStatus } from './order.entity';
 import { User } from '../user/user.entity';
 import dataSucursales from '../soap/sucursales.json';
 
@@ -28,7 +28,7 @@ export class OrderRepository extends Repository<Order> {
         order.totalTax = orderDto.total_tax;
         order.taxesIncluded = orderDto.taxes_included;
         order.currency = orderDto.currency;
-        order.financialStatus = orderDto.financial_status;
+        order.financialStatus = FinancialStatus[String(orderDto.financial_status).toUpperCase()];
         order.confirmed = orderDto.confirmed;
         order.totalDiscounts = orderDto.total_discounts;
         order.totalLineItemsPrice = orderDto.total_line_items_price;
@@ -91,7 +91,7 @@ export class OrderRepository extends Repository<Order> {
             : order.taxesIncluded;
         order.currency = orderDto.currency ? orderDto.currency : order.currency;
         order.financialStatus = orderDto.financialStatus
-            ? orderDto.financialStatus
+            ? FinancialStatus[String(orderDto.financialStatus).toUpperCase()]
             : order.financialStatus;
         order.confirmed = orderDto.confirmed
             ? orderDto.confirmed
@@ -123,6 +123,23 @@ export class OrderRepository extends Repository<Order> {
             .where('Order.id = :OrderId', { OrderId: id })
             .leftJoinAndSelect('Order.admission', 'admission')
             .getOne();
+    }
+
+    getOrderByNumber(orderNumber: number) {
+        return this.createQueryBuilder('Order')
+        .select('Order')
+        .where('Order.number = :orderNumber', { orderNumber })
+        .getOne();
+    }
+
+    async markOrderAsPaid(order: Order) {
+        order.financialStatus = FinancialStatus.PAID;
+        return this.save(order);
+    }
+
+    async markOrderAsCancelled(order: Order) {
+        order.financialStatus = FinancialStatus.VOIDED;
+        return this.save(order);
     }
 
     getOrders() {

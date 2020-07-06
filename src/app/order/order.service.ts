@@ -1,7 +1,7 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Order } from './order.entity';
+import { Order, FinancialStatus } from './order.entity';
 import { OrderRepository } from './order.repository';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -16,6 +16,7 @@ import { User } from '../user/user.entity';
 import { AdmissionService } from '../admission/admission.service';
 import { Admission } from '../admission/admission.entity';
 import { ErrorManager } from '../common/error-manager/error-manager';
+import { resolve } from 'dns';
 
 @Injectable()
 export class OrderService {
@@ -24,7 +25,7 @@ export class OrderService {
         private readonly orderRepository: OrderRepository,
         @Inject(forwardRef(() => AdmissionService))
         private readonly admissionService: AdmissionService,
-    ) {}
+    ) { }
 
     async create(user: User, orderDto: CreateOrderDto): Promise<Order> {
         return new Promise(
@@ -35,21 +36,21 @@ export class OrderService {
                 this.orderRepository
                     .createOrder(user, orderDto)
                     .then((order: Order) => {
-                        this.admissionService
-                            .processAdmission(order.id, user)
-                            .then((admission: Admission) => {
-                                console.log(
-                                    'Admission created => ' + admission.id,
-                                );
-                            })
-                            .catch((error) => {
-                                console.log("AError => " + JSON.stringify(error));
-                                return error;//ErrorManager.manageErrorResult(error);
-                            });
+                        if (order.financialStatus === FinancialStatus.PAID) {
+                            this.admissionService
+                                .processAdmission(order.id, user)
+                                .then((admission: Admission) => {
+                                    console.log(
+                                        'Admission created => ' + admission.id,
+                                    );
+                                })
+                                .catch((error) => {
+                                    reject(error);
+                                });
+                        }
                         resolve(order);
                     })
                     .catch(error => {
-                        console.log("OError => " + JSON.stringify(error));
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,
@@ -205,6 +206,36 @@ export class OrderService {
                     });
             },
         );
+    }
+
+    markOrderAsPaid(orderDto: CreateOrderDto): Promise<Order> {
+        return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
+            this.orderRepository.getOrderByNumber(orderDto.order_number).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
+                    return;
+                }
+
+                this.orderRepository.markOrderAsPaid(order)
+                    .then((orderPaid: Order) => resolve(orderPaid))
+                    .catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+            }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+        });
+    }
+
+    markOrderAsCancelled(orderDto: CreateOrderDto): Promise<Order> {
+        return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
+            this.orderRepository.getOrderByNumber(orderDto.order_number).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
+                    return;
+                }
+
+                this.orderRepository.markOrderAsCancelled(order)
+                    .then((orderCancelled: Order) => resolve(orderCancelled))
+                    .catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+            }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+        });
     }
 
     delete(id: string): Promise<Order> {
