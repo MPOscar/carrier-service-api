@@ -49,7 +49,7 @@ export class CarrierController {
         private readonly carrierService: CarrierService,
         private readonly soapService: SoapService,
         private readonly userService: UserService,
-    ) {}
+    ) { }
 
     @Post()
     @UsePipes(new ValidationPipe())
@@ -168,10 +168,10 @@ export class CarrierController {
                             'X-Shopify-Hmac-Sha256':
                                 'XWmrwMey6OsLMeiZKwP4FppHH3cmAiiJJAweH5Jo4bM=',
                             'X-Shopify-Shop-Domain': shop,
-                            'X-Shopify-API-Version': '2019-04',
+                            'X-Shopify-API-Version': '2019-07',
                         };
 
-                        const dataWebhook = {
+                        const createOrderWebhook = {
                             webhook: {
                                 topic: 'orders/create',
                                 address:
@@ -181,7 +181,27 @@ export class CarrierController {
                             },
                         };
 
-                        const dataWebhookUninstalled = {
+                        const paidOrderWebhook = {
+                            webhook: {
+                                topic: 'orders/paid',
+                                address:
+                                    forwardingAddress +
+                                    '/webhook/orders-paid',
+                                format: 'json',
+                            },
+                        };
+
+                        const cancelledOrderWebhook = {
+                            webhook: {
+                                topic: 'orders/cancelled',
+                                address:
+                                    forwardingAddress +
+                                    '/webhook/orders-cancelled',
+                                format: 'json',
+                            },
+                        };
+
+                        const uninstalledAppWebhook = {
                             webhook: {
                                 topic: 'app/uninstalled',
                                 address:
@@ -199,16 +219,26 @@ export class CarrierController {
                             .then(() => {
                                 return request
                                     .post(apiRequestUrlWebhook, {
-                                        json: dataWebhook,
+                                        json: createOrderWebhook,
                                         headers: apiRequestHeaderWebhook,
                                     })
                                     .then(() => {
                                         request
                                             .post(apiRequestUrlWebhook, {
-                                                json: dataWebhookUninstalled,
+                                                json: uninstalledAppWebhook,
                                                 headers: apiRequestHeaderWebhook,
                                             })
-                                            .then(() => {})
+                                            .then(() => {
+                                                request.post(apiRequestUrlWebhook, {
+                                                    json: paidOrderWebhook,
+                                                    headers: apiRequestHeaderWebhook,
+                                                });
+                                            }).then(() => {
+                                                request.post(apiRequestUrlWebhook, {
+                                                    json: cancelledOrderWebhook,
+                                                    headers: apiRequestHeaderWebhook,
+                                                });
+                                            })
                                             .catch(error => {
                                                 res.status(400).send({
                                                     error: error.error,
