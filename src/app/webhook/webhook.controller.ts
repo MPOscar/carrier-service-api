@@ -15,7 +15,7 @@ export class WebhookController {
     constructor(
         private userService: UserService,
         private orderService: OrderService,
-    ) {}
+    ) { }
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
@@ -33,6 +33,20 @@ export class WebhookController {
                     });
             });
         }
+    }
+
+    @Post('orders-paid')
+    async createPaidOrder(@Req() request: Request, @Body() order: CreateOrderDto) {
+        return this.orderService.markOrderAsPaid(order)
+            .then((paidOrder: Order) => this.getIOrder(paidOrder))
+            .catch((error: ErrorResult) => ErrorManager.manageErrorResult(error));
+    }
+
+    @Post('orders-cancelled')
+    async cancellOrder(@Req() request: Request, @Body() order: CreateOrderDto) {
+        return this.orderService.markOrderAsCancelled(order)
+            .then((cancelledOrder: Order) => this.getIOrder(cancelledOrder))
+            .catch((error: ErrorResult) => ErrorManager.manageErrorResult(error));
     }
 
     @Post('uninstalled-app')
