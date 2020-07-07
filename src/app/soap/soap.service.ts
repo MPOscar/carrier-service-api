@@ -1,5 +1,4 @@
 import { RateResponse } from './../rates/dto/chile/rate-respose.dto';
-'use strict';
 import { Injectable } from '@nestjs/common';
 import * as soap from 'soap';
 import { ConfigService } from '../common/config/config.service';
@@ -63,58 +62,48 @@ export class SoapService {
                         Volumen: 0.000001,
                     },
                 };
-                let sucursalCarriers: ShopifyRateResponseDto[] = await this.getSucursals(
+                const sucursalCarriers: ShopifyRateResponseDto[] = await this.getSucursals(
                     ratesDto,
                 );
 
-                let res: ShopifyRateResponseDto[] = [];
+                const res: ShopifyRateResponseDto[] = [];
 
-                soap.createClient(url, {}, function (err, client) {
-                    if (err) reject(err);
+                soap.createClient(url, {}, (err, client) => {
+                    if (err) { reject(err); }
 
-                    client.consultaCobertura(args, function (
-                        err,
-                        obj: RateResponse,
-                    ) {
-                        if (err) {
-                            throw err;
+                    client.consultaCobertura(args, (error, obj: RateResponse) => {
+                        if (error) {
+                            reject(error);
                         }
 
-                        let residenceCarrier = obj.consultaCoberturaResult.ServicioTO.find(
+                        const residenceCarrier = obj.consultaCoberturaResult.ServicioTO.find(
                             serv => serv.CodigoServicio === '24',
                         );
-                        let sucursalCarrier = obj.consultaCoberturaResult.ServicioTO.find(
+                        const sucursalCarrier = obj.consultaCoberturaResult.ServicioTO.find(
                             serv => serv.CodigoServicio === '07',
                         );
 
-                        let recharge: number =
+                        const recharge: number =
                             user.recharge != null ? user.recharge : 0;
 
-                        const getTotalPrice = (
-                            total: string,
-                            recharge: number,
-                        ): number => {
-                            return (parseFloat(total) + recharge) * 100;
-                        };
-
-                        let date = new Date();
+                        const date = new Date();
 
                         let residenceTotalPrice = 0;
                         if (typeof residenceCarrier !== 'undefined') {
-                            residenceTotalPrice = getTotalPrice(
+                            residenceTotalPrice = this.getTotalPrice(
                                 residenceCarrier.TotalTasacion.Total,
                                 recharge,
                             );
                         }
-                        
+
                         let sucursalTotalPrice = 0;
                         if (typeof sucursalCarrier !== 'undefined') {
-                            sucursalTotalPrice = getTotalPrice(
+                            sucursalTotalPrice = this.getTotalPrice(
                                 sucursalCarrier.TotalTasacion.Total,
                                 recharge,
                             );
                         }
-                       
+
                         res.push({
                             service_name: 'ENVIO DOMICILIO - Correos de Chile',
                             service_code: residenceCarrier.CodigoServicio,
@@ -124,10 +113,8 @@ export class SoapService {
                             max_delivery_date: (date.getDate() + 30).toString(),
                         });
 
-                        for (let i = 0; i < sucursalCarriers.length; i++) {
-                            const element = sucursalCarriers[i];
+                        for (const element of sucursalCarriers) {
                             element.total_price = sucursalTotalPrice !== 0 && sucursalTotalPrice.toString();
-
                             res.push(element);
                         }
                         resolve(res);
@@ -135,6 +122,10 @@ export class SoapService {
                 });
             },
         );
+    }
+
+    getTotalPrice = (total: string, userRecharge: number): number => {
+        return (parseFloat(total) + userRecharge) * 100;
     }
 
     async getSucursals(
@@ -145,10 +136,10 @@ export class SoapService {
                 resolve: (result: ShopifyRateResponseDto[]) => void,
                 reject: (reason) => void,
             ): void => {
-                let responseArr = [];
-                let date = new Date();
+                const responseArr = [];
+                const date = new Date();
 
-                let sucursales = dataRegions
+                const sucursales = dataRegions
                     .find(reg => reg.rgi === ratesDto.rate.destination.province)
                     .comunas.find(
                         comuna =>
@@ -162,10 +153,8 @@ export class SoapService {
 
                 let serviceCode = 25;
 
-                for (let i = 0; i < sucursales.length; i++) {
-                    const sucursal = sucursales[i];
-
-                    let res: ShopifyRateResponseDto = {
+                for (const sucursal of sucursales) {
+                    const res: ShopifyRateResponseDto = {
                         service_name: 'SUCURSAL ' + sucursal.name,
                         service_code: ('0' + serviceCode++).slice(-3),
                         total_price: '0',
@@ -185,7 +174,7 @@ export class SoapService {
     async processAdmission(order: Order, user: User): Promise<any> {
         const url = this.configService.get('ADMISSION_URL');
 
-        let comunaDestino = dataRegions
+        const comunaDestino = dataRegions
             .find(reg => reg.rgi === order.receiverCityCode)
             .comunas.find(
                 comuna =>
@@ -256,11 +245,11 @@ export class SoapService {
                 resolve: (result: any) => void,
                 reject: (reason) => void,
             ): void => {
-                soap.createClient(url, {}, function (err, client) {
-                    if (err) reject(err);
+                soap.createClient(url, {}, (err, client) => {
+                    if (err) { reject(err); }
 
-                    client.admitirEnvio(args, function (err, obj: any) {
-                        if (err) reject(err);
+                    client.admitirEnvio(args, (error, obj: any) => {
+                        if (error) { reject(error); }
 
                         return resolve(obj);
                     });
@@ -305,12 +294,11 @@ export class SoapService {
                 resolve: (result: any) => void,
                 reject: (reason) => void,
             ): void => {
-                soap.createClient(url, {}, function (err, client) {
-                    if (err) reject(err);
+                soap.createClient(url, {}, (err, client) => {
+                    if (err) { reject(err); }
 
-                    client.registrarRetiro(args, function (err, obj: any) {
-                        if (err) reject(err);
-
+                    client.registrarRetiro(args, (error: any, obj: any) => {
+                        if (error) { reject(error); }
                         return resolve(obj);
                     });
                 });
