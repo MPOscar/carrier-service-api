@@ -16,6 +16,7 @@ import { Admission } from './admission.entity';
 import { GetUser } from '../common/decorator/user.decorator';
 import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
 import { OrderIdDto } from './dto/order-id.dto';
+import { IdsDto } from './dto/ids.dto';
 
 @Controller('admission')
 @UseGuards(JwtAuthGuard)
@@ -31,7 +32,19 @@ export class AdmissionController {
                 return this.getIAdmission(admission);
             })
             .catch((error: ErrorResult) => {
-                console.log(JSON.stringify(error));
+                return ErrorManager.manageErrorResult(error);
+            });
+    }
+
+    @Post('bulk')
+    @UsePipes(new ValidationPipe())
+    async processBulkAdmission(@GetUser() user: User, @Body() orderIds: IdsDto) {
+        return this.admissionService
+            .processBulkAdmission(user, orderIds)
+            .then((admissions: Admission[]) => {
+                return this.getIAdmissions(admissions);
+            })
+            .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
             });
     }
@@ -52,5 +65,25 @@ export class AdmissionController {
             abreviaturaServicio: admission.abreviaturaServicio,
             codigoAdmision: admission.codigoAdmision,
         };
+    }
+
+    getIAdmissions(admissions: Admission[]) {
+        return admissions.map((admission: Admission) => {
+            return {
+                cuartel: admission.cuartel,
+            sector: admission.sector,
+            SDP: admission.SDP,
+            abreviaturaCentro: admission.abreviaturaCentro,
+            codigoDelegacionDestino: admission.codigoDelegacionDestino,
+            nombreDelegacionDestino: admission.nombreDelegacionDestino,
+            direccionDestino: admission.direccionDestino,
+            codigoEncaminamiento: admission.codigoEncaminamiento,
+            grabarEnvio: admission.grabarEnvio,
+            numeroEnvio: admission.numeroEnvio,
+            comunaDestino: admission.comunaDestino,
+            abreviaturaServicio: admission.abreviaturaServicio,
+            codigoAdmision: admission.codigoAdmision,
+            };
+        });
     }
 }

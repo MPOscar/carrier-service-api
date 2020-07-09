@@ -3,6 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Order } from '../order/order.entity';
 import { Admission } from './admission.entity';
 import { AdmissionResponseDto } from './dto/admission-response.dto';
+import { User } from '../user/user.entity';
 
 @EntityRepository(Admission)
 export class AdmissionRepository extends Repository<Admission> {
@@ -82,7 +83,7 @@ export class AdmissionRepository extends Repository<Admission> {
     }
 
     async deleteAdmission(id: string) {
-        let admission: Admission = await this.getAdmission(id);
+        const admission: Admission = await this.getAdmission(id);
         await this.remove(admission);
         return admission;
     }

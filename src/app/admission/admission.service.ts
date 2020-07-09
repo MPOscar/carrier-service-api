@@ -11,9 +11,8 @@ import { AdmissionResponseDto } from './dto/admission-response.dto';
 import { ErrorCode } from '../common/error-manager/error-codes';
 import { AdmissionRepository } from './admission.repository';
 import { Admission } from './admission.entity';
-import { FulfillmentService } from '../fulfillment/fulfillment.service';
 import { OrderService } from '../order/order.service';
-import { OrderIdDto } from './dto/order-id.dto';
+import { IdsDto } from './dto/ids.dto';
 
 @Injectable()
 export class AdmissionService {
@@ -22,92 +21,68 @@ export class AdmissionService {
         private readonly admissionRepository: AdmissionRepository,
         @Inject(forwardRef(() => OrderService))
         private readonly orderService: OrderService,
-    ) {}
+    ) { }
 
     async processAdmission(orderId: string, user: User): Promise<Admission> {
-        return new Promise(
-            (
-                resolve: (result: Admission) => void,
-                reject: (reason: ErrorResult) => void,
-            ): void => {
-                this.orderService
-                    .getOrder(orderId)
-                    .then((order: Order) => {
-                        if (!order) {
-                            reject(
-                                new NotFoundResult(
-                                    ErrorCode.UnknownEntity,
-                                    'There is no order with the specified ID!',
-                                ),
-                            );
-                            return;
-                        }
+        return new Promise((resolve: (result: Admission) => void, reject: (reason: ErrorResult) => void): void => {
+            this.orderService.getOrder(orderId).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
+                    return;
+                }
 
-                        this.soapService
-                            .processAdmission(order, user)
-                            .then((resp: AdmissionResponseDto) => {
-                                this.admissionRepository
-                                    .getAdmissionByOrderId(order.id)
-                                    .then((admission: Admission) => {
-                                        if (!admission) {
-                                            this.admissionRepository
-                                                .createAdmission(resp, order)
-                                                .then(
-                                                    (admission: Admission) => {
-                                                        resolve(admission);
-                                                    },
-                                                )
-                                                .catch(error => {
-                                                    reject(
-                                                        new InternalServerErrorResult(
-                                                            ErrorCode.GeneralError,
-                                                            error,
-                                                        ),
-                                                    );
-                                                });
-                                        } else {
-                                            this.admissionRepository
-                                                .updateAdmission(
-                                                    resp,
-                                                    admission,
-                                                )
-                                                .then(
-                                                    (admission: Admission) => {
-                                                        resolve(admission);
-                                                    },
-                                                )
-                                                .catch(error => {
-                                                    reject(
-                                                        new InternalServerErrorResult(
-                                                            ErrorCode.GeneralError,
-                                                            error,
-                                                        ),
-                                                    );
-                                                });
-                                        }
-                                    })
-                                    .catch(error => {
-                                        reject(error);
-                                    });
-                            })
-                            .catch(error => {
-                                reject(
-                                    new InternalServerErrorResult(
-                                        ErrorCode.GeneralError,
-                                        error,
-                                    ),
-                                );
-                            });
-                    })
-                    .catch(error => {
-                        reject(
-                            new InternalServerErrorResult(
-                                ErrorCode.GeneralError,
-                                error,
-                            ),
-                        );
-                    });
-            },
-        );
+                this.soapService.processAdmission(order, user).then((resp: AdmissionResponseDto) => {
+                    this.admissionRepository.getAdmissionByOrderId(order.id).then((admission: Admission) => {
+                        if (!admission) {
+                            this.admissionRepository.createAdmission(resp, order)
+                                .then((createdAdmission: Admission) => resolve(createdAdmission))
+                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                        } else {
+                            this.admissionRepository.updateAdmission(resp, admission)
+                                .then((updatedAdmission: Admission) => resolve(updatedAdmission))
+                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                        }
+                    }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                }).catch(error => reject(error));
+            }).catch(error => reject(error));
+        });
+    }
+
+    processBulkAdmission(user: User, ids: IdsDto): Promise<Admission[]> {
+        return new Promise((resolve: (result: Admission[]) => void, reject: (reason: ErrorResult) => void): void => {
+            this.orderService.getOrdersByIds(ids.ids).then((orders: Order[]) => {
+                if (orders.length === 0) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no orders with the specified IDs!'));
+                    return;
+                }
+                this.createBulkAdmission(user, orders).then((updatedAdmissions) => {
+                    resolve(updatedAdmissions);
+                }).catch((error) => {
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(new InternalServerErrorResult(ErrorCode.GeneralError, error));
+            });
+        });
+    }
+
+    createBulkAdmission(user: User, orders: Order[]) {
+        return Promise.all(orders.map((order) => {
+            return new Promise((resolve: (result: Admission) => void, reject: (reason: ErrorResult) => void): void => {
+                this.soapService.processAdmission(order, user).then((resp: AdmissionResponseDto) => {
+                    this.admissionRepository.getAdmissionByOrderId(order.id).then((admission: Admission) => {
+                        if (!admission) {
+                            this.admissionRepository.createAdmission(resp, order)
+                                .then((createdAdmission: Admission) => resolve(createdAdmission))
+                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                        } else {
+                            this.admissionRepository.updateAdmission(resp, admission)
+                                .then((updatedAdmission: Admission) => resolve(updatedAdmission))
+                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                        }
+                    }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                }).catch(error => reject(error));
+            });
+        }));
     }
 }

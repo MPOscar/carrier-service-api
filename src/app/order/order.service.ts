@@ -215,10 +215,10 @@ export class OrderService {
                     reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;
                 }
-
                 this.orderRepository.markOrderAsPaid(order)
-                    .then((orderPaid: Order) => resolve(orderPaid))
-                    .catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+                    .then((orderPaid: Order) => {
+                        resolve(orderPaid);
+                    }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
             }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
         });
     }

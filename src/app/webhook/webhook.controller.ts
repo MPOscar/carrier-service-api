@@ -19,14 +19,14 @@ export class WebhookController {
 
     @Post('orders-create')
     async create(@Req() request: Request, @Body() order: CreateOrderDto) {
-        let shop: any = request.headers['x-shopify-shop-domain'];
+        const shop: any = request.headers['x-shopify-shop-domain'];
 
         if (order.shipping_lines[0].source === 'Correos Chile') {
             this.userService.findUserByShop(shop).then((user: User) => {
                 return this.orderService
                     .create(user, order)
-                    .then((order: Order) => {
-                        return this.getIOrder(order);
+                    .then((createdOrder: Order) => {
+                        return this.getIOrder(createdOrder);
                     })
                     .catch((error: ErrorResult) => {
                         return ErrorManager.manageErrorResult(error);
