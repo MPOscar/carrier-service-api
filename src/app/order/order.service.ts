@@ -17,6 +17,7 @@ import { AdmissionService } from '../admission/admission.service';
 import { Admission } from '../admission/admission.entity';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { resolve } from 'dns';
+import { FilterOrderDto } from './dto/filter-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -138,19 +139,18 @@ export class OrderService {
         );
     }
 
-    getOrders(user: User): Promise<Order[]> {
+    getOrders(user: User, filter?: FilterOrderDto): Promise<Order[]> {
         return new Promise(
             (
                 resolve: (result: Order[]) => void,
                 reject: (reason: ErrorResult) => void,
             ): void => {
                 this.orderRepository
-                    .getOrdersNoWithdrawal(user)
+                    .getOrdersNoWithdrawal(user, filter)
                     .then((orders: Order[]) => {
                         resolve(orders);
                     })
                     .catch(error => {
-                        console.log("GetOError => " + error);
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,

@@ -5,6 +5,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order, FinancialStatus } from './order.entity';
 import { User } from '../user/user.entity';
 import dataSucursales from '../soap/sucursales.json';
+import { FilterOrderDto } from './dto/filter-order.dto';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
@@ -127,9 +128,9 @@ export class OrderRepository extends Repository<Order> {
 
     getOrderByNumber(orderNumber: number) {
         return this.createQueryBuilder('Order')
-        .select('Order')
-        .where('Order.number = :orderNumber', { orderNumber })
-        .getOne();
+            .select('Order')
+            .where('Order.number = :orderNumber', { orderNumber })
+            .getOne();
     }
 
     async markOrderAsPaid(order: Order) {
@@ -156,13 +157,45 @@ export class OrderRepository extends Repository<Order> {
         return this.findByIds(ids, options);
     }
 
-    async getOrdersNoWithdrawal(user: User) {
-        return await this.createQueryBuilder('Order')
+    async getOrdersNoWithdrawal(user: User, filter?: FilterOrderDto) {
+        let query = this.createQueryBuilder('Order')
+            .select()
             .where('Order.withdrawal_id is null')
             .andWhere('Order.user_id = :userId', { userId: user.id })
-            .leftJoinAndSelect('Order.admission', 'admission')
+            .leftJoinAndSelect('Order.admission', 'admission');
+
+        if (filter) {
+            if (filter.status) {
+                const fStatus = this.getStatus(filter.status);
+                query = query.andWhere(`Order.financialStatus = :status`, { status: fStatus });
+            }
+        }
+        return query
             .addOrderBy('Order.createdAt', 'DESC')
             .getMany();
+    }
+
+    getStatus(status: string) {
+        switch (status) {
+            case 'paid':
+                return FinancialStatus.PAID;
+                break;
+
+            case 'authorized':
+                return FinancialStatus.AUTHORIZED;
+                break;
+
+            case 'pending':
+                return FinancialStatus.PENDING;
+                break;
+
+            case 'voided':
+                return FinancialStatus.VOIDED;
+                break;
+
+            default:
+                break;
+        }
     }
 
     async deleteOrder(id: string) {

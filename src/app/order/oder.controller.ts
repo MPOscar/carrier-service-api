@@ -7,6 +7,7 @@ import {
     Param,
     Delete,
     UsePipes,
+    Query,
 } from '@nestjs/common';
 
 import { OrderService } from './order.service';
@@ -19,6 +20,7 @@ import { ErrorManager } from '../common/error-manager/error-manager';
 import { Order } from './order.entity';
 import { User } from '../user/user.entity';
 import { JwtAuthGuard } from '../common/auth/guards/auth.guard';
+import { FilterOrderDto } from './dto/filter-order.dto';
 
 @Controller('orders')
 @UseGuards(JwtAuthGuard)
@@ -30,8 +32,8 @@ export class OrderController {
     async update(@Param('id') id: string, @Body() order: UpdateOrderDto) {
         return this.orderService
             .update(id, order)
-            .then((order: Order) => {
-                return this.getIOrder(order);
+            .then((updatedOrder: Order) => {
+                return this.getIOrder(updatedOrder);
             })
             .catch((error: ErrorResult) => {
                 return ErrorManager.manageErrorResult(error);
@@ -51,9 +53,9 @@ export class OrderController {
     }
 
     @Get()
-    async getOrders(@GetUser() user: User) {
+    async getOrders(@GetUser() user: User, @Query() filter: FilterOrderDto) {
         return this.orderService
-            .getOrders(user)
+            .getOrders(user, filter)
             .then((orders: Order[]) => {
                 return orders.map((order: Order) => {
                     return this.getIOrder(order);

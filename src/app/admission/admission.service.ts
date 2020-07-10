@@ -1,6 +1,6 @@
 import { NotFoundResult } from './../common/error-manager/errors';
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
-import { Order } from '../order/order.entity';
+import { Order, FinancialStatus } from '../order/order.entity';
 import { User } from '../user/user.entity';
 import {
     ErrorResult,
@@ -69,19 +69,21 @@ export class AdmissionService {
     createBulkAdmission(user: User, orders: Order[]) {
         return Promise.all(orders.map((order) => {
             return new Promise((resolve: (result: Admission) => void, reject: (reason: ErrorResult) => void): void => {
-                this.soapService.processAdmission(order, user).then((resp: AdmissionResponseDto) => {
-                    this.admissionRepository.getAdmissionByOrderId(order.id).then((admission: Admission) => {
-                        if (!admission) {
-                            this.admissionRepository.createAdmission(resp, order)
-                                .then((createdAdmission: Admission) => resolve(createdAdmission))
-                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
-                        } else {
-                            this.admissionRepository.updateAdmission(resp, admission)
-                                .then((updatedAdmission: Admission) => resolve(updatedAdmission))
-                                .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
-                        }
-                    }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
-                }).catch(error => reject(error));
+                if (order.financialStatus === FinancialStatus.PAID) {
+                    this.soapService.processAdmission(order, user).then((resp: AdmissionResponseDto) => {
+                        this.admissionRepository.getAdmissionByOrderId(order.id).then((admission: Admission) => {
+                            if (!admission) {
+                                this.admissionRepository.createAdmission(resp, order)
+                                    .then((createdAdmission: Admission) => resolve(createdAdmission))
+                                    .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                            } else {
+                                this.admissionRepository.updateAdmission(resp, admission)
+                                    .then((updatedAdmission: Admission) => resolve(updatedAdmission))
+                                    .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                            }
+                        }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                    }).catch(error => reject(error));
+                }
             });
         }));
     }
