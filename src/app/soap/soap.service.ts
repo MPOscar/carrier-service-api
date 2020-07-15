@@ -1,5 +1,5 @@
 import { RateResponse } from './../rates/dto/chile/rate-respose.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as soap from 'soap';
 import { ConfigService } from '../common/config/config.service';
 import { ShopifyItemDto } from '../rates/dto/shopify/shopify-item.dto';
@@ -12,7 +12,10 @@ import { CreateWithdrawalDto } from '../withdrawal/dto/create-withdrawal.dto';
 
 @Injectable()
 export class SoapService {
-    constructor(private readonly configService: ConfigService) { }
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly logger: Logger,
+    ) { }
 
     async getServiceCost(
         ratesDto: ShopifyParentRateDto,
@@ -73,6 +76,7 @@ export class SoapService {
 
                     client.consultaCobertura(args, (error, obj: RateResponse) => {
                         if (error) {
+                            this.logger.error(error, 'Ha ocurrido un error al tarificar');
                             reject(error);
                         }
 
@@ -249,7 +253,10 @@ export class SoapService {
                     if (err) { reject(err); }
 
                     client.admitirEnvio(args, (error, obj: any) => {
-                        if (error) { reject(error); }
+                        if (error) {
+                            this.logger.error(error, 'Ha ocurrido un error al generar la admision');
+                            reject(error);
+                        }
 
                         return resolve(obj);
                     });
@@ -298,7 +305,10 @@ export class SoapService {
                     if (err) { reject(err); }
 
                     client.registrarRetiro(args, (error: any, obj: any) => {
-                        if (error) { reject(error); }
+                        if (error) {
+                            this.logger.error(error, 'Ha ocurrido un error al registrar un retiro');
+                            reject(error);
+                        }
                         return resolve(obj);
                     });
                 });
