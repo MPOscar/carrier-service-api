@@ -81,7 +81,7 @@ export class LabelService {
                                             user.firstName +
                                             ' ' +
                                             user.lastName,
-                                        TelefonoContactoRemitente: user.phone,
+                                        TelefonoContactoRemitente: user.phone ? user.phone.replace(/[^+\d]+/g, '') : '',
                                         ClienteDestinatario: '',
                                         CentroDestinatario: '',
                                         NombreDestinatario: order.receiverName,
@@ -94,7 +94,7 @@ export class LabelService {
                                         PersonaContactoDestinatario:
                                             order.receiverContactName,
                                         TelefonoContactoDestinatario:
-                                            order.receiverContactPhone,
+                                            order.receiverContactPhone ? order.receiverContactPhone.replace(/[^+\d]+/g, '') : '',
                                         CodigoServicio: order.serviceCode,
                                         NumeroTotalPiezas: 1,
                                         Kilos: 1,
