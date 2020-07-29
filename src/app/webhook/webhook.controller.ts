@@ -9,6 +9,7 @@ import * as express from 'express';
 import { IOrder } from '../order/interfaces/order.interface';
 import { Request } from 'express';
 import { ErrorManager } from '../common/error-manager/error-manager';
+import { GetUser } from '../common/decorator/user.decorator';
 
 @Controller('webhook')
 export class WebhookController {
@@ -36,15 +37,15 @@ export class WebhookController {
     }
 
     @Post('orders-paid')
-    async createPaidOrder(@Req() request: Request, @Body() order: CreateOrderDto) {
-        return this.orderService.markOrderAsPaid(order)
+    async createPaidOrder(@Req() request: Request, @Body() order: CreateOrderDto, @GetUser() user: User) {
+        return this.orderService.markOrderAsPaid(order, user)
             .then((paidOrder: Order) => this.getIOrder(paidOrder))
             .catch((error: ErrorResult) => ErrorManager.manageErrorResult(error));
     }
 
     @Post('orders-cancelled')
-    async cancellOrder(@Req() request: Request, @Body() order: CreateOrderDto) {
-        return this.orderService.markOrderAsCancelled(order)
+    async cancellOrder(@Req() request: Request, @Body() order: CreateOrderDto, @GetUser() user: User) {
+        return this.orderService.markOrderAsCancelled(order, user)
             .then((cancelledOrder: Order) => this.getIOrder(cancelledOrder))
             .catch((error: ErrorResult) => ErrorManager.manageErrorResult(error));
     }

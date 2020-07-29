@@ -208,9 +208,9 @@ export class OrderService {
         );
     }
 
-    markOrderAsPaid(orderDto: CreateOrderDto): Promise<Order> {
+    markOrderAsPaid(orderDto: CreateOrderDto, user: User): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-            this.orderRepository.getOrderByNumber(orderDto.order_number).then((order: Order) => {
+            this.orderRepository.getOrderByNumber(orderDto.order_number, user).then((order: Order) => {
                 if (!order) {
                     reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;
@@ -223,9 +223,9 @@ export class OrderService {
         });
     }
 
-    markOrderAsCancelled(orderDto: CreateOrderDto): Promise<Order> {
+    markOrderAsCancelled(orderDto: CreateOrderDto, user: User): Promise<Order> {
         return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
-            this.orderRepository.getOrderByNumber(orderDto.order_number).then((order: Order) => {
+            this.orderRepository.getOrderByNumber(orderDto.order_number, user).then((order: Order) => {
                 if (!order) {
                     reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
                     return;

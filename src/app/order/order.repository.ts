@@ -126,10 +126,11 @@ export class OrderRepository extends Repository<Order> {
             .getOne();
     }
 
-    getOrderByNumber(orderNumber: number) {
+    getOrderByNumber(orderNumber: number, user: User) {
         return this.createQueryBuilder('Order')
             .select('Order')
             .where('Order.number = :orderNumber', { orderNumber })
+            .andWhere('Order.user_id = :userId', { userId: user.id })
             .getOne();
     }
 
