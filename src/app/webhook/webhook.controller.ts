@@ -110,6 +110,7 @@ export class WebhookController {
             admissionProcessed: order.admissionProcessed,
             receiverCountry: order.receiverCountry,
             admission: order.admission,
+            generatedLabel: order.generatedLabel,
         };
     }
 }

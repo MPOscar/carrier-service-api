@@ -144,6 +144,11 @@ export class OrderRepository extends Repository<Order> {
         return this.save(order);
     }
 
+    async markOrderGeneratedLabel(order: Order) {
+        order.generatedLabel = true;
+        return this.save(order);
+    }
+
     getOrders() {
         return this.createQueryBuilder('Order')
             .select('Order')

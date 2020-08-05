@@ -238,6 +238,21 @@ export class OrderService {
         });
     }
 
+    markOrderGeneratedLabel(orderId: string): Promise<Order> {
+        return new Promise((resolve: (result: Order) => void, reject: (reason: ErrorResult) => void): void => {
+            this.orderRepository.getOrder(orderId).then((order: Order) => {
+                if (!order) {
+                    reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
+                    return;
+                }
+                this.orderRepository.markOrderGeneratedLabel(order)
+                    .then((updatedOrder: Order) => {
+                        resolve(updatedOrder);
+                    }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+            }).catch(error => new InternalServerErrorResult(ErrorCode.GeneralError, error));
+        });
+    }
+
     delete(id: string): Promise<Order> {
         return new Promise(
             (

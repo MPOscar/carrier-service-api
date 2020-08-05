@@ -18,6 +18,9 @@ import dataRegions from '../soap/region-comuna-sucursal.json';
 import { OrderService } from '../order/order.service';
 import Shopify from 'shopify-api-node';
 import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
+import { AdmissionService } from '../admission/admission.service';
+import { Admission } from '../admission/admission.entity';
+import { Order } from '../order/order.entity';
 
 let shopify = null;
 
@@ -29,6 +32,7 @@ export class LabelService {
         private readonly labelRepository: LabelRepository,
         private readonly configService: ConfigService,
         private readonly orderService: OrderService,
+        private readonly admissionService: AdmissionService,
     ) { }
 
     async create(orderId: string, user: User): Promise<any> {
@@ -40,6 +44,10 @@ export class LabelService {
                 this.orderService
                     .getOrder(orderId)
                     .then(async order => {
+                        if (order.generatedLabel) {
+                            reject(new BadRequestResult(ErrorCode.DuplicateEntity, 'Esta etiqueta ya ha sido generada!'));
+                            return;
+                        }
                         try {
                             const comunaDestino = dataRegions
                                 .find(reg => reg.rgi === order.receiverCityCode)
@@ -199,6 +207,32 @@ export class LabelService {
                             ),
                         );
                     });
+            },
+        );
+    }
+
+    updateAdmissionShippingNumber(orderId: string, shippingNumber: string): Promise<Order> {
+        return new Promise(
+            (
+                resolve: (result: Order) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.admissionService.updateAdmissionShippingNumber(orderId, shippingNumber).then((admission: Admission) => {
+                    this.orderService.markOrderGeneratedLabel(orderId).then((order: Order) => resolve(order));
+                }).catch(error => reject(error));
+            },
+        );
+    }
+
+    markOrderGeneratedLabel(orderId: string): Promise<Order> {
+        return new Promise(
+            (
+                resolve: (result: Order) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.orderService.markOrderGeneratedLabel(orderId).then((order: Order) => {
+                    resolve(order);
+                }).catch(error => reject(error));
             },
         );
     }

@@ -35,6 +35,7 @@ export interface IOrder {
     readonly admissionProcessed?: boolean;
     readonly receiverCountry?: string;
     readonly admission: Admission;
+    readonly generatedLabel: boolean;
     readonly created_at?: Date;
     readonly updated_at?: Date;
 }

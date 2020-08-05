@@ -112,6 +112,7 @@ export class OrderController {
             admissionProcessed: order.admissionProcessed,
             receiverCountry: order.receiverCountry,
             admission: order.admission,
+            generatedLabel: order.generatedLabel,
         };
     }
 }

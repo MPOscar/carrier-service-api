@@ -141,6 +141,9 @@ export class Order {
     @Column({ nullable: true })
     sucursal: string;
 
+    @Column({ default: false })
+    generatedLabel: boolean;
+
     @Column({ nullable: true })
     createdAt: Date;
 
