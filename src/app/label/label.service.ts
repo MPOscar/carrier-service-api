@@ -93,8 +93,7 @@ export class LabelService {
                                         ClienteDestinatario: '',
                                         CentroDestinatario: '',
                                         NombreDestinatario: order.receiverName,
-                                        DireccionDestinatario: order.sucursal && order.sucursal !== '' ? 'SUCURSAL ' + order.sucursal
-                                            : order.receiverAddress,
+                                        DireccionDestinatario: order.receiverAddress,
                                         PaisDestinatario: '056',
                                         CodigoPostalDestinatario: '',
                                         ComunaDestinatario: comunaDestino,
