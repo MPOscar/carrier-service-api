@@ -87,4 +87,24 @@ export class AdmissionService {
             });
         }));
     }
+
+    updateAdmissionShippingNumber(orderId: string, shippingNumber): Promise<Admission> {
+        return new Promise(
+            (
+                resolve: (result: Admission) => void,
+                reject: (reason: ErrorResult) => void,
+            ): void => {
+                this.admissionRepository.getAdmissionByOrderId(orderId).then((admission: Admission) => {
+                    if (!admission) {
+                        reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no admission with the specified ID!'));
+                        return;
+                    }
+
+                    this.admissionRepository.updateShippingNumber(admission, shippingNumber).then((updatedAdmission: Admission) => {
+                        resolve(updatedAdmission);
+                    }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+                }).catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+            },
+        );
+    }
 }

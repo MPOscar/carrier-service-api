@@ -61,6 +61,11 @@ export class AdmissionRepository extends Repository<Admission> {
         return await this.save(admission);
     }
 
+    async updateShippingNumber(admission: Admission, shippingNumber: string) {
+        admission.numeroEnvio = shippingNumber;
+        return this.save(admission);
+    }
+
     getAdmission(id: string) {
         return this.createQueryBuilder('Admission')
             .select()
