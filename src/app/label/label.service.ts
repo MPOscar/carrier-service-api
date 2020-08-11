@@ -21,6 +21,7 @@ import { ShopifyOrderDto } from '../order/dto/shopify-order.dto';
 import { AdmissionService } from '../admission/admission.service';
 import { Admission } from '../admission/admission.entity';
 import { Order } from '../order/order.entity';
+import { CreateAdmissionDto } from '../admission/dto/create-admission.dto';
 
 let shopify = null;
 
@@ -44,6 +45,10 @@ export class LabelService {
                 this.orderService
                     .getOrder(orderId)
                     .then(async order => {
+                        if (!order) {
+                            reject(new NotFoundResult(ErrorCode.UnknownEntity, 'There is no order with the specified ID!'));
+                            return;
+                        }
                         if (order.generatedLabel) {
                             reject(new BadRequestResult(ErrorCode.DuplicateEntity, 'Esta etiqueta ya ha sido generada!'));
                             return;
@@ -75,8 +80,9 @@ export class LabelService {
                                     Usuario: user.userApiChile,
                                     Contrasena: user.passwordApiChile,
                                     AdmisionTo: {
-                                        CodigoAdmision:
-                                            order.admission.codigoAdmision,
+                                        // CodigoAdmision:
+                                        //     order.admission.codigoAdmision, // Ya no se genera admision
+                                        CodigoAdmision: '111111',
                                         ClienteRemitente: user.idApiChile,
                                         CentroRemitente: '',
                                         NombreRemitente: user.shopUrl,
@@ -137,7 +143,16 @@ export class LabelService {
                                         },
                                     })
                                     .then(response => {
-                                        resolve(response.data);
+                                        const admissionDto: CreateAdmissionDto = {
+                                            numeroEnvio: '',
+                                            comunaDestino,
+                                            direccionDestino: order.receiverAddress,
+                                            codigoEncaminamiento: '02483200007',
+                                        };
+
+                                        this.admissionService.create(admissionDto, order)
+                                        .then((admission: Admission) => resolve(response.data))
+                                        .catch(error => reject(error));
                                     })
                                     .catch(error => {
                                         reject(error);

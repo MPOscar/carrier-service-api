@@ -13,6 +13,7 @@ import { AdmissionRepository } from './admission.repository';
 import { Admission } from './admission.entity';
 import { OrderService } from '../order/order.service';
 import { IdsDto } from './dto/ids.dto';
+import { CreateAdmissionDto } from './dto/create-admission.dto';
 
 @Injectable()
 export class AdmissionService {
@@ -22,6 +23,14 @@ export class AdmissionService {
         @Inject(forwardRef(() => OrderService))
         private readonly orderService: OrderService,
     ) { }
+
+    async create(createAdmissionDto: CreateAdmissionDto, order: Order): Promise<Admission> {
+        return new Promise((resolve: (result: Admission) => void, reject: (reason: ErrorResult) => void): void => {
+            this.admissionRepository.createAd(createAdmissionDto, order)
+            .then((createdAdmission: Admission) => resolve(createdAdmission))
+            .catch(error => reject(new InternalServerErrorResult(ErrorCode.GeneralError, error)));
+        });
+    }
 
     async processAdmission(orderId: string, user: User): Promise<Admission> {
         return new Promise((resolve: (result: Admission) => void, reject: (reason: ErrorResult) => void): void => {

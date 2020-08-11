@@ -37,18 +37,18 @@ export class OrderService {
                 this.orderRepository
                     .createOrder(user, orderDto)
                     .then((order: Order) => {
-                        if (order.financialStatus === FinancialStatus.PAID) {
-                            this.admissionService
-                                .processAdmission(order.id, user)
-                                .then((admission: Admission) => {
-                                    console.log(
-                                        'Admission created => ' + admission.id,
-                                    );
-                                })
-                                .catch((error) => {
-                                    reject(error);
-                                });
-                        }
+                        // if (order.financialStatus === FinancialStatus.PAID) {
+                        //     this.admissionService
+                        //         .processAdmission(order.id, user)
+                        //         .then((admission: Admission) => {
+                        //             console.log(
+                        //                 'Admission created => ' + admission.id,
+                        //             );
+                        //         })
+                        //         .catch((error) => {
+                        //             reject(error);
+                        //         });
+                        // }
                         resolve(order);
                     })
                     .catch(error => {

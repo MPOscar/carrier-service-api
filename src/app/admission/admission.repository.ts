@@ -4,9 +4,23 @@ import { Order } from '../order/order.entity';
 import { Admission } from './admission.entity';
 import { AdmissionResponseDto } from './dto/admission-response.dto';
 import { User } from '../user/user.entity';
+import { CreateAdmissionDto } from './dto/create-admission.dto';
 
 @EntityRepository(Admission)
 export class AdmissionRepository extends Repository<Admission> {
+    async createAd(admissionDto: CreateAdmissionDto, order: Order) {
+        let admission: Admission = this.create();
+        admission.direccionDestino = admissionDto.direccionDestino;
+        admission.codigoEncaminamiento = admissionDto.codigoEncaminamiento;
+        admission.comunaDestino = admissionDto.comunaDestino;
+        admission.numeroEnvio = admissionDto.numeroEnvio;
+        admission.order = order;
+        admission.updatedAt = new Date();
+        admission.createdAt = new Date();
+        admission = await this.save(admission);
+        return this.getAdmission(admission.id);
+    }
+
     async createAdmission(admissionDto: AdmissionResponseDto, order: Order) {
         let admission: Admission = this.create();
         admission.abreviaturaCentro =
