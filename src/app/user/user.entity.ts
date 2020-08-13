@@ -42,7 +42,7 @@ export class User {
     @Column({ nullable: true })
     comuna: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, length: 30 })
     address: string;
 
     @Column({ nullable: true })
