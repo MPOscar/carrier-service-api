@@ -48,7 +48,7 @@ export class OrderRepository extends Repository<Order> {
             ? '07'
             : '24';
         order.totalPieces = this.getTotalPieces(orderDto.line_items);
-        order.kg = this.getTotalWeight(orderDto.line_items);
+        order.kg = orderDto.total_weight / 1000;
         order.volumen = 0.000001;
         order.receiverCountry = orderDto.shipping_address.country;
         order.closedAt = orderDto.closed_at;
@@ -218,15 +218,5 @@ export class OrderRepository extends Repository<Order> {
         });
 
         return totalPieces;
-    }
-
-    getTotalWeight(items: LineItems[]): number {
-        let totalWeight = 0;
-
-        items.forEach(element => {
-            totalWeight += element.grams / 1000;
-        });
-
-        return totalWeight;
     }
 }
