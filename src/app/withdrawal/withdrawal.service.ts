@@ -47,7 +47,7 @@ export class WithdrawalService {
                                             order,
                                             user,
                                             order.admission
-                                                .codigoEncaminamiento,
+                                                .numeroEnvio,
                                         );
                                     } catch (error) {
                                         if (
