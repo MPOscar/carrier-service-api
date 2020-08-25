@@ -110,7 +110,7 @@ export class LabelService {
                                             order.receiverContactPhone ? order.receiverContactPhone.replace(/[^+\d]+/g, '') : '',
                                         CodigoServicio: order.serviceCode,
                                         NumeroTotalPiezas: 1,
-                                        Kilos: order.totalWeight,
+                                        Kilos: order.totalWeight / 1000,
                                         Volumen: order.volumen,
                                         NumeroReferencia: order.number,
                                         ImporteReembolso: 0,
