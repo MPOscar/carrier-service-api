@@ -317,9 +317,9 @@ export class SoapService {
     getTotalWeight(items: ShopifyItemDto[]): number {
         let totalWeight = 0;
 
-        items.forEach(element => {
-            totalWeight += element.grams / 1000;
-        });
+        for (const item of items) {
+            totalWeight += item.grams * item.quantity / 1000;
+        }
 
         return totalWeight;
     }
