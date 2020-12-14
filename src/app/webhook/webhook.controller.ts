@@ -43,7 +43,9 @@ export class WebhookController {
             return this.orderService.markOrderAsPaid(order, user)
                 .then((paidOrder: Order) => this.getIOrder(paidOrder))
                 .catch((error: ErrorResult) => ErrorManager.manageErrorResult(error));
-        }).catch(error => ErrorManager.manageErrorResult(error));
+        }).catch(error => {
+            return ErrorManager.manageErrorResult(error);
+        });
     }
 
     @Post('orders-cancelled')

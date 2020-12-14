@@ -32,7 +32,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: UserRepository,
-    ) {}
+    ) { }
 
     create(userDto: CreateUserDto): Promise<User> {
         return new Promise(

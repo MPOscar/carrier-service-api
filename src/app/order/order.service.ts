@@ -18,6 +18,7 @@ import { Admission } from '../admission/admission.entity';
 import { ErrorManager } from '../common/error-manager/error-manager';
 import { resolve } from 'dns';
 import { FilterOrderDto } from './dto/filter-order.dto';
+import { removeAccents } from '../common/lib/remove-accents'
 
 @Injectable()
 export class OrderService {
@@ -30,10 +31,12 @@ export class OrderService {
 
     async create(user: User, orderDto: CreateOrderDto): Promise<Order> {
         return new Promise(
-            (
+            async (
                 resolve: (result: Order) => void,
                 reject: (reason: ErrorResult) => void,
-            ): void => {
+            ): Promise<void> => {
+                this.removeAccentsFn(orderDto);
+
                 this.orderRepository
                     .createOrder(user, orderDto)
                     .then((order: Order) => {
@@ -61,6 +64,17 @@ export class OrderService {
                     });
             },
         );
+    }
+
+    removeAccentsFn(obj: object) {
+        for (const [key, val] of Object.entries(obj)) {
+            if (val && typeof val === "object" ) {
+                this.removeAccentsFn(val);
+            } else if (val && typeof val === "string") {
+                obj[key] = removeAccents(val);
+            }
+        }
+        return obj;
     }
 
     update(id: string, orderDto: UpdateOrderDto): Promise<Order> {

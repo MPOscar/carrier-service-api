@@ -7,7 +7,7 @@ export class CreateOrderDto {
 
     readonly order_number: number;
 
-    readonly note: null;
+    readonly note: string;
 
     readonly token: string;
 
