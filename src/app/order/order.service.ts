@@ -55,6 +55,7 @@ export class OrderService {
                         resolve(order);
                     })
                     .catch(error => {
+                        console.log('ORDER-CREATE-ERROR => ' + error, JSON.stringify(error));
                         reject(
                             new InternalServerErrorResult(
                                 ErrorCode.GeneralError,

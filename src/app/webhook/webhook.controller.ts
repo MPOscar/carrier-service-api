@@ -29,6 +29,7 @@ export class WebhookController {
                         return this.getIOrder(createdOrder);
                     })
                     .catch((error: ErrorResult) => {
+                        console.log('WEBHOOK-ORDER-CREATE-ERROR => ' + error, JSON.stringify(error));
                         return ErrorManager.manageErrorResult(error);
                     });
             });
